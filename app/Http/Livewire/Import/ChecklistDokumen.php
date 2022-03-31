@@ -8,11 +8,11 @@ use Livewire\Component;
 
 class ChecklistDokumen extends Component
 {
-    public $categories, $category_name;
+    // public $categories, $category_name;
 
-    protected $listeners = [
-        'tambahChecklist', 'editChecklist', 'deleteChecklist'
-    ];
+    // protected $listeners = [
+    //     'tambahChecklist', 'editChecklist', 'deleteChecklist'
+    // ];
 
     public function mount()
     {
@@ -20,20 +20,20 @@ class ChecklistDokumen extends Component
     }
     public function render()
     {
-        $docs = Document::with('brand', 'kategoriBrand')->where('category_id', $this->category_name)->get();
+        // $docs = Document::with('brand', 'kategoriBrand')->where('category_id', $this->category_name)->get();
 
         return view('livewire.import.checklist-dokumen', [
-            'docs' => $docs
+            // 'docs' => $docs
         ])->extends('layouts.app');
     }
 
-    public function tambahChecklist()
-    {
-    }
-    public function editChecklist()
-    {
-    }
-    public function deleteChecklist()
-    {
-    }
+    // public function tambahChecklist()
+    // {
+    // }
+    // public function editChecklist()
+    // {
+    // }
+    // public function deleteChecklist()
+    // {
+    // }
 }

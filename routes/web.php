@@ -16,7 +16,6 @@ use App\Http\Livewire\EmailTest;
 use App\Http\Livewire\GenerateFormGli;
 use App\Http\Livewire\Home;
 use App\Http\Livewire\Import\ChecklistDokumen;
-use App\Http\Livewire\Import\KategoriBrand;
 use App\Http\Livewire\Log;
 use App\Http\Livewire\Penilaian\AssignVerifikator;
 use App\Http\Livewire\Penilaian\DetailSertifikasi;
@@ -28,7 +27,6 @@ use App\Http\Livewire\Sertifikasi\Data;
 use App\Http\Livewire\Sertifikasi\DetailData;
 use App\Http\Livewire\Sertifikasi\Dokumen;
 use App\Http\Livewire\Sertifikasi\Pendaftaran;
-use App\Http\Livewire\Sertifikasi\Pendaftaran\Brand;
 use App\Http\Livewire\User\Approval;
 use App\Http\Livewire\User\Management;
 use Illuminate\Support\Facades\Route;
@@ -66,7 +64,7 @@ Route::middleware('auth')->group(function () {
     Route::prefix('sertifikasi')->group(function () {
         Route::group(['middleware' => ['role:client|super-admin']], function () {
             Route::get('/pendaftaran', Pendaftaran::class)->name('pendaftaran-sertifikasi');
-            Route::get('/pendaftaran-brand', Brand::class)->name('pendaftaran-brand-sertifikasi');
+
 
             Route::get('/data', Data::class)->name('data-sertifikasi');
             Route::get('/dokumen', Dokumen::class)->name('dokumen-sertifikasi');
@@ -104,7 +102,6 @@ Route::middleware('auth')->group(function () {
 
     Route::prefix('import')->group(function () {
         Route::group(['middleware' => ['role:admin|super-admin']], function () {
-            Route::get('/kategori-brand', KategoriBrand::class)->name('import-kategori-brand');
             Route::get('/checklist-dokumen', ChecklistDokumen::class)->name('import-checklist-dokumen');
         });
     });
