@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateDocumentsTable extends Migration
+class CreateDocreportsTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,14 +13,11 @@ class CreateDocumentsTable extends Migration
      */
     public function up()
     {
-        Schema::create('documents', function (Blueprint $table) {
+        Schema::create('docreports', function (Blueprint $table) {
             $table->id();
-            $table->string('kode');
-            $table->longText('nama_dokumen');
-            $table->integer('bobot')->nullable();
-            $table->string('type');
-            $table->foreignId('category_id');
-            $table->foreignId('document_category_id');
+            $table->string('laporan_ringkas_verifikasi')->nullable();
+            $table->string('rekomendasi')->nullable();
+            $table->foreignId('registration_id');
             $table->timestamps();
         });
     }
@@ -32,6 +29,6 @@ class CreateDocumentsTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('documents');
+        Schema::dropIfExists('docreports');
     }
 }

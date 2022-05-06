@@ -15,28 +15,30 @@
             </button>
         </div>
         <div class="grid grid-cols-12 gap-4 p-8">
-            <div class="col-span-12 md:col-span-4">
-                <p class="text-sm font-semibold">Nama Brand : </p>
-                <select wire:model="brand_selected"
-                    class="w-full px-5 text-xs bg-white border border-gray-300 rounded-md shadow-sm appearance-none focus:outline-none focus:ring-green-400 focus:border-green-400 md:text-sm">
-                    <option value="">Select Brand ..</option>
-                    @foreach ($brand as $item)
-                        <option value="{{ $item->id }}">{{ $item->nama_brand }}</option>
+            <div class="col-span-12 md:col-span-6">
+                <p class="text-xs font-semibold">Nama Ruas : </p>
+                <select wire:model="selected_ruas"
+                    class="w-full px-5 text-xs bg-white border border-gray-300 rounded-md shadow-sm appearance-none focus:outline-none focus:ring-green-400 focus:border-green-400">
+                    <option value="">Nama Ruas ..</option>
+                    @foreach ($data as $item)
+                        <option value="{{ $item->id }}">{{ $item->nama_ruas }}</option>
                     @endforeach
                 </select>
-                @error('role') <span class="error">{{ $message }}</span>
+                @error('role')
+                    <span class="error">{{ $message }}</span>
                 @enderror
             </div>
-            <div class="col-span-12 md:col-span-4">
-                <p class="text-sm font-semibold">Verifikator : </p>
-                <select wire:model="verifikator_selected"
-                    class="w-full px-5 text-xs bg-white border border-gray-300 rounded-md shadow-sm appearance-none focus:outline-none focus:ring-green-400 focus:border-green-400 md:text-sm">
+            <div class="col-span-12 md:col-span-6">
+                <p class="text-xs font-semibold">Verifikator : </p>
+                <select wire:model="selected_verifikator"
+                    class="w-full px-5 text-xs bg-white border border-gray-300 rounded-md shadow-sm appearance-none focus:outline-none focus:ring-green-400 focus:border-green-400">
                     <option value="">Select Verifikator ..</option>
                     @foreach ($user as $item)
                         <option value="{{ $item->id }}">{{ $item->name }}</option>
                     @endforeach
                 </select>
-                @error('role') <span class="error">{{ $message }}</span>
+                @error('role')
+                    <span class="error">{{ $message }}</span>
                 @enderror
             </div>
         </div>

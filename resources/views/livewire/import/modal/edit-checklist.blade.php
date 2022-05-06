@@ -15,15 +15,79 @@
             </button>
         </div>
         <div class="grid grid-cols-12 gap-4 p-8">
-            <div class="col-span-12">
+            <div class="col-span-12 md:col-span-8">
                 <p class="text-xs font-semibold sm:text-sm">Nama Dokumen : </p>
-                <textarea rows="8"
-                    class="block w-full px-2 py-3 mt-1 text-xs border border-gray-300 rounded-md shadow focus:ring-green-300 focus:ring-2 focus:border-green-200 focus:outline-none sm:text-sm"
+                <textarea rows="8" class="block w-full px-2 py-3 mt-1 text-xs border border-gray-300 rounded-md shadow focus:ring-green-300 focus:ring-2 focus:border-green-200 focus:outline-none sm:text-sm"
                     placeholder="Nama Dokumen" wire:model.lazy="nama_dokumen">
                     {{ $nama_dokumen }}
                 </textarea>
-                @error('nama_dokumen') <span class="error">{{ $message }}</span>
+                @error('nama_dokumen')
+                    <span class="error">{{ $message }}</span>
                 @enderror
+            </div>
+            <div class="col-span-12 space-y-4 md:col-span-4">
+                <div class="grid grid-cols-2 col-span-2 gap-4">
+                    <div class="flex flex-col md:col-span-1 col-span-2">
+                        <label class="mb-2 text-xs font-semibold">Kode Dokumen</label>
+                        <input type="text" wire:model="kode"
+                            class="w-full px-5 text-xs bg-white border border-gray-300 rounded-md shadow-sm appearance-none focus:outline-none focus:ring-green-400 focus:border-green-400"
+                            placeholder="Kode..">
+                        @error('kode')
+                            <span class="error">{{ $message }}</span>
+                        @enderror
+                    </div>
+
+                    <div class="flex flex-col md:col-span-1 col-span-2">
+                        <label class="mb-2 text-xs font-semibold">Jenis Sertifikasi</label>
+                        <select wire:model="category"
+                            class="w-full px-5 text-xs bg-white border border-gray-300 rounded-md shadow-sm appearance-none focus:outline-none focus:ring-green-400 focus:border-green-400">
+                            @foreach ($categories as $category)
+                                <option value="{{ $category->id }}">{{ $category->nama_kategori }}</option>
+                            @endforeach
+                        </select>
+                        @error('category')
+                            <span class="error">{{ $message }}</span>
+                        @enderror
+                    </div>
+                </div>
+                <div class="flex flex-col">
+                    <label class="mb-2 text-xs font-semibold">Kategori Dokumen </label>
+                    <select wire:model="kategori_dokumen"
+                        class="w-full px-5 text-xs bg-white border border-gray-300 rounded-md shadow-sm appearance-none focus:outline-none focus:ring-green-400 focus:border-green-400">
+                        {{-- <option value="">Kategori Dokumen</option> --}}
+                        @foreach ($doc_categories as $doc_category)
+                            <option value="{{ $doc_category->id }}">
+                                {{ $doc_category->nama_kategori_dokumen }}
+                            </option>
+                        @endforeach
+                    </select>
+                    @error('category')
+                        <span class="error">{{ $message }}</span>
+                    @enderror
+                </div>
+                <div class="grid grid-cols-2 col-span-2 gap-4">
+                    <div class="flex flex-col md:col-span-1 col-span-2">
+                        <label class="mb-2 text-xs font-semibold">Bobot</label>
+                        <input type="text" placeholder="Bobot"
+                            class="w-full text-xs bg-white border border-gray-300 rounded-md shadow-sm appearance-none focus:outline-none focus:ring-green-400 focus:border-green-400"
+                            wire:model="bobot">
+                        @error('bobot')
+                            <span class="error">{{ $message }}</span>
+                        @enderror
+                    </div>
+                    <div class="flex flex-col md:col-span-1 col-span-2">
+                        <label class="mb-2 text-xs font-semibold">Type</label>
+                        <select wire:model="type"
+                            class="w-full text-xs bg-white border border-gray-300 rounded-md shadow-sm appearance-none focus:outline-none focus:ring-green-400 focus:border-green-400">
+                            <option value="">Type</option>
+                            <option value="file">File / Dokumen</option>
+                            <option value="url">Text / Url</option>
+                        </select>
+                        @error('category')
+                            <span class="error">{{ $message }}</span>
+                        @enderror
+                    </div>
+                </div>
             </div>
         </div>
 

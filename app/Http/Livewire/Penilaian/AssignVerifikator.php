@@ -2,7 +2,7 @@
 
 namespace App\Http\Livewire\Penilaian;
 
-use App\Models\Brand;
+use App\Models\Registration;
 use Livewire\Component;
 use Livewire\WithPagination;
 
@@ -11,7 +11,7 @@ class AssignVerifikator extends Component
     use WithPagination;
     public $search = '';
     public $paginate = 5;
-    public $status_brand;
+    public $status;
 
     protected $listeners = [
         'assignUser', 'removeAssignment'
@@ -20,15 +20,16 @@ class AssignVerifikator extends Component
     public function render()
     {
         $search = '%' . $this->search . '%';
-        $brand = '%' . $this->status_brand . '%';
+        $brand = '%' . $this->status . '%';
 
-        $brand = Brand::with('verifikators', 'plant.perusahaan')
-            ->where('nama_brand', 'like', $search)
+        $data = Registration::with('verifikators')
+            ->where('nama_bujt', 'like', $search)
+            ->orWhere('nama_ruas', 'like', $search)
             ->where('status', 'like', $brand)
             ->paginate($this->paginate);
 
         return view('livewire.penilaian.assign-verifikator', [
-            'brands' => $brand
+            'data' => $data
         ])->extends('layouts.app');
     }
     public function assignUser()

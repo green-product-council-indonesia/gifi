@@ -2,11 +2,14 @@
 
 namespace App\Http\Livewire\Sertifikasi;
 
+use App\Models\Docreport;
 use App\Models\Document;
 use App\Models\Registration;
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
 use Livewire\Component;
+use Illuminate\Support\Str;
 
 class Pendaftaran extends Component
 {
@@ -45,25 +48,25 @@ class Pendaftaran extends Component
     ];
     public function firstStep()
     {
-        // $this->validate([
-        //     'nama_bujt' => 'required',
-        //     'alamat_operasional' => 'required',
-        //     'email_operasional' => 'required|email',
-        //     'noTelp_operasional' => 'required',
-        //     'kodePos_operasional' => 'required|numeric',
-        //     'nama_ruas' => 'required',
-        //     'panjang_ruas' => 'required|numeric',
-        //     'tgl_mulai_operasional' => 'required',
-        //     'category_id' => 'required',
-        //     'jumlah_rest_area' => 'required|numeric',
-        //     'jumlah_gerbang_tol' => 'required|numeric',
-        //     'tipe_sertifikasi' => 'required',
+        $this->validate([
+            'nama_bujt' => 'required',
+            'alamat_operasional' => 'required',
+            'email_operasional' => 'required|email',
+            'noTelp_operasional' => 'required',
+            'kodePos_operasional' => 'required|numeric',
+            'nama_ruas' => 'required',
+            'panjang_ruas' => 'required|numeric',
+            'tgl_mulai_operasional' => 'required',
+            'category_id' => 'required',
+            'jumlah_rest_area' => 'required|numeric',
+            'jumlah_gerbang_tol' => 'required|numeric',
+            'tipe_sertifikasi' => 'required',
 
-        //     'nama' => 'required',
-        //     'jabatan' => 'required',
-        //     'no_hp' => 'required',
-        //     'email' => 'required|email',
-        // ]);
+            'nama' => 'required',
+            'jabatan' => 'required',
+            'no_hp' => 'required',
+            'email' => 'required|email',
+        ]);
 
         $this->nextStep();
     }
@@ -72,7 +75,23 @@ class Pendaftaran extends Component
     {
         DB::beginTransaction();
         try {
-            // Produk
+
+            // Submit Registrasi
+            $contact = [
+                "cp_1" => [
+                    'nama' => $this->nama,
+                    'jabatan' => $this->jabatan,
+                    'no_hp' => $this->no_hp,
+                    'email' => $this->email,
+                ],
+                'cp_2' => [
+                    'nama2' => $this->nama2,
+                    'jabatan2' => $this->jabatan2,
+                    'no_hp2' => $this->no_hp2,
+                    'email2' => $this->email2,
+                ]
+            ];
+
             $data = Registration::create([
                 'nama_bujt' => $this->nama_bujt,
                 'slug' => Str::slug($this->nama_bujt),
@@ -88,27 +107,34 @@ class Pendaftaran extends Component
                 'jumlah_gerbang_tol' => $this->jumlah_gerbang_tol,
                 'tipe_sertifikasi' => $this->tipe_sertifikasi,
                 'tgl_pendaftaran' => Carbon::now(),
+                'contact' => json_encode($contact, 128),
                 'user_id' => Auth::user()->id,
                 'status' => 1
             ]);
 
+            // Submit Dokumen Persyaratan
             $document = Document::get()->where('category_id', $this->category_id);
 
             foreach ($document as $doc) {
                 if (isset($doc)) {
-                    $data->document()->attach($doc->id, ['status' => 0]);
+                    $data->document()->attach($doc->id, ['status' => 0, 'document_category_id' => $doc->document_category_id]);
                 }
             }
 
-            if (config('app.env') === 'production') {
-                // Mail Prod 
-                // Mail::to([$data->email_operasional, Auth::user()->email])->send(new SertifikasiMail($data->nama_bujt, $this->nama_ruas));
-                // Mail::to(['info@gpci.or.id', 'ketut.putra@iapmoindonesia.org', 'vera.febriyani@iapmoindonesia.org', 'rista.dianameci@iapmoindonesia.org', 'dahlan@gpci.or.id'])->send(new SertifikasiInternalMail($company->nama_perusahaan, $this->nama_brand));
-            } else {
-                // Mail Local 
-                // Mail::to("nasirudin.sabiq16@mhs.uinjkt.ac.id")->send(new SertifikasiMail($data->nama_bujt, $this->nama_ruas));
-                // Mail::to("nasirudin.sabiq16@mhs.uinjkt.ac.id")->send(new SertifikasiInternalMail($data->nama_bujt, $this->nama_ruas));
-            }
+            Docreport::create([
+                'registration_id' => $data['id']
+            ]);
+
+            // Kirim Email
+            //if (config('app.env') === 'production') {
+            // Mail Prod 
+            // Mail::to([$data->email_operasional, Auth::user()->email])->send(new SertifikasiMail($data->nama_bujt, $this->nama_ruas));
+            // Mail::to(['info@gpci.or.id', 'ketut.putra@iapmoindonesia.org', 'vera.febriyani@iapmoindonesia.org', 'rista.dianameci@iapmoindonesia.org', 'dahlan@gpci.or.id'])->send(new SertifikasiInternalMail($company->nama_perusahaan, $this->nama_brand));
+            //} else {
+            // Mail Local 
+            // Mail::to("nasirudin.sabiq16@mhs.uinjkt.ac.id")->send(new SertifikasiMail($data->nama_bujt, $this->nama_ruas));
+            // Mail::to("nasirudin.sabiq16@mhs.uinjkt.ac.id")->send(new SertifikasiInternalMail($data->nama_bujt, $this->nama_ruas));
+            //}
 
 
             DB::commit();

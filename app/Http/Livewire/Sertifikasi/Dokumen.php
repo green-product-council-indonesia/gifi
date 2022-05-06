@@ -2,9 +2,9 @@
 
 namespace App\Http\Livewire\Sertifikasi;
 
-use App\Models\Brand;
-use App\Models\Company;
 use App\Models\Document;
+use App\Models\DocumentCategory;
+use App\Models\Registration;
 use Illuminate\Support\Facades\Auth;
 use Livewire\Component;
 use Livewire\WithFileUploads;
@@ -13,7 +13,8 @@ use Illuminate\Support\Str;
 class Dokumen extends Component
 {
     use WithFileUploads;
-    public $company, $document, $brand, $produk, $nama_dokumen, $nama_perusahaan;
+    public $data, $result, $ruas, $kategori, $categories;
+    public $nama_dokumen;
 
     protected $listeners = [
         'editDokumen'
@@ -22,61 +23,78 @@ class Dokumen extends Component
     public function mount()
     {
         $user = Auth::user();
-        $this->company = Company::where('user_id', $user->id)->with('plant.brand.document')->get();
+        $this->data = Registration::where('user_id', $user->id)->select('id', 'nama_ruas')->get();
+        $this->categories = DocumentCategory::get();
+        $this->result = collect();
     }
+
     public function render()
     {
-        $produk = $this->produk;
+        $this->result = Registration::with(
+            [
+                'document' =>
+                function ($q) {
+                    $q->where('documents.document_category_id', $this->kategori);
+                }
+            ]
 
-        $this->nama_perusahaan = Company::whereHas('plant', function ($q) {
-            $q->whereHas('brand', function ($q) {
-                $q->where('id', $this->produk);
-            });
-        })->value('nama_perusahaan');
-
-        $this->document = Brand::with('document')->withCount('document')->where('id', $produk)->first();
-
+        )->where('id', $this->ruas)->get();
         return view('livewire.sertifikasi.dokumen')->extends('layouts.app');
     }
 
-    public function uploadDokumen($id, $nama_dokumen)
+    public function updatedRuas()
     {
-        $this->validate([
-            'nama_dokumen' => 'mimes:pdf,jpg,jpeg,png|max:5500',
-        ], [
-            'nama_dokumen.max' => 'Dokumen harus berukuran maksimal 5MB',
-            'nama_dokumen.mimes' => 'Dokumen harus berbentuk JPG, JPEG atau PDF',
-        ]);
+        $this->reset('kategori');
+        $this->result = collect();
+    }
 
-        $document = Document::whereHas(
-            "brand",
-            function ($q) {
-                $q->where("brands.id", $this->produk);
+
+    public function uploadDokumen($id)
+    {
+        $doc = Document::with(['registration' => function ($q) {
+            $q->where('registrations.id', $this->ruas);
+        }])->findOrFail($id);
+
+        $bujt = $doc->registration[0];
+
+        if ($doc->type == 'file') {
+            $this->validate([
+                'nama_dokumen' => 'mimes:pdf,jpg,jpeg,png|max:5500',
+            ], [
+                'nama_dokumen.max' => 'Dokumen harus berukuran maksimal 5MB',
+                'nama_dokumen.mimes' => 'Dokumen harus berbentuk JPG, JPEG atau PDF',
+            ]);
+
+            $file = $this->nama_dokumen;
+            preg_match("/(?:\w+(?:\W+|$)){0,5}/", $doc->nama_dokumen, $matches);
+
+            $nama_file = Str::slug($bujt->nama_ruas) . '-' . Str::slug($doc->kode) . '-' . Str::slug($matches[0]);
+            $data = $nama_file . '.' . $file->extension();
+
+            $path = 'storage/checklist-dokumen/' . $bujt->nama_bujt . '/' . $bujt->nama_ruas;
+            $filename = $path  . '/' . $data;
+
+            if (file_exists($filename)) {
+                unlink($filename);
             }
-        )->findOrFail($id);
 
-        $file = $this->nama_dokumen;
-        $nama_file =
-            Str::slug($this->nama_perusahaan) . '-' . Str::slug($this->document->nama_brand) . '-' .
-            Str::slug($nama_dokumen);
-        $data = $nama_file . '.' . $file->extension();
+            $bujt->pivot->status = 1;
+            $bujt->pivot->nama_dokumen = $data;
+            $bujt->pivot->save();
 
-        $path = 'storage/checklist-dokumen/' . $this->nama_perusahaan;
-        $filename = $path  . '/' . $data;
+            $file->storeAs('checklist-dokumen/' . $bujt->nama_bujt . '/' . $bujt->nama_ruas, $data);
+            $this->nama_dokumen = null;
+        } else {
+            $this->validate([
+                'nama_dokumen' => 'required',
+            ], [
+                'nama_dokumen.required' => 'Dokumen kosong, harap diisi',
+            ]);
 
-        foreach ($document->brand as $doc) {
-            if ($doc->id == $this->produk) {
-                if (file_exists($filename)) {
-                    unlink($filename);
-                }
-                $doc->pivot->status = 1;
-                $doc->pivot->nama_dokumen = $data;
-                $doc->pivot->save();
-            }
+            $bujt->pivot->status = 1;
+            $bujt->pivot->nama_dokumen = $this->nama_dokumen;
+            $bujt->pivot->save();
         }
-
-        $file->storeAs('checklist-dokumen/' . $this->nama_perusahaan, $data);
-        $this->nama_dokumen = null;
 
         $this->dispatchBrowserEvent(
             'alert',

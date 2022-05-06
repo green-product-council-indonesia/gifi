@@ -2,7 +2,7 @@
 
 namespace App\Http\Livewire\Penilaian\Modal;
 
-use App\Models\Brand;
+use App\Models\Registration;
 use Illuminate\Support\Facades\Auth;
 use LivewireUI\Modal\ModalComponent;
 
@@ -20,9 +20,9 @@ class RemoveAssignment extends ModalComponent
 
     public function remove($id)
     {
-        $brand = Brand::with('verifikators')->findOrFail($id);
-        $brand->verifikator = null;
-        $brand->save();
+        $data = Registration::with('verifikators')->findOrFail($id);
+        $data->verifikator = null;
+        $data->save();
 
         $this->closeModal();
         $this->dispatchBrowserEvent(
@@ -33,7 +33,7 @@ class RemoveAssignment extends ModalComponent
             ]
         );
 
-        activity()->log('User ' . Auth::user()->name . ' Menghapus ' . $brand->verifikators->name . ' Dari Verifikator Brand ' . $brand->nama_brand);
+        activity()->log('User ' . Auth::user()->name . ' Menghapus ' . $data->verifikators->name . ' Dari Verifikator Ruas Jalan ' . $data->nama_ruas);
         $this->emit('removeAssignment');
     }
 }

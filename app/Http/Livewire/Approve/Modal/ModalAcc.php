@@ -2,20 +2,18 @@
 
 namespace App\Http\Livewire\Approve\Modal;
 
-use App\Models\Brand;
-use App\Models\Category;
-use App\Models\Company;
+use App\Models\Registration;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\Auth;
 use LivewireUI\Modal\ModalComponent;
 
 class ModalAcc extends ModalComponent
 {
-    public $scoring_id, $brand, $tgl_approve, $no_sertifikat;
+    public $data, $tgl_approve, $no_sertifikat;
 
-    public function mount($brand)
+    public function mount($data)
     {
-        $this->brand = $brand;
+        $this->data = $data;
     }
     public function render()
     {
@@ -28,29 +26,26 @@ class ModalAcc extends ModalComponent
         return '2xl';
     }
 
-    public function approveSertifikasi($id)
+    public function approveSertifikasi()
     {
 
         $this->validate(
             [
-                'scoring_id' => 'required',
                 'tgl_approve' => 'required|date',
                 'no_sertifikat' => 'required'
             ],
             [
-                'required' => 'harap isi scoring sertifikasi terlebih dahulu'
+                'required' => 'form ini harap isi terlebih dahulu'
             ]
         );
 
-        $brand = Brand::with('plant.perusahaan')->findOrFail($id);
+        $data = Registration::findOrFail($this->data);
 
-
-        $brand->status = 3;
-        $brand->scoring_id = $this->scoring_id;
-        $brand->no_sertifikat = "GLI-" . $this->no_sertifikat;
-        $brand->tgl_approve = Carbon::parse($this->tgl_approve);
-        $brand->tgl_masa_berlaku = Carbon::parse($this->tgl_approve)->addYear()->locale('id');
-        $brand->save();
+        $data->status = 3;
+        $data->no_sertifikasi = "GTRI-" . $this->no_sertifikat;
+        $data->tgl_approve = Carbon::parse($this->tgl_approve);
+        $data->tgl_masa_berlaku = Carbon::parse($this->tgl_approve)->addYear()->locale('id');
+        $data->save();
 
         $this->closeModal();
         $this->dispatchBrowserEvent(
@@ -60,7 +55,8 @@ class ModalAcc extends ModalComponent
                 'message' => 'Berhasil!'
             ]
         );
-        activity()->log('User ' . Auth::user()->name . ' Menyetujui Sertifikasi ' . $brand->nama_brand . ' yang dimiliki oleh ' . $brand->plant->perusahaan->nama_perusahaan);
+
+        activity()->log('User ' . Auth::user()->name . ' Menyetujui Sertifikasi ' . $data->nama_ruas . ' yang dimiliki oleh ' . $data->nama_bujt);
         $this->emit('approveSertifikasi');
     }
 }

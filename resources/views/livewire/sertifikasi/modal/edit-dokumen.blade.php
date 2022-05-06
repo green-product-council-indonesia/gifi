@@ -15,52 +15,33 @@
             </button>
         </div>
         <div class="grid grid-cols-12 gap-4 p-8">
+
             <div class="col-span-12">
-                @foreach ($document->brand as $doc)
-                    @if ($doc->id == $produk)
-                        <div class="flex justify-between gap-2">
-
-                            <div class="input">
-                                <input type="file" wire:model="nama_dokumen">
-                                @error('nama_dokumen') <span class="error">{{ $message }}</span>
-                                @enderror
-                            </div>
-
-
-                            <button type="button" wire:loading.attr="disabled" wire:loading.class="animate-pulse"
-                                wire:target="upload({{ $doc->id }}, '{{ Str::substr($document->nama_dokumen, 0, 150) }}'), nama_dokumen"
-                                class="flex items-center justify-between px-3 py-1 mx-1 text-blue-500 bg-transparent border-2 border-blue-500 rounded-md focus:ring-blue-500 hover:bg-blue-500 hover:text-white"
-                                wire:click="upload({{ $doc->id }}, '{{ Str::substr($document->nama_dokumen, 0, 150) }}')">
-
-                                <span wire:loading
-                                    wire:target="upload({{ $doc->id }}, '{{ Str::substr($document->nama_dokumen, 0, 150) }}'), nama_dokumen"
-                                    wire:loading.delay>Loading</span>
-                                <span wire:loading.remove
-                                    wire:target="upload({{ $doc->id }}, '{{ Str::substr($document->nama_dokumen, 0, 150) }}'), nama_dokumen">
-                                    Upload
-                                </span>
-                            </button>
-                        </div>
-                    @endif
-                @endforeach
-
-                {{-- <p class="text-xs font-semibold sm:text-sm">Nama Dokumen : </p>
-                <textarea rows="8"
-                    class="block w-full px-2 py-3 mt-1 text-xs border border-gray-300 rounded-md shadow focus:ring-green-300 focus:ring-2 focus:border-green-200 focus:outline-none sm:text-sm"
-                    placeholder="Nama Dokumen" wire:model.lazy="nama_dokumen">
-                    {{ $nama_dokumen }}
-                </textarea> --}}
+                <div class="flex justify-between gap-2">
+                    <div class="input text-xs">
+                        <input type="file" wire:model="nama_dokumen">
+                        @error('nama_dokumen')
+                            <span class="error">{{ $message }}</span>
+                        @enderror
+                    </div>
+                </div>
             </div>
         </div>
 
     </div>
     <div class="flex justify-end px-4 py-3 space-x-4 bg-gray-50">
-        {{-- <button wire:click.prevent=""
-            class="inline-flex justify-center w-full px-4 py-2 mt-3 text-xs font-medium text-white bg-green-600 border border-transparent rounded-md shadow-sm hover:bg-green-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-green-500 sm:ml-3 sm:w-auto sm:text-sm sm:mt-0">
-            Update
-        </button> --}}
+        <button type="button" wire:loading.attr="disabled" wire:loading.class="animate-pulse"
+            wire:target="upload({{ $doc_id }}), nama_dokumen" wire:click="upload({{ $doc_id }})"
+            class="inline-flex justify-center w-full px-4 py-2 mt-3 text-xs font-medium text-blue-700 bg-white border border-blue-500 rounded-md shadow-sm hover:bg-blue-500 hover:text-white focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 sm:mt-0 sm:ml-3 sm:w-auto sm:text-sm">
+            <span wire:loading wire:target="upload({{ $doc_id }}), nama_dokumen" wire:loading.delay>
+                Loading
+            </span>
+            <span wire:loading.remove wire:target="upload({{ $doc_id }}), nama_dokumen">
+                Upload
+            </span>
+        </button>
         <button type="button" wire:click.prevent="$emit('closeModal')"
-            class="inline-flex justify-center w-full px-4 py-2 mt-3 text-xs font-medium text-gray-700 bg-white border border-gray-300 rounded-md shadow-sm hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 sm:mt-0 sm:ml-3 sm:w-auto sm:text-sm">
+            class="inline-flex justify-center w-full px-4 py-2 mt-3 text-xs font-medium text-gray-700 bg-white border border-gray-300 rounded-md shadow-sm hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-red-500 sm:mt-0 sm:ml-3 sm:w-auto sm:text-sm">
             Kembali
         </button>
     </div>

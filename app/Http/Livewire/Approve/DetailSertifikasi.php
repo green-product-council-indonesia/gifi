@@ -2,7 +2,8 @@
 
 namespace App\Http\Livewire\Approve;
 
-use App\Models\Brand;
+use App\Models\DocumentCategory;
+use App\Models\Registration;
 use Livewire\Component;
 
 class DetailSertifikasi extends Component
@@ -10,10 +11,21 @@ class DetailSertifikasi extends Component
     protected $listeners = [
         'approveSertifikasi'
     ];
-    public $brand;
-    public function mount($slug)
+    public $data, $score;
+    public function mount($id, $slug)
     {
-        $this->brand = Brand::with('ratings', 'kategoriProduk', 'plant.perusahaan')->where('slug', $slug)->first();
+        $this->data = Registration::with('reports', 'kategoriSertifikasi')->findOrFail($id);
+        $this->score = DocumentCategory::with([
+            'kategori' => function ($q) {
+                $q->where('category_id', $this->data->category_id);
+            },
+            'dokumen' => function ($q) {
+                $q->where('category_id', $this->data->category_id);
+            },
+            'dokumen.registration' => function ($q) {
+                $q->where('registrations.id', $this->data->id);
+            },
+        ])->get();
     }
 
     public function render()

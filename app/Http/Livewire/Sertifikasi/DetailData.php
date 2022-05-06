@@ -2,7 +2,7 @@
 
 namespace App\Http\Livewire\Sertifikasi;
 
-use App\Models\Company;
+use App\Models\Registration;
 use Livewire\Component;
 
 class DetailData extends Component
@@ -14,9 +14,9 @@ class DetailData extends Component
     }
     public function render()
     {
-        $perusahaan = Company::with('plant.brand.document')->where('slug', $this->slug)->first();
+        $data = Registration::where('slug', $this->slug)->with('kategoriSertifikasi')->first();
         return view('livewire.sertifikasi.detail-data', [
-            'perusahaan' => $perusahaan
+            'data' => $data
         ])->extends('layouts.app');
     }
 }

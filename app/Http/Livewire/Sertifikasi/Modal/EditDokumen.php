@@ -2,8 +2,6 @@
 
 namespace App\Http\Livewire\Sertifikasi\Modal;
 
-use App\Models\Brand;
-use App\Models\Company;
 use App\Models\Document;
 use Illuminate\Support\Facades\Auth;
 use Livewire\WithFileUploads;
@@ -14,69 +12,71 @@ use Illuminate\Support\Str;
 class EditDokumen extends ModalComponent
 {
     use WithFileUploads;
-    public $dokumen, $document, $produk, $nama_dokumen;
-    public function mount($id, $produk)
+    public $doc_id, $ruas, $document, $data, $nama_dokumen;
+
+    public function mount($id, $data)
     {
-        $this->dokumen =  $id;
-        $this->produk =  $produk;
-
-        $this->nama_perusahaan = Company::whereHas('plant', function ($q) {
-            $q->whereHas('brand', function ($q) {
-                $q->where('id', $this->produk);
-            });
-        })->value('nama_perusahaan');
-
-        $this->document = Document::with('brand')
-            ->where('id', $this->dokumen)
-            ->whereHas('brand', function ($q) {
-                $q->where('brands.id', $this->produk);
-            })
-            ->first();
+        $this->doc_id =  $id;
+        $this->ruas =  $data;
     }
+
     public function render()
     {
         return view('livewire.sertifikasi.modal.edit-dokumen');
     }
-
-    public function upload($id, $nama_dokumen)
+    public static function modalMaxWidth(): string
     {
-        $this->validate([
-            'nama_dokumen' => 'mimes:pdf,jpg,jpeg,png|max:5500',
-        ], [
-            'nama_dokumen.max' => 'Dokumen harus berukuran maksimal 5MB',
-            'nama_dokumen.mimes' => 'Dokumen harus berbentuk JPG, JPEG atau PDF',
-        ]);
+        // 'sm' // 'md' // 'lg' // 'xl' // '2xl' // '3xl' // '4xl' // '5xl' // '6xl' // '7xl'
+        return 'lg';
+    }
 
-        $document = Brand::whereHas(
-            "document",
-            function ($q) {
-                $q->where("documents.id", $this->dokumen);
+    public function upload($id)
+    {
+        $doc = Document::with(['registration' => function ($q) {
+            $q->where('registrations.id', $this->ruas);
+        }])->findOrFail($id);
+
+        $bujt = $doc->registration[0];
+
+        if ($doc->type == 'file') {
+            $this->validate([
+                'nama_dokumen' => 'mimes:pdf,jpg,jpeg,png|max:5500',
+            ], [
+                'nama_dokumen.max' => 'Dokumen harus berukuran maksimal 5MB',
+                'nama_dokumen.mimes' => 'Dokumen harus berbentuk JPG, JPEG atau PDF',
+            ]);
+
+            $file = $this->nama_dokumen;
+            preg_match("/(?:\w+(?:\W+|$)){0,5}/", $doc->nama_dokumen, $matches);
+
+            $nama_file = Str::slug($bujt->nama_ruas) . '-' . Str::slug($doc->kode) . '-' . Str::slug($matches[0]);
+            $data = $nama_file . '.' . $file->extension();
+
+            $path = 'storage/checklist-dokumen/' . $bujt->nama_bujt . '/' . $bujt->nama_ruas;
+            $filename = $path  . '/' . $data;
+
+            if (file_exists($filename)) {
+                unlink($filename);
             }
-        )->findOrFail($id);
 
-        $file = $this->nama_dokumen;
-        $nama_file =
-            Str::slug($this->nama_perusahaan) . '-' . Str::slug($document->nama_brand) . '-' .
-            Str::slug($nama_dokumen);
-        $data = $nama_file . '.' . $file->extension();
+            $bujt->pivot->status = 1;
+            $bujt->pivot->nama_dokumen = $data;
+            $bujt->pivot->save();
 
-        $path = 'storage/checklist-dokumen/' . $this->nama_perusahaan;
-        $filename = $path  . '/' . $data;
+            $file->storeAs('checklist-dokumen/' . $bujt->nama_bujt . '/' . $bujt->nama_ruas, $data);
+            $this->nama_dokumen = null;
+        } else {
+            $this->validate([
+                'nama_dokumen' => 'required',
+            ], [
+                'nama_dokumen.required' => 'Dokumen kosong, harap diisi',
+            ]);
 
-        foreach ($document->document as $doc) {
-            if ($doc->id == $this->dokumen) {
-                if (file_exists($filename)) {
-                    unlink($filename);
-                }
-                $doc->pivot->nama_dokumen = $data;
-                $doc->pivot->save();
-            }
+            $bujt->pivot->status = 1;
+            $bujt->pivot->nama_dokumen = $this->nama_dokumen;
+            $bujt->pivot->save();
         }
 
-        $file->storeAs('checklist-dokumen/' . $this->nama_perusahaan, $data);
-        $this->nama_dokumen = null;
-
-        $this->closeModal();
         $this->dispatchBrowserEvent(
             'alert',
             [
@@ -84,8 +84,9 @@ class EditDokumen extends ModalComponent
                 'message' => 'Berhasil!'
             ]
         );
+
+        $this->closeModal();
         activity()->log('User ' . Auth::user()->name . ' Meng-edit Item Checklist Dokumen ');
         $this->emit('editDokumen');
-        // return back();
     }
 }

@@ -102,13 +102,6 @@
                                                         Client Green Product Council Indonesia atas
                                                         <b>{{ Str::upper($name) }}</b>.
                                                     </span>
-                                                    {{-- <span style="color:#000000">Terima kasih atas pendaftaran Sertifikasi
-                                                        Green Label Indonesia (GLI) dari
-                                                        <b>{{ Str::upper($nama_perusahaan) }}</b> dengan Nama Produk
-                                                        <b>{{ Str::upper($nama_brand) }}</b>. Formulir pendaftaran
-                                                        sertifikasi
-                                                        GLI telah kami terima dengan baik
-                                                    </span> --}}
                                                 </span>
                                             </p>
                                             <p class="size-16"

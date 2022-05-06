@@ -4,24 +4,29 @@ namespace App\Http\Livewire\Import\Modal;
 
 use App\Models\Category;
 use App\Models\Document;
+use App\Models\DocumentCategory;
 use Illuminate\Support\Facades\Auth;
 use LivewireUI\Modal\ModalComponent;
 
 class TambahChecklist extends ModalComponent
 {
-    public $nama_dokumen, $category;
+    public $kode, $nama_dokumen, $kategori_dokumen, $category, $bobot, $type;
     protected $rules = [
+        'kode' => 'required',
         'nama_dokumen' => 'required',
-        'category' => 'required'
+        'category' => 'required',
+        'bobot' => 'required',
     ];
     protected $messages = [
         'required' => 'form ini harus diisi'
     ];
     public function render()
     {
-        $categories = Category::where('id', '!=', 1)->get();
+        $categories = Category::get();
+        $doc_categories = DocumentCategory::get();
         return view('livewire.import.modal.tambah-checklist', [
-            'categories' => $categories
+            'categories' => $categories,
+            'doc_categories' => $doc_categories
         ]);
     }
 
@@ -36,8 +41,12 @@ class TambahChecklist extends ModalComponent
         $this->validate();
 
         Document::create([
+            'kode' => $this->kode,
             'nama_dokumen' => $this->nama_dokumen,
-            'category_id' => $this->category
+            'bobot' => $this->bobot,
+            'type' => $this->type,
+            'category_id' => $this->category,
+            'document_category_id' => $this->kategori_dokumen,
         ]);
 
         $this->closeModal();

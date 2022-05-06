@@ -12,30 +12,30 @@
 
     <div class="grid grid-cols-12 gap-4 mt-6">
         <div class="flex flex-col col-span-12 col lg:col-span-8 sm:col-span-6">
-            <span class="mb-2 text-xs font-semibold sm:text-sm">
-                Cari Verifikator :
+            <span class="mb-2 text-xs font-semibold">
+                Search :
             </span>
-            <input type="text" wire:model="search" placeholder="Cari Brand ..."
-                class="inset-y-0 right-0 block w-full text-xs border-gray-300 rounded-md shadow-sm md:w-3/4 lg:w-1/2 focus:ring-green-400 focus:border-green-400 sm:text-sm">
+            <input type="text" wire:model="search" placeholder="Search..."
+                class="inset-y-0 right-0 block w-full text-xs border-gray-300 rounded-md shadow-sm md:w-3/4 lg:w-1/2 focus:ring-green-400 focus:border-green-400">
         </div>
         <div class="grid grid-cols-12 col-span-12 space-x-4 sm:col-span-6 lg:col-span-4">
             <div class="flex flex-col col-span-6">
-                <span class="mb-2 text-xs font-semibold sm:text-sm md:text-right">
+                <span class="mb-2 text-xs font-semibold md:text-right">
                     Items Per Page :
                 </span>
                 <select wire:model="paginate"
-                    class="w-full px-5 text-xs bg-white border border-gray-300 rounded-md shadow-sm appearance-none focus:outline-none focus:ring-green-400 focus:border-green-400 sm:text-sm">
+                    class="w-full px-5 text-xs bg-white border border-gray-300 rounded-md shadow-sm appearance-none focus:outline-none focus:ring-green-400 focus:border-green-400">
                     <option value="5">5</option>
                     <option value="10">10</option>
                     <option value="25">25</option>
                 </select>
             </div>
             <div class="flex flex-col col-span-6">
-                <span class="mb-2 text-xs font-semibold sm:text-sm md:text-right">
-                    Status Brand :
+                <span class="mb-2 text-xs font-semibold md:text-right">
+                    Status Sertifikasi :
                 </span>
-                <select wire:model="status_brand"
-                    class="w-full px-5 text-xs bg-white border border-gray-300 rounded-md shadow-sm appearance-none focus:outline-none focus:ring-green-400 focus:border-green-400 sm:text-sm">
+                <select wire:model="status"
+                    class="w-full px-5 text-xs bg-white border border-gray-300 rounded-md shadow-sm appearance-none focus:outline-none focus:ring-green-400 focus:border-green-400">
                     <option value="">Status Brand</option>
                     <option value="1">Belum Disertifikasi</option>
                     <option value="2">Sedang Disertifikasi</option>
@@ -51,27 +51,21 @@
                     <th scope="col"
                         class="px-6 py-4 text-xs font-medium tracking-wider text-left text-gray-800 uppercase border-r border-gray-100">
                         <div class="flex justify-between">
-                            <span>
-                                Nama Brand
-                            </span>
+                            Nama Ruas
                         </div>
 
                     </th>
                     <th scope="col"
                         class="px-6 py-4 text-xs font-medium tracking-wider text-left text-gray-800 uppercase border-r border-gray-100">
-                        Perusahaan
+                        Nama Badan Usaha Jalan Tol
                     </th>
                     <th scope="col"
                         class="px-6 py-4 text-xs font-medium tracking-wider text-left text-gray-800 uppercase border-r border-gray-100">
-                        Nama Plant
+                        Verifikator
                     </th>
                     <th scope="col"
                         class="px-6 py-4 text-xs font-medium tracking-wider text-left text-gray-800 uppercase border-r border-gray-100">
                         <span>Status</span>
-                    </th>
-                    <th scope="col"
-                        class="px-6 py-4 text-xs font-medium tracking-wider text-left text-gray-800 uppercase border-r border-gray-100">
-                        <span>Verifikator</span>
                     </th>
                     <th scope="col"
                         class="px-6 py-4 text-xs font-medium tracking-wider text-left text-gray-800 uppercase border-r border-gray-100">
@@ -87,50 +81,52 @@
                 </tr>
             </thead>
             <tbody class="text-sm bg-white divide-y divide-gray-200">
-                @forelse ($brands as $item)
+                @forelse ($data as $item)
                     <tr wire:loading.remove wire:target="previousPage, nextPage, gotoPage">
-                        <td class="px-6 py-4 font-semibold">
-                            {{ $item->nama_brand }}
+                        <td class="px-6 py-3 text-xs font-semibold">
+                            {{ $item->nama_ruas }}
                         </td>
-                        <td class="px-6 py-4 font-semibold">
-                            {{ $item->plant->nama_plant }}
+                        <td class="px-6 py-3 text-xs font-semibold">
+                            {{ $item->nama_bujt }}
                         </td>
-                        <td class="px-6 py-4 font-semibold">
-                            {{ $item->plant->perusahaan->nama_perusahaan }}
+                        <td class="px-6 py-3 text-xs font-semibold">
+                            {{ $item->verifikator }}
                         </td>
-                        <td class="px-2 py-4 whitespace-nowrap">
+                        <td class="px-2 py-3 text-xs text-center whitespace-nowrap">
                             @switch($item->status)
                                 @case(1)
                                     <span class="px-2 py-0 text-xs text-white bg-red-500 rounded-lg">Belum
                                         disertifikasi</span>
                                 @break
+
                                 @case(2)
                                     <span class="px-2 py-0 text-xs text-white bg-yellow-500 rounded-lg">Sedang
                                         disertifikasi</span>
                                 @break
+
                                 @case(3)
                                     <span class="px-2 py-0 text-xs text-white bg-green-500 rounded-lg">Sudah
                                         Disertifikasi</span>
                                 @break
+
                                 @default
                             @endswitch
                         </td>
-                        <td class="px-6 py-4 text-sm font-semibold">
-                            {{ optional($item->verifikators)->name }}
-                        </td>
-                        <td class="px-2 py-4 whitespace-nowrap text-center">
-                            @switch($item->jenis_sertifikasi)
+                        <td class="px-6 py-3 text-xs font-semibold text-center">
+                            @switch($item->category_id)
                                 @case(1)
-                                    <span class="px-2 py-0 text-xs text-white bg-blue-500 rounded-lg">Pengajuan Baru</span>
+                                    <span class="px-2 py-0 text-xs text-white bg-blue-500 rounded-lg">New</span>
                                 @break
+
                                 @case(2)
-                                    <span class="px-2 py-0 text-xs text-white bg-indigo-500 rounded-lg">Renewal</span>
+                                    <span class="px-2 py-0 text-xs text-white bg-indigo-500 rounded-lg">Existing</span>
                                 @break
+
                                 @default
                             @endswitch
                         </td>
-                        <td class="px-6 py-4 font-semibold whitespace-nowrap">
-                            {{ Carbon\Carbon::parse($item->tgl_pendaftaran)->locale('id')->isoFormat('MMMM Y') }}
+                        <td class="px-6 py-3 text-xs font-semibold text-center whitespace-nowrap">
+                            {{ Carbon\Carbon::parse($item->tgl_mulai_operasional)->locale('id')->isoFormat('MMMM Y') }}
                         </td>
                         <td class="text-center align-middle">
                             @isset($item->verifikator)
@@ -149,7 +145,7 @@
                     </tr>
                     @empty
                         <tr>
-                            <td colspan="8">
+                            <td colspan="7">
                                 <div class="flex items-center justify-center gap-4 py-20 font-semibold text-center">
                                     <svg xmlns="http://www.w3.org/2000/svg" class="w-12 h-12 text-yellow-500"
                                         viewBox="0 0 20 20" fill="currentColor">
@@ -181,6 +177,6 @@
             </table>
         </div>
         <div class="mt-4">
-            {{ $brands->links() }}
+            {{ $data->links() }}
         </div>
     </div>

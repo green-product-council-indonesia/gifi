@@ -3,9 +3,10 @@
 namespace App\Http\Livewire\Penilaian;
 
 use App\Mail\NotifAngketPenilaian;
-use App\Models\Brand;
-use App\Models\Docrating;
-use App\Models\Rating;
+use App\Models\Docreport;
+use App\Models\Document;
+use App\Models\DocumentCategory;
+use App\Models\Registration;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Mail;
@@ -17,38 +18,67 @@ class DetailSertifikasi extends Component
 {
 
     use WithFileUploads;
-    public $brand;
+    public $categories;
+    public $data_id, $slug, $kategori, $score;
 
-    public $laporan_ringkas_verifikasi, $recommendation_for_improvement, $angket_penilaian;
+    public $laporan_ringkas_verifikasi, $rekomendasi;
 
     protected $listeners = [
-        'status'
+        'status', 'approveDokumen', 'addCatatan', 'editCatatan', 'editScore'
     ];
 
-    public function mount($slug)
+    public function mount($id, $slug)
     {
-        $this->brand = Brand::with('ratings', 'kategoriProduk', 'plant.perusahaan')->where('slug', $slug)->first();
+        $this->data_id = $id;
+        $this->slug = $slug;
+
+        $this->categories = DocumentCategory::get();
     }
     public function render()
     {
-        return view('livewire.penilaian.detail-sertifikasi')->extends('layouts.app');
+        $data = Registration::with(
+            [
+                'document' =>
+                function ($q) {
+                    $q->where('documents.document_category_id', $this->kategori);
+                },
+                'document.kategoriDokumen.kategori',
+                'kategoriSertifikasi',
+                'reports'
+            ],
+        )->where('id', $this->data_id)->first();
+
+        $scoring = DocumentCategory::with([
+            'kategori' => function ($q) use ($data) {
+                $q->where('category_id', $data->category_id);
+            }
+        ])->find($this->kategori);
+
+        return view('livewire.penilaian.detail-sertifikasi', [
+            'data' => $data,
+            'scoring' => $scoring
+        ])->extends('layouts.app');
     }
 
-    public function status()
+    public function ubahStatus()
     {
-        //add
+        $data = Registration::findOrFail($this->data_id);
+        $data->status = 2;
+        $data->save();
+
+        return back();
     }
 
-    public function generatePdf($slug)
+    public function generatePdf($id, $slug)
     {
         $data = [
-            'brand' => Brand::with('plant.perusahaan', 'kategoriProduk')->where('slug', $slug)->first()
+            'data' => Registration::with('kategoriSertifikasi')->where('id', $id)->first()
         ];
-        $pdf = PDF::loadView('livewire.generate-form-gli', $data)->output();
+        $pdf = PDF::loadView('livewire.generate-form-gifi', $data)->output();
         // return $pdf->stream('form-gli.pdf');
         return response()->streamDownload(
             fn () => print($pdf),
-            'form-gli-' . $slug . '.pdf'
+            'form-gifi-' . $slug . '.pdf'
         );
     }
 
@@ -56,134 +86,128 @@ class DetailSertifikasi extends Component
         'required' => 'kolom :attribute kosong, harap diisi',
         'mimes' => 'kolom :attribute harus berbentuk PDF atau DOCX',
     ];
-
-    public function angketPenilaian($id)
+    public function assignScore($id, $ruas)
     {
+        $doc = Document::with(['registration' => function ($q) use ($ruas) {
+            $q->where('registrations.id', $ruas);
+        }])->findOrFail($id);
+
+        $bujt = $doc->registration[0];
+
         $this->validate([
-            'angket_penilaian' => 'required|mimes:pdf,docx|max:8192',
+            'score' => 'required|numeric',
+        ], [
+            'score.required' => 'Kolom harus diisi',
+            'score.numeric' => 'Kolom harus berupa angka',
         ]);
 
-        DB::beginTransaction();
-        try {
-            $file = $this->angket_penilaian;
+        $bujt->pivot->score = $this->score;
+        $bujt->pivot->save();
 
-            $filename = 'storage/dokumen_audit/' . $this->brand->slug . '/' .
-                $this->brand->ratings->angket_penilaian;
-
-            if ($this->brand->ratings->angket_penilaian) {
-                unlink($filename);
-            }
-
-            $nama_file = $this->brand->slug . '-angket-penilaian';
-            $data = $nama_file . '.' . $file->extension();
-            $file->storeAs('dokumen_audit/' . $this->brand->slug, $data);
-
-            $document = Rating::with('brand')->find($id);
-            $document->angket_penilaian = $data;
-            $document->save();
-
-            if (config('app.env') === 'production') {
-                // Mail Prod 
-                Mail::to(['info@gpci.or.id', 'dahlan@gpci.or.id'])->send(new NotifAngketPenilaian($this->brand->plant->perusahaan->nama_perusahaan, $this->brand->nama_brand));
-            } else {
-                // Mail Local 
-                Mail::to("nasirudin.sabiq16@mhs.uinjkt.ac.id")->send(new NotifAngketPenilaian($this->brand->plant->perusahaan->nama_perusahaan, $this->brand->nama_brand));
-            }
-
-
-            DB::commit();
-            activity()->log('User ' . Auth::user()->name . ' Mengupload Angket Penilaian Brand ' . $document->brand->nama_brand);
-
-            session()->flash('message', 'Angket Penilaian Berhasil diupload');
-            return redirect('penilaian/sertifikasi/' . $this->brand->slug);
-        } catch (\Throwable $th) {
-            // throw $th;
-            DB::rollBack();
-            session()->flash('error', 'Oopss.. Something Went Wrong, Please Try Again.');
-            return redirect('penilaian/sertifikasi/' . $this->brand->slug);
-        }
+        $this->dispatchBrowserEvent(
+            'alert',
+            [
+                'type' => 'success',
+                'message' => 'Berhasil!'
+            ]
+        );
+        activity()->log('User ' . Auth::user()->name . ' Meng-upload Score di Checklist Dokumen ');
+        return back();
     }
 
-    public function resetAngket()
-    {
-        $this->angket_penilaian = null;
-    }
-
-    public function laporanRingkas($id)
+    public function uploadLaporan($id)
     {
         $this->validate([
             'laporan_ringkas_verifikasi' => 'required|mimes:pdf|max:8192',
         ]);
 
         $file = $this->laporan_ringkas_verifikasi;
+        $data = Registration::with('reports')->findOrFail($id);
 
-        $filename = 'storage/dokumen_audit/' . $this->brand->slug . '/' . $this->brand->ratings->laporan_ringkas_verifikasi;
+        $filename = 'storage/dokumen_audit/' . $data->slug . '/' . \Str::slug($data->nama_ruas) . '/' . $data->reports->laporan_ringkas_verifikasi;
 
-        if ($this->brand->ratings->laporan_ringkas_verifikasi) {
+        if ($data->reports->laporan_ringkas_verifikasi) {
             unlink($filename);
         }
 
-        $nama_file = $this->brand->slug . '-laporan-ringkas-verifikasi';
-        $data = $nama_file . '.' . $file->extension();
-        $file->storeAs('dokumen_audit/' . $this->brand->slug, $data);
+        $nama_file = $data->slug . '-' . \Str::slug($data->nama_ruas) . '-laporan-ringkas-verifikasi';
+        $store = $nama_file . '.' . $file->extension();
+        $file->storeAs('dokumen_audit/' . $data->slug . '/' . \Str::slug($data->nama_ruas), $store);
 
-        $document = Rating::find($id);
-        $document->laporan_ringkas_verifikasi = $data;
-        $document->save();
+        $report = Docreport::where('registration_id', $id)->first();
+        $report->laporan_ringkas_verifikasi = $store;
+        $report->save();
 
-        activity()->log('User ' . Auth::user()->name . ' Mengupload Laporan Ringkas Verifikasi Brand ' . $document->brand->slug);
+        activity()->log('User ' . Auth::user()->name . ' Mengupload Laporan Ringkas Verifikasi Brand ' . $data->slug);
 
         session()->flash('message', 'Laporan Ringkas Verifikasi berhasil diupload');
-        return redirect('penilaian/sertifikasi/' . $this->brand->slug);
+        return redirect('penilaian/sertifikasi/' . $data->id . '/' . $data->slug);
     }
 
-    public function rekomendasi($id)
+    public function uploadRekomendasi($id)
     {
         $this->validate([
-            'recommendation_for_improvement' => 'mimes:pdf|max:4096',
+            'rekomendasi' => 'required|mimes:pdf|max:8192',
         ]);
-        $file = $this->recommendation_for_improvement;
 
-        $filename = 'storage/dokumen_audit/' . $this->brand->slug . '/'
-            . $this->brand->ratings->recommendation_for_improvement;
+        $file = $this->rekomendasi;
+        $data = Registration::with('reports')->findOrFail($id);
 
-        if ($this->brand->ratings->recommendation_for_improvement) {
+        $filename = 'storage/dokumen_audit/' . $data->slug . '/' . \Str::slug($data->nama_ruas) . '/' . $data->reports->rekomendasi;
+
+        if ($data->reports->rekomendasi) {
             unlink($filename);
         }
 
-        $nama_file = $this->brand->slug . '-recommendation-for-improvement';
-        $data = $nama_file . '.' . $file->extension();
-        $file->storeAs('dokumen_audit/' . $this->brand->slug, $data);
+        $nama_file = $data->slug . '-' . \Str::slug($data->nama_ruas) . '-rekomendasi';
+        $store = $nama_file . '.' . $file->extension();
+        $file->storeAs('dokumen_audit/' . $data->slug . '/' . \Str::slug($data->nama_ruas), $store);
 
-        $document = Rating::find($id);
-        $document->recommendation_for_improvement = $data;
-        $document->save();
+        $report = Docreport::where('registration_id', $id)->first();
+        $report->rekomendasi = $store;
+        $report->save();
 
-        activity()->log('User ' . Auth::user()->name . ' Mengupload Recommendation For Improvement Brand ' . $document->brand->slug);
+        activity()->log('User ' . Auth::user()->name . ' Mengupload Report Rekomendasi Brand ' . $data->slug);
 
-        session()->flash('message', 'Recommendation For Improvement berhasil diupload');
-        return redirect('penilaian/sertifikasi/' . $this->brand->slug);
-    }
-
-    public function download($id)
-    {
-        $doc = Docrating::findOrFail($id);
-        return response()->download(storage_path('app/template_angket/' . $doc->angket_penilaian_doc));
+        session()->flash('message', 'Laporan Rekomendasi berhasil diupload');
+        return redirect('penilaian/sertifikasi/' . $data->id . '/' . $data->slug);
     }
 
     public function delete($id, $data, $row)
     {
-        $doc = Rating::findOrFail($id);
+        $doc = Docreport::with('register')->findOrFail($id);
 
-        $filename = 'storage/dokumen_audit/' . $this->brand->slug . '/'
-            . $data;
+        $filename = 'storage/dokumen_audit/' . $doc->register->slug . '/' . \Str::slug($doc->register->nama_ruas) . '/' . $data;
 
-        if (isset($data)) {
+        if (isset($doc)) {
             unlink($filename);
         }
+
         $doc->update([$row => null]);
 
-        session()->flash('message', 'Dokumen berhasil dihapus');
-        return redirect('penilaian/sertifikasi/' . $this->brand->slug);
+        $this->dispatchBrowserEvent(
+            'alert',
+            [
+                'type' => 'success',
+                'message' => 'Berhasil!'
+            ]
+        );
+        return back();
+    }
+
+    public function status()
+    {
+    }
+    public function approveDokumen()
+    {
+    }
+    public function addCatatan()
+    {
+    }
+    public function editCatatan()
+    {
+    }
+    public function editScore()
+    {
     }
 }

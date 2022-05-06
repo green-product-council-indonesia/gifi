@@ -16,6 +16,8 @@ class CreateRegistrationsTable extends Migration
         Schema::create('registrations', function (Blueprint $table) {
             $table->id();
 
+            $table->string('no_sertifikasi')->nullable();
+
             $table->string('nama_bujt');
             $table->string('slug');
 
@@ -39,7 +41,7 @@ class CreateRegistrationsTable extends Migration
 
             $table->json('contact');
             $table->foreignId('user_id');
-            $table->foreignId('verifikator');
+            $table->foreignId('verifikator')->nullable();
             $table->timestamps();
         });
     }

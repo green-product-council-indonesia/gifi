@@ -3,6 +3,7 @@
 namespace App\Http\Livewire\Approve;
 
 use App\Models\Brand;
+use App\Models\Registration;
 use Livewire\Component;
 use Livewire\WithPagination;
 
@@ -10,18 +11,12 @@ class Sertifikasi extends Component
 {
     use WithPagination;
     public $search = '';
-    public $paginate = 5;
-    public $status_brand;
-
-    public $sortBy = 'nama_brand';
-    public $sortDirection = 'asc';
+    public $paginate = 10;
+    public $status;
 
     protected $queryString = [
         'search' => ['except' => ''],
-        'sortBy' => ['except' => ''],
-        'sortDirection' => ['except' => ''],
     ];
-
 
     public function mount()
     {
@@ -30,14 +25,18 @@ class Sertifikasi extends Component
     public function render()
     {
         $search = '%' . $this->search . '%';
-        $brand = '%' . $this->status_brand . '%';
+        $status = '%' . $this->status . '%';
 
-        $brand = Brand::with('plant.perusahaan')->orderBy($this->sortBy, $this->sortDirection)->where('nama_brand', 'like', $search)
-            ->where('status', 'like', $brand)
+        $data = Registration::with('kategoriSertifikasi')
+            ->where(function ($q) use ($search) {
+                $q->where('nama_ruas', 'like', $search)
+                    ->orWhere('nama_bujt', 'like', $search);
+            })
+            ->where('status', 'like', $status)
             ->paginate($this->paginate);
 
         return view('livewire.approve.sertifikasi', [
-            'brand' => $brand
+            'data' => $data
         ])->extends('layouts.app');
     }
 

@@ -55,19 +55,16 @@
                             x-transition:leave-start="transform opacity-100 scale-100"
                             x-transition:leave-end="transform opacity-0 scale-95">
                             <div class="px-2 py-2 bg-white rounded-md shadow dark-mode:bg-gray-800">
-                                @hasanyrole('client|super-admin')
-                                    <a class="block px-4 py-2 mt-2 text-sm font-semibold text-green-800 bg-transparent rounded-lg md:mt-0 hover:text-gray-900 focus:text-gray-900 hover:bg-green-200 focus:bg-gray-200 focus:outline-none focus:shadow-outline {{ Route::is('data-sertifikasi') ? 'focus: bg-green-200 text-black' : '' }}"
-                                        href="{{ route('data-sertifikasi') }}">Data Sertifikasi</a>
 
+                                <a class="block px-4 py-2 mt-2 text-sm font-semibold text-green-800 bg-transparent rounded-lg md:mt-0 hover:text-gray-900 focus:text-gray-900 hover:bg-green-200 focus:bg-gray-200 focus:outline-none focus:shadow-outline {{ Route::is('data-sertifikasi') ? 'focus: bg-green-200 text-black' : '' }}"
+                                    href="{{ route('data-sertifikasi') }}">Data Sertifikasi</a>
+
+                                @hasanyrole('client|super-admin')
                                     <a class="block px-4 py-2 mt-2 text-sm font-semibold text-green-800 bg-transparent rounded-lg md:mt-0 hover:text-gray-900 focus:text-gray-900 hover:bg-green-200 focus:bg-gray-200 focus:outline-none focus:shadow-outline {{ Route::is('pendaftaran-sertifikasi') ? 'focus: bg-green-200 text-black' : '' }}"
                                         href="{{ route('pendaftaran-sertifikasi') }}">Pendaftaran Sertifikasi</a>
 
                                     <a class="block px-4 py-2 mt-2 text-sm font-semibold text-green-800 bg-transparent rounded-lg md:mt-0 hover:text-gray-900 focus:text-gray-900 hover:bg-green-200 focus:bg-gray-200 focus:outline-none focus:shadow-outline {{ Route::is('dokumen-sertifikasi') ? 'focus: bg-green-200 text-black' : '' }}"
                                         href="{{ route('dokumen-sertifikasi') }}">Dokumen Sertifikasi</a>
-                                @endhasanyrole
-                                @hasanyrole('admin|super-admin')
-                                    <a class="block px-4 py-2 mt-2 text-sm font-semibold text-green-800 bg-transparent rounded-lg md:mt-0 hover:text-gray-900 focus:text-gray-900 hover:bg-green-200 focus:bg-gray-200 focus:outline-none focus:shadow-outline {{ Route::is('all-data-sertifikasi') ? 'focus: bg-green-200 text-black' : '' }}"
-                                        href="{{ route('all-data-sertifikasi') }}">All Data Sertifikasi</a>
                                 @endhasanyrole
                             </div>
                         </div>
@@ -112,55 +109,23 @@
                                 @hasanyrole('admin|super-admin')
                                     <a class="block px-4 py-2 mt-2 text-sm font-semibold text-green-800 bg-transparent rounded-lg md:mt-0 hover:text-gray-900 focus:text-gray-900 hover:bg-green-200 focus:bg-gray-200 focus:outline-none focus:shadow-outline {{ Route::is('assign-verifikator ') ? 'focus: bg-green-200 text-black' : '' }}"
                                         href="{{ route('assign-verifikator') }}">Assign Verifikator</a>
-
-                                    {{-- <a class="block px-4 py-2 mt-2 text-sm font-semibold text-green-800 bg-transparent rounded-lg md:mt-0 hover:text-gray-900 focus:text-gray-900 hover:bg-green-200 focus:bg-gray-200 focus:outline-none focus:shadow-outline {{ Route::is('input-angket-penilaian') ? 'focus: bg-green-200 text-black' : '' }}"
-                                        href="{{ route('input-angket-penilaian') }}">Input Angket Penilaian</a> --}}
                                 @endhasanyrole
                             </div>
                         </div>
                     </div>
                 </li>
             @endhasanyrole
-            @hasanyrole('super-admin|admin|verifikator')
-
+            @hasanyrole('super-admin|admin')
                 <li>
-                    <div @click.away="open = false" class="relative" x-data="{ open: false }">
-                        <a href="#" @click="open = !open"
-                            class="flex flex-row items-center justify-between px-4 py-1 my-1 text-sm text-left transition duration-200 rounded-md hover:bg-green-300 focus:bg-green-300 focus:text-black focus:outline-none focus:shadow-outline {{ request()->route()->getPrefix() == '/approve'
-                                ? 'bg-green-300 text-black'
-                                : '' }}">
-                            <div class="flex flex-row items-center">
-                                <svg xmlns="http://www.w3.org/2000/svg" class="pr-3 w-9 h-9" fill="none"
-                                    viewBox="0 0 24 24" stroke="currentColor">
-                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                        d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
-                                </svg>
-                                <span>Approve Data</span>
-                            </div>
-                            <svg fill="currentColor" viewBox="0 0 20 20" :class="{'rotate-180': open, 'rotate-0': !open}"
-                                class="inline w-4 h-4 mt-1 ml-1 transition-transform duration-200 transform md:-mt-1">
-                                <path fill-rule="evenodd"
-                                    d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z"
-                                    clip-rule="evenodd"></path>
-                            </svg>
-                        </a>
-                        <div x-show="open" class="relative right-0 w-full my-2 origin-top-right rounded-md shadow-lg"
-                            x-transition:enter="transition ease-out duration-100"
-                            x-transition:enter-start="transform opacity-0 scale-95"
-                            x-transition:enter-end="transform opacity-100 scale-100"
-                            x-transition:leave="transition ease-in duration-75"
-                            x-transition:leave-start="transform opacity-100 scale-100"
-                            x-transition:leave-end="transform opacity-0 scale-95">
-                            <div class="px-2 py-2 bg-white rounded-md shadow dark-mode:bg-gray-800">
-                                @hasanyrole('admin|super-admin')
-                                    <a class="block px-4 py-2 mt-2 text-sm font-semibold text-green-800 bg-transparent rounded-lg md:mt-0 hover:text-gray-900 focus:text-gray-900 hover:bg-green-200 focus:bg-gray-200 focus:outline-none focus:shadow-outline {{ Route::is('approve-sertifikasi') ? 'focus: bg-green-200 text-black' : '' }}"
-                                        href="{{ route('approve-sertifikasi') }}">Approve Sertifikasi</a>
-                                @endhasanyrole
-                                <a class="block px-4 py-2 mt-2 text-sm font-semibold text-green-800 bg-transparent rounded-lg md:mt-0 hover:text-gray-900 focus:text-gray-900 hover:bg-green-200 focus:bg-gray-200 focus:outline-none focus:shadow-outline {{ Route::is('approve-dokumen') ? 'focus: bg-green-200 text-black' : '' }}"
-                                    href="{{ route('approve-dokumen') }}">Approve Dokumen</a>
-                            </div>
-                        </div>
-                    </div>
+                    <a href="{{ route('approve-sertifikasi') }}"
+                        class="relative flex flex-row items-center px-4 py-1 my-1 text-sm transition duration-200 rounded-md hover:bg-green-300 hover:text-black {{ request()->is('approve-sertifikasi') ? 'focus: bg-green-300 text-black' : '' }}">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="pr-3 w-9 h-9" fill="none" viewBox="0 0 24 24"
+                            stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
+                        </svg>
+                        <span>Approve Sertifikasi</span>
+                    </a>
                 </li>
             @endhasanyrole
             @hasrole('visitor')
@@ -228,6 +193,8 @@
                             x-transition:leave-start="transform opacity-100 scale-100"
                             x-transition:leave-end="transform opacity-0 scale-95">
                             <div class="px-2 py-2 bg-white rounded-md shadow dark-mode:bg-gray-800">
+                                <a class="block px-4 py-2 mt-2 text-sm font-semibold text-green-800 bg-transparent rounded-lg md:mt-0 hover:text-gray-900 focus:text-gray-900 hover:bg-green-200 focus:bg-gray-200 focus:outline-none focus:shadow-outline {{ Route::is('master-data') ? 'focus: bg-green-200 text-black' : '' }}"
+                                    href="{{ route('master-data') }}">Upload Master Data</a>
                                 <a class="block px-4 py-2 mt-2 text-sm font-semibold text-green-800 bg-transparent rounded-lg md:mt-0 hover:text-gray-900 focus:text-gray-900 hover:bg-green-200 focus:bg-gray-200 focus:outline-none focus:shadow-outline {{ Route::is('import-checklist-dokumen') ? 'focus: bg-green-200 text-black' : '' }}"
                                     href="{{ route('import-checklist-dokumen') }}">Import Checklist Dokumen</a>
                             </div>

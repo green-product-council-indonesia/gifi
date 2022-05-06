@@ -2,19 +2,17 @@
 
 namespace App\Http\Livewire\Penilaian;
 
-use App\Models\Brand;
-use App\Models\User;
+use App\Models\Registration;
 use Illuminate\Support\Facades\Auth;
 use Livewire\Component;
 use Livewire\WithPagination;
 
 class Sertifikasi extends Component
 {
-
     use WithPagination;
     public $search = '';
-    public $paginate = 5;
-    public $status_brand;
+    public $paginate = 10;
+    public $status;
 
     public function mount()
     {
@@ -22,27 +20,33 @@ class Sertifikasi extends Component
     public function render()
     {
         $search = '%' . $this->search . '%';
-        $brand = '%' . $this->status_brand . '%';
+        $status = '%' . $this->status . '%';
 
-        $brand = User::with(['brands' => function ($q) use ($search, $brand) {
-            $q->where('nama_brand', 'like', $search);
-            $q->where('status', 'like', $brand);
-        }])
-            ->where('id', Auth::user()->id)
-            ->whereHas("brands", function ($q) use ($search, $brand) {
-                $q->where('nama_brand', 'like', $search);
-                $q->where('status', 'like', $brand);
-            })->paginate($this->paginate);
+        $role = Auth::user()->roles[0]->name;
+        $id_user = Auth::user()->id;
+
+        if ($role == 'verifikator') {
+            $data = Registration::where('verifikator', $id_user)
+                ->where(function ($q) use ($search) {
+                    $q->where('nama_ruas', 'like', $search)
+                        ->orWhere('nama_bujt', 'like', $search);
+                })
+                ->where('status', 'like', $status)
+                ->with('verifikators', 'kategoriSertifikasi')
+                ->paginate($this->paginate);
+        } else {
+            $data = Registration::with('kategoriSertifikasi')
+                ->where(function ($q) use ($search) {
+                    $q->where('nama_ruas', 'like', $search)
+                        ->orWhere('nama_bujt', 'like', $search);
+                })
+                ->where('status', 'like', $status)
+                ->paginate($this->paginate);
+        }
 
         return view('livewire.penilaian.sertifikasi', [
-            'brand' => $brand
+            'data' => $data
         ])->extends('layouts.app');
-    }
-
-    public function sort($sort, $direction)
-    {
-        $this->sortBy = $sort;
-        $this->sortDirection = $direction;
     }
 
     public function updatingSearch()

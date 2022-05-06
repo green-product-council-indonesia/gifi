@@ -19,8 +19,6 @@ class CreateRegistrationDocumentTable extends Migration
             $table->integer('document_id');
             $table->longText('nama_dokumen')->nullable();
             $table->integer('status');
-
-            $table->integer('bobot')->nullable();
             $table->integer('score')->nullable();
 
             $table->foreignId('document_category_id');

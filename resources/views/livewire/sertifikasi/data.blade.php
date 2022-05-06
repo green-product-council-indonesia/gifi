@@ -1,58 +1,113 @@
 @section('title', 'Data Sertifikasi')
 <div>
+    {{-- In work, do what you enjoy. --}}
     <p class="mb-2 text-3xl font-bold leading-7 text-gray-900 ">
         Data Sertifikasi
     </p>
-    @if (session()->has('message'))
-        @livewire('components.alert-success')
-    @endif
-    @if (session()->has('error'))
-        @livewire('components.alert-error')
-    @endif
-    <div class="p-4 mt-4 bg-white border border-green-200 rounded-md shadow-md"
-        x-data="{openTab: 1, active: 'bg-blue-600 shadow-md hover:bg-blue-800', inactive: 'bg-transparent', teks:'Informasi'}">
-        <div id="tabs"
-            class="flex flex-col w-full px-4 py-4 border border-green-300 rounded-md shadow-md sm:space-x-4 sm:flex-row">
-            <div :class="openTab === 1 ? active : inactive" class="px-4 py-2 text-gray-800 rounded-md ">
-                <button @click="openTab = 1"
-                    :class="openTab === 1 ? 'font-semibold text-white' : 'hover:text-blue-800'">Perusahaan</button>
-            </div>
-            <div :class="openTab === 2 ? active : inactive" class="px-4 py-2 text-gray-800 rounded-md">
-                <button @click="openTab = 2"
-                    :class="openTab === 2 ? 'font-semibold text-white' : 'hover:text-blue-800'">Plant</button>
-            </div>
-            <div :class="openTab === 3 ? active : inactive" class="px-4 py-2 text-gray-800 rounded-md">
-                <button @click="openTab = 3"
-                    :class="openTab === 3 ? 'font-semibold text-white' : 'hover:text-blue-800'">
-                    Brand
-                </button>
+    <hr>
+    <div class="grid grid-cols-12 gap-4 mt-6">
+        <div class="flex flex-col col-span-12 col lg:col-span-10 sm:col-span-6">
+            <span class="mb-2 text-xs font-semibold ">
+                Search :
+            </span>
+            <input type="text" wire:model="search" placeholder="Cari ..."
+                class="inset-y-0 right-0 block w-full text-xs border-gray-300 rounded-md shadow-sm md:w-3/4 lg:w-2/5 focus:ring-green-400 focus:border-green-400">
+        </div>
+        <div class="grid grid-cols-12 col-span-12 space-x-4 sm:col-span-6 lg:col-span-2">
+            <div class="flex flex-col col-span-12">
+                <span class="mb-2 text-xs font-semibold md:text-right">
+                    Items Per Page :
+                </span>
+                <select wire:model="paginate"
+                    class="w-full px-5 text-xs bg-white border border-gray-300 rounded-md shadow-sm appearance-none focus:outline-none focus:ring-green-400 focus:border-green-400">
+                    <option value="5">5</option>
+                    <option value="10">10</option>
+                    <option value="25">25</option>
+                </select>
             </div>
         </div>
-
-        @if ($perusahaan)
-            <div id="tab-contents" class="mt-4">
-                <div x-show="openTab === 1" class="p-4">
-
-                    @livewire('sertifikasi.detail.perusahaan', ['perusahaan' => $perusahaan])
-                </div>
-                <div x-show="openTab === 2" class="p-4">
-                    @livewire('sertifikasi.detail.plant', ['plant' => $perusahaan->plant])
-                </div>
-                <div x-show="openTab === 3" class="p-4">
-                    @livewire('sertifikasi.detail.brand', ['brand' => $perusahaan->plant])
-                </div>
-            </div>
-        @else
-            <div class="flex flex-col items-center justify-center gap-4 py-20 mt-4 md:py-32 md:flex-row">
-                <svg xmlns="http://www.w3.org/2000/svg" class="w-24 h-24 text-yellow-500" fill="none"
-                    viewBox="0 0 24 24" stroke="currentColor">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                        d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z" />
-                </svg>
-                <p class="text-2xl font-semibold">Tidak Ada Data</p>
-            </div>
-        @endif
     </div>
-
-
+    <div class="mt-4 overflow-hidden overflow-x-auto border border-gray-200 rounded-md shadow-md">
+        <table class="min-w-full divide-y divide-gray-200">
+            <thead class="bg-green-200">
+                <tr>
+                    <th scope="col"
+                        class="px-6 py-4 text-xs font-medium tracking-wider text-left text-gray-800 uppercase border-r border-gray-100">
+                        Nama Ruas
+                    </th>
+                    <th scope="col"
+                        class="px-6 py-4 text-xs font-medium tracking-wider text-left text-gray-800 uppercase border-r border-gray-100">
+                        Nama Badan Usaha Jalan Tol
+                    </th>
+                    <th scope="col"
+                        class="px-6 py-4 text-xs font-medium tracking-wider text-left text-gray-800 uppercase border-r border-gray-100">
+                        Alamat
+                    </th>
+                    <th scope="col"
+                        class="px-6 py-4 text-xs font-medium tracking-wider text-left text-gray-800 uppercase border-r border-gray-100">
+                        Email
+                    </th>
+                    <th scope="col" class="relative px-6 py-3">
+                        <span class="sr-only">Edit</span>
+                    </th>
+                </tr>
+            </thead>
+            <tbody class="text-xs bg-white divide-y divide-gray-200">
+                @forelse ($data as $item)
+                    <tr wire:loading.remove wire:target="previousPage, nextPage, gotoPage">
+                        <td class="px-6 py-2 font-semibold">
+                            {{ $item->nama_ruas }}
+                        </td>
+                        <td class="px-6 py-2 font-semibold">
+                            {{ $item->nama_bujt }}
+                        </td>
+                        <td class="px-6 py-2 font-semibold">
+                            {{ \Str::limit($item->alamat_operasional, 100, '...') }}
+                        </td>
+                        <td class="px-6 py-2 font-semibold whitespace-nowrap">
+                            {{ $item->email_operasional }}
+                        </td>
+                        <td class="flex justify-center py-2 text-sm font-semibold whitespace-nowrap">
+                            <a href="/sertifikasi/data/{{ $item->slug }}"
+                                class="px-2 py-1 text-xs text-blue-500 bg-transparent border border-blue-500 rounded-md focus:bg-blue-500 hover:bg-blue-500 hover:text-white">
+                                Detail
+                            </a>
+                        </td>
+                    </tr>
+                @empty
+                    <tr>
+                        <td colspan="4">
+                            <div class="flex items-center justify-center gap-4 py-20 font-semibold text-center">
+                                <svg xmlns="http://www.w3.org/2000/svg" class="w-12 h-12 text-yellow-500"
+                                    viewBox="0 0 20 20" fill="currentColor">
+                                    <path fill-rule="evenodd"
+                                        d="M8.257 3.099c.765-1.36 2.722-1.36 3.486 0l5.58 9.92c.75 1.334-.213 2.98-1.742 2.98H4.42c-1.53 0-2.493-1.646-1.743-2.98l5.58-9.92zM11 13a1 1 0 11-2 0 1 1 0 012 0zm-1-8a1 1 0 00-1 1v3a1 1 0 002 0V6a1 1 0 00-1-1z"
+                                        clip-rule="evenodd" />
+                                </svg>
+                                <span class="text-2xl">
+                                    Tidak Ada Data
+                                </span>
+                            </div>
+                        </td>
+                    </tr>
+                @endforelse
+                <tr wire:loading.class="table-row" wire:loading.remove.class="hidden"
+                    wire:target="previousPage, nextPage, gotoPage" class="hidden">
+                    <td colspan="5" class="text-center bg-gray-50 p-36">
+                        <div class="flex justify-center">
+                            {{-- Loading --}}
+                            <svg xmlns="http://www.w3.org/2000/svg" class="w-24 h-24 text-green-500 animate-spin"
+                                fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                    d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15" />
+                            </svg>
+                        </div>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+    <div class="mt-4">
+        {{-- {{ $perusahaan->links() }} --}}
+    </div>
 </div>

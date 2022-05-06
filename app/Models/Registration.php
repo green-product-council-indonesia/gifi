@@ -10,7 +10,7 @@ class Registration extends Model
     use HasFactory;
 
     protected $fillable = [
-        'nama_bujt', 'slug', 'alamat_operasional', 'email_operasional', 'noTelp_operasional', 'kodePos_operasional', 'nama_ruas', 'panjang_ruas', 'tgl_mulai_operasional', 'category_id', 'jumlah_rest_area', 'jumlah_gerbang_tol', 'status', 'tipe_sertifikasi', 'tgl_pendaftaran', 'tgl_approve', 'tgl_masa_berlaku', 'contact', 'user_id', 'verifikator'
+        'no_sertifikasi', 'nama_bujt', 'slug', 'alamat_operasional', 'email_operasional', 'noTelp_operasional', 'kodePos_operasional', 'nama_ruas', 'panjang_ruas', 'tgl_mulai_operasional', 'category_id', 'jumlah_rest_area', 'jumlah_gerbang_tol', 'status', 'tipe_sertifikasi', 'tgl_pendaftaran', 'tgl_approve', 'tgl_masa_berlaku', 'contact', 'user_id', 'verifikator'
     ];
 
     public function document()
@@ -19,8 +19,8 @@ class Registration extends Model
             'nama_dokumen',
             'status',
             'keterangan',
-            'bobot',
-            'score'
+            'score',
+            'document_category_id'
         );
     }
 
@@ -37,5 +37,9 @@ class Registration extends Model
     public function verifikators()
     {
         return $this->belongsTo(User::class, 'verifikator');
+    }
+    public function reports()
+    {
+        return $this->hasOne(Docreport::class);
     }
 }

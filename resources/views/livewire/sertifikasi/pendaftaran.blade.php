@@ -128,10 +128,13 @@
                             @enderror
                         </div>
 
-                        <!-- Tipe Pengemasan / Ukuran -->
+                        <!-- Tgl Mulai Operasional -->
                         <div class="col-span-12 sm:col-span-6 md:col-span-3">
                             <label for="date" class="label">Tgl Mulai Operasional</label>
-                            {{-- <x-date-picker wire:model="tgl_mulai_operasional" id="date" /> --}}
+                            <input type="date" wire:model="tgl_mulai_operasional" class="form-input">
+                            @error('tgl_mulai_operasional')
+                                <span class="error">{{ $message }}</span>
+                            @enderror
                         </div>
 
                         {{-- Jumlah Rest Area --}}
@@ -152,15 +155,6 @@
                                 <span class="error">{{ $message }}</span>
                             @enderror
                         </div>
-
-                        {{-- <div class="col-span-12 sm:col-span-6 md:col-span-3">
-                            <label class="label">Dimensi (P x L x T)</label>
-                            <input type="text" placeholder="Dimensi (P x L x T)" class="form-input"
-                                wire:model="dimensi">
-                            @error('dimensi')
-                                <span class="error">{{ $message }}</span>
-                            @enderror
-                        </div> --}}
                         <div class="col-span-12">
                             <span class="text-lg font-medium">Contact Person:</span>
                         </div>
