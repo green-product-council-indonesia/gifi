@@ -28,11 +28,11 @@ class ApproveUser extends ModalComponent
         try {
             $user = User::findOrFail($id);
 
-            if (config('app.env') === 'production') {
-                Mail::to($user->email)->send(new UserApprovalMail($user->name));
-            } else {
-                Mail::to("nasirudin.sabiq16@mhs.uinjkt.ac.id")->send(new UserApprovalMail($user->name));
-            }
+            // if (config('app.env') === 'production') {
+            //     Mail::to($user->email)->send(new UserApprovalMail($user->name));
+            // } else {
+            //     Mail::to("nasirudin.sabiq16@mhs.uinjkt.ac.id")->send(new UserApprovalMail($user->name));
+            // }
 
             $user->status = 1;
             $user->save();

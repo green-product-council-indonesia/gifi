@@ -16,10 +16,10 @@ class SertifikasiInternalMail extends Mailable
      *
      * @return void
      */
-    public function __construct($perusahaan, $brand)
+    public function __construct($nama_bujt, $nama_ruas)
     {
-        $this->perusahaan = $perusahaan;
-        $this->brand = $brand;
+        $this->nama_bujt = $nama_bujt;
+        $this->nama_ruas = $nama_ruas;
     }
 
     /**
@@ -29,11 +29,11 @@ class SertifikasiInternalMail extends Mailable
      */
     public function build()
     {
-        return $this->from('notif@gpci.or.id')
-            ->subject('Data Sertifikasi Green Label Indonesia')->view('components.sertifikasi-internal-mail')->with(
+        return $this->from('notif@gifi.or.id')
+            ->subject('Data Sertifikasi Green Infrastructure and Facilities Indonesia')->view('components.sertifikasi-internal-mail')->with(
                 [
-                    'nama_perusahaan' => $this->perusahaan,
-                    'nama_brand' => $this->brand,
+                    'nama_bujt' => $this->nama_bujt,
+                    'nama_ruas' => $this->nama_ruas,
                 ]
             );
     }

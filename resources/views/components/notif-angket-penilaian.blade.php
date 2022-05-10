@@ -60,7 +60,7 @@
                                                 <span class="font-bitter">
                                                     <strong>
                                                         <span style="color:#ffffff">
-                                                            Green Product Council Indonesia
+                                                            Green Infrastructure and Facilities Indonesia
                                                         </span>
                                                     </strong>
                                                 </span>
@@ -101,9 +101,9 @@
                                                 lang="x-size-16">
                                                 <span class="font-bitter">
                                                     <span style="color:#000000">Dear All, <br>
-                                                        Angket Penilaian Sertifikasi untuk Perusahaan
+                                                        Angket Penilaian Sertifikasi untuk
                                                         <b>{{ Str::upper($nama_perusahaan) }}</b>
-                                                        dengan Nama Brand
+                                                        dengan Ruas
                                                         <b>{{ Str::upper($nama_brand) }}</b>
                                                     </span>
                                                 </span>
@@ -156,7 +156,8 @@
                                     <div style="Margin-left: 20px;Margin-right: 20px;Margin-top: 10px;Margin-bottom: 10px;">
 
                                         <div style="font-size: 12px;line-height: 19px;margin-bottom: 15px;">
-                                            <div><span style="color:#000000">Green Product Council Indonesia<br />
+                                            <div><span style="color:#000000">Green Infrastructure and Facilities
+                                                    Indonesia<br />
                                                     Jl. Ciputat Raya No. 27A Pondok Pinang, Kebayoran Lama Jakarta Selatan
                                                     12310 Indonesia&nbsp;</span></div>
                                         </div>

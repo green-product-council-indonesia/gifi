@@ -95,13 +95,12 @@
                 @endif
             </form>
         </div>
-        <p class="mt-2 text-sm leading-5 text-right text-gray-600 max-w">
-
+        {{-- <p class="mt-2 text-sm leading-5 text-right text-gray-600 max-w">
             <button wire:click="download"
                 class="text-blue-600 font-semibold transition duration-150 ease-in-out hover:text-blue-400 focus:outline-none focus:underline">
                 Pedoman Sertifikasi
             </button>
-        </p>
+        </p> --}}
     </div>
 
     <div class="fixed bottom-0 right-0 m-4">

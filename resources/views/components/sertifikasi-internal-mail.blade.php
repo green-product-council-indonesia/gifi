@@ -32,7 +32,7 @@
                                 align="center">
                                 <div class="logo-center" align="center" id="emb-email-header"><img
                                         style="display: block;height: auto;width: 100%;border: 0;max-width: 141px;"
-                                        src="{{ $message->embed('img/gpci.png') }}" alt="" width="141" /></div>
+                                        src="{{ $message->embed('img/gifi.png') }}" alt="" width="141" /></div>
                             </div>
                             <!--[if (mso)|(IE)]></td></tr></table><![endif]-->
                         </div>
@@ -60,7 +60,7 @@
                                                 <span class="font-bitter">
                                                     <strong>
                                                         <span style="color:#ffffff">
-                                                            Green Product Council Indonesia
+                                                            Green Infrastructure and Facilities Indonesia
                                                         </span>
                                                     </strong>
                                                 </span>
@@ -101,10 +101,10 @@
                                                 lang="x-size-16">
                                                 <span class="font-bitter">
                                                     <span style="color:#000000">Dear All, <br>
-                                                        Berikut formulir pendaftaran GLI dari
-                                                        <b>{{ Str::upper($nama_perusahaan) }}</b>
-                                                        dengan Nama Produk
-                                                        <b>{{ Str::upper($nama_brand) }}</b>
+                                                        Berikut formulir pendaftaran GIFI dari
+                                                        <b>{{ Str::upper($nama_bujt) }}</b>
+                                                        dengan Ruas
+                                                        <b>{{ Str::upper($nama_ruas) }}</b>
                                                     </span>
                                                 </span>
                                             </p>
@@ -155,9 +155,13 @@
                                     <div style="Margin-left: 20px;Margin-right: 20px;Margin-top: 10px;Margin-bottom: 10px;">
 
                                         <div style="font-size: 12px;line-height: 19px;margin-bottom: 15px;">
-                                            <div><span style="color:#000000">Green Product Council Indonesia<br />
+                                            <div>
+                                                <span style="color:#000000">Green Infrastructure and Facilities
+                                                    Indonesia <br />
                                                     Jl. Ciputat Raya No. 27A Pondok Pinang, Kebayoran Lama Jakarta Selatan
-                                                    12310 Indonesia&nbsp;</span></div>
+                                                    12310 Indonesia&nbsp;
+                                                </span>
+                                            </div>
                                         </div>
                                         <div
                                             style="font-size: 12px;line-height: 19px;margin-bottom: 15px;Margin-top: 18px;">

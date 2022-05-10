@@ -16,10 +16,10 @@ class NotifAngketPenilaian extends Mailable
      *
      * @return void
      */
-    public function __construct($perusahaan, $brand)
+    public function __construct($nama_bujt, $nama_ruas)
     {
-        $this->perusahaan = $perusahaan;
-        $this->brand = $brand;
+        $this->nama_bujt = $nama_bujt;
+        $this->nama_ruas = $nama_ruas;
     }
 
     /**
@@ -29,13 +29,13 @@ class NotifAngketPenilaian extends Mailable
      */
     public function build()
     {
-        return $this->from('notif@gpci.or.id')
+        return $this->from('notif@gifi.or.id')
             ->view('components.notif-angket-penilaian')
-            ->subject('Informasi Upload Dokumen Angket Penilaian')
+            ->subject('Informasi Upload Dokumen Penilaian Sertifikasi')
             ->with(
                 [
-                    'nama_perusahaan' => $this->perusahaan,
-                    'nama_brand' => $this->brand
+                    'nama_bujt' => $this->nama_bujt,
+                    'nama_ruas' => $this->nama_ruas
                 ]
             );
     }

@@ -150,27 +150,43 @@ class DetailSertifikasi extends Component
             'rekomendasi' => 'required|mimes:pdf|max:8192',
         ]);
 
-        $file = $this->rekomendasi;
-        $data = Registration::with('reports')->findOrFail($id);
+        DB::beginTransaction();
+        try {
+            $file = $this->rekomendasi;
+            $data = Registration::with('reports')->findOrFail($id);
 
-        $filename = 'storage/dokumen_audit/' . $data->slug . '/' . \Str::slug($data->nama_ruas) . '/' . $data->reports->rekomendasi;
+            $filename = 'storage/dokumen_audit/' . $data->slug . '/' . \Str::slug($data->nama_ruas) . '/' . $data->reports->rekomendasi;
 
-        if ($data->reports->rekomendasi) {
-            unlink($filename);
+            if ($data->reports->rekomendasi) {
+                unlink($filename);
+            }
+
+            $nama_file = $data->slug . '-' . \Str::slug($data->nama_ruas) . '-rekomendasi';
+            $store = $nama_file . '.' . $file->extension();
+            $file->storeAs('dokumen_audit/' . $data->slug . '/' . \Str::slug($data->nama_ruas), $store);
+
+            $report = Docreport::where('registration_id', $id)->first();
+            $report->rekomendasi = $store;
+            $report->save();
+
+            if (config('app.env') === 'production') {
+                // Mail Prod 
+                Mail::to(['info@gpci.or.id', 'dahlan@gpci.or.id'])->send(new NotifAngketPenilaian($data->nama_bujt, $data->nama_ruas));
+            } else {
+                // Mail Local 
+                Mail::to("nasirudin.sabiq16@mhs.uinjkt.ac.id")->send(new NotifAngketPenilaian($data->nama_bujt, $data->nama_ruas));
+            }
+
+            activity()->log('User ' . Auth::user()->name . ' Mengupload Report Rekomendasi Brand ' . $data->slug);
+
+            session()->flash('message', 'Laporan Rekomendasi berhasil diupload');
+            return redirect('penilaian/sertifikasi/' . $data->id . '/' . $data->slug);
+        } catch (\Throwable $th) {
+            // throw $th;
+            DB::rollBack();
+            session()->flash('error', 'Oopss.. Something Went Wrong, Please Try Again.');
+            return redirect('penilaian/sertifikasi/' . $data->id . '/' . $data->slug);
         }
-
-        $nama_file = $data->slug . '-' . \Str::slug($data->nama_ruas) . '-rekomendasi';
-        $store = $nama_file . '.' . $file->extension();
-        $file->storeAs('dokumen_audit/' . $data->slug . '/' . \Str::slug($data->nama_ruas), $store);
-
-        $report = Docreport::where('registration_id', $id)->first();
-        $report->rekomendasi = $store;
-        $report->save();
-
-        activity()->log('User ' . Auth::user()->name . ' Mengupload Report Rekomendasi Brand ' . $data->slug);
-
-        session()->flash('message', 'Laporan Rekomendasi berhasil diupload');
-        return redirect('penilaian/sertifikasi/' . $data->id . '/' . $data->slug);
     }
 
     public function delete($id, $data, $row)

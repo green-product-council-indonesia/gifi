@@ -1,6 +1,6 @@
 @section('title', 'Dashboard')
 <div>
-    {{-- @hasanyrole('admin|super-admin')
+    @hasanyrole('admin|super-admin')
         @livewire('dashboard.admin')
     @endhasanyrole
     @hasrole('client')
@@ -11,6 +11,5 @@
     @endhasrole
     @hasrole('visitor')
         @livewire('dashboard.visitor')
-    @endhasrole --}}
-    Good
+    @endhasrole
 </div>

@@ -2,7 +2,7 @@
 
 namespace App\Http\Livewire\Dashboard;
 
-use App\Models\Brand;
+use App\Models\Registration;
 use Illuminate\Support\Facades\Auth;
 use Livewire\Component;
 
@@ -12,16 +12,16 @@ class Verifikator extends Component
     {
         $user_id = Auth::id();
 
-        $brands = Brand::where('verifikator', $user_id)->get();
-        $brand = Brand::where('verifikator', $user_id)->where('status', 1)->get();
-        $brand_is_processing = Brand::where('verifikator', $user_id)->where('status', 2)->get();
-        $brand_is_approved = Brand::where('verifikator', $user_id)->where('status', 3)->get();
+        $brands = Registration::where('verifikator', $user_id)->get();
+        $data = Registration::where('verifikator', $user_id)->where('status', 1)->get();
+        $data_is_processing = Registration::where('verifikator', $user_id)->where('status', 2)->get();
+        $data_is_approved = Registration::where('verifikator', $user_id)->where('status', 3)->get();
 
         return view('livewire.dashboard.verifikator', [
-            'brand' => count($brand),
+            'data' => count($data),
             'brands' => $brands,
-            'brand_is_processing' => $brand_is_processing,
-            'brand_is_approved' => count($brand_is_approved)
+            'data_is_processing' => $data_is_processing,
+            'data_is_approved' => count($data_is_approved)
         ]);
     }
 }
