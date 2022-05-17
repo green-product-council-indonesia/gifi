@@ -51,7 +51,7 @@ class EditScore extends ModalComponent
                 'message' => 'Berhasil!'
             ]
         );
-        activity()->log('User ' . Auth::user()->name . ' Mengubah Score Dokumen Sertifikasi GIFI');
+        activity()->log('User ' . Auth::user()->name . ' Mengubah Score Dokumen Sertifikasi GTRI');
         $this->emit('editScore');
     }
 }

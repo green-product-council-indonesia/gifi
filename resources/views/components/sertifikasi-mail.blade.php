@@ -32,7 +32,7 @@
                                 align="center">
                                 <div class="logo-center" align="center" id="emb-email-header"><img
                                         style="display: block;height: auto;width: 100%;border: 0;max-width: 141px;"
-                                        src="{{ $message->embed('img/gifi.png') }}" alt="" width="141" /></div>
+                                        src="{{ $message->embed('img/gtri.png') }}" alt="" width="141" /></div>
                             </div>
                             <!--[if (mso)|(IE)]></td></tr></table><![endif]-->
                         </div>
@@ -60,7 +60,7 @@
                                                 <span class="font-bitter">
                                                     <strong>
                                                         <span style="color:#ffffff">
-                                                            Green Infrastructure and Facilities Indonesia
+                                                            Green Toll Road Indonesia
                                                         </span>
                                                     </strong>
                                                 </span>
@@ -101,11 +101,11 @@
                                                 lang="x-size-16">
                                                 <span class="font-bitter">
                                                     <span style="color:#000000">Terima kasih atas pendaftaran Sertifikasi
-                                                        Green Infrastructure and Facilities Indonesia (GIFI) dari
+                                                        Green Toll Road Indonesia (GTRI) dari
                                                         <b>{{ Str::upper($nama_bujt) }}</b> dengan Ruas
                                                         <b>{{ Str::upper($nama_ruas) }}</b>. Formulir pendaftaran
                                                         sertifikasi
-                                                        GIFI telah kami terima dengan baik
+                                                        GTRI telah kami terima dengan baik
                                                     </span>
                                                 </span>
                                             </p>
@@ -114,8 +114,8 @@
                                                 lang="x-size-16"><span class="font-bitter"><span
                                                         style="color:#000000">Selanjutnya adalah input checklist dokumen,
                                                         mohon dipersiapkan copy dokumen pelengkap sesuai checklist tersebut
-                                                        dan di-input kembali pada Sistem Sertifikasi Green Infrastructure
-                                                        and Facilities Indonesia
+                                                        dan di-input kembali pada Sistem Sertifikasi Green Toll Road
+                                                        Indonesia
                                                     </span>
                                                     <a style="text-decoration: underline;transition: opacity 0.1s ease-in;color: #18527c;"
                                                         href="{{ route('dokumen-sertifikasi') }}">
@@ -160,8 +160,7 @@
                                     <div style="Margin-left: 20px;Margin-right: 20px;Margin-top: 10px;Margin-bottom: 10px;">
 
                                         <div style="font-size: 12px;line-height: 19px;margin-bottom: 15px;">
-                                            <div><span style="color:#000000">Green Infrastructure and Facilities
-                                                    Indonesia<br />
+                                            <div><span style="color:#000000">Green Toll Road Indonesia<br />
                                                     Jl. Ciputat Raya No. 27A Pondok Pinang, Kebayoran Lama Jakarta Selatan
                                                     12310 Indonesia&nbsp;</span></div>
                                         </div>

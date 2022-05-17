@@ -63,36 +63,43 @@
         @enderror
 
         <div class="mt-6 overflow-hidden overflow-x-auto border border-gray-200 shadow-md sm:rounded">
-            <table class="min-w-full divide-y divide-gray-200">
-                <thead class="bg-green-200">
-                    <tr>
-                        <th scope="col"
-                            class="px-6 py-4 text-xs font-medium tracking-wider text-left text-gray-800 uppercase">
-                            Nama Dokumen
-                        </th>
-                        <th scope="col"
-                            class="px-6 py-4 text-xs font-medium tracking-wider text-left text-gray-800 uppercase">
-                            File
-                        </th>
-                        <th scope="col"
-                            class="px-6 py-4 text-xs font-medium tracking-wider text-center text-gray-800 uppercase">
-                            Action
-                        </th>
-                        <th scope="col"
-                            class="px-6 py-4 text-xs font-medium tracking-wider text-center text-gray-800 uppercase">
-                            Status
-                        </th>
-                        <th scope="col"
-                            class="px-6 py-4 text-xs font-medium tracking-wider text-left text-gray-800 uppercase">
-                            Keterangan
-                        </th>
-                    </tr>
-                </thead>
-                @if ($result)
+            @if ($result)
+                <table class="min-w-full divide-y divide-gray-200">
+                    <thead class="bg-green-200">
+                        <tr>
+                            <th scope="col"
+                                class="px-6 py-4 text-xs font-medium tracking-wider text-left text-gray-800 uppercase">
+                                Kode
+                            </th>
+                            <th scope="col"
+                                class="px-6 py-4 text-xs font-medium tracking-wider text-left text-gray-800 uppercase">
+                                Nama Dokumen
+                            </th>
+                            <th scope="col"
+                                class="px-6 py-4 text-xs font-medium tracking-wider text-left text-gray-800 uppercase">
+                                File
+                            </th>
+                            <th scope="col"
+                                class="px-6 py-4 text-xs font-medium tracking-wider text-center text-gray-800 uppercase">
+                                Action
+                            </th>
+                            <th scope="col"
+                                class="px-6 py-4 text-xs font-medium tracking-wider text-center text-gray-800 uppercase">
+                                Status
+                            </th>
+                            <th scope="col"
+                                class="px-6 py-4 text-xs font-medium tracking-wider text-left text-gray-800 uppercase">
+                                Keterangan
+                            </th>
+                        </tr>
+                    </thead>
                     <tbody class="text-xs bg-white divide-y divide-gray-200" x-data="{ selected: null }">
                         @foreach ($result as $item)
                             @foreach ($item->document as $doc)
                                 <tr>
+                                    <td class="px-6 py-4 font-semibold">
+                                        {{ $doc->kode }}
+                                    </td>
                                     <td class="px-6 py-4 font-semibold">
                                         {{ $doc->nama_dokumen }}
                                     </td>
@@ -132,7 +139,7 @@
                                                     clip-rule="evenodd" />
                                             </svg>
                                         </td>
-                                        <td class="px-6 py-4 font-semibold text-center flex flex-col space-y-2">
+                                        <td class="flex flex-col px-6 py-4 space-y-2 font-semibold text-center">
                                             @if ($doc->pivot->status == 1)
                                                 <button
                                                     wire:click="$emit('openModal', 'sertifikasi.modal.edit-dokumen', {{ json_encode(['id' => $doc->id, 'data' => $ruas]) }})"
@@ -175,8 +182,8 @@
                             @endforeach
                         @endforeach
                     </tbody>
-                @endif
-            </table>
+                </table>
+            @endif
         </div>
     </div>
 </div>

@@ -67,7 +67,7 @@ Route::middleware('auth')->group(function () {
             Route::get('/pendaftaran', Pendaftaran::class)->name('pendaftaran-sertifikasi');
 
             Route::get('/data', Data::class)->name('data-sertifikasi');
-            Route::get('/data/{slug}', DetailData::class);
+            Route::get('/data/{id}/{slug}', DetailData::class);
             Route::get('/dokumen', Dokumen::class)->name('dokumen-sertifikasi');
         });
     });

@@ -13,7 +13,7 @@ return [
     |
     */
 
-    'name' => env('APP_NAME', 'GIFI'),
+    'name' => env('APP_NAME', 'GTRI'),
 
     /*
     |--------------------------------------------------------------------------
@@ -52,7 +52,7 @@ return [
     |
     */
 
-    'url' => env('APP_URL', 'https://client.gpci.or.id'),
+    'url' => env('APP_URL', 'https://client-gtri.gpci.or.id'),
 
     'asset_url' => env('ASSET_URL', null),
 

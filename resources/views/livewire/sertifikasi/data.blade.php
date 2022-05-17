@@ -68,7 +68,7 @@
                             {{ $item->email_operasional }}
                         </td>
                         <td class="flex justify-center py-2 text-sm font-semibold whitespace-nowrap">
-                            <a href="/sertifikasi/data/{{ $item->slug }}"
+                            <a href="/sertifikasi/data/{{ $item->id }}/{{ $item->slug }}"
                                 class="px-2 py-1 text-xs text-blue-500 bg-transparent border border-blue-500 rounded-md focus:bg-blue-500 hover:bg-blue-500 hover:text-white">
                                 Detail
                             </a>

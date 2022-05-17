@@ -32,7 +32,7 @@
                                 align="center">
                                 <div class="logo-center" align="center" id="emb-email-header"><img
                                         style="display: block;height: auto;width: 100%;border: 0;max-width: 141px;"
-                                        src="{{ $message->embed('img/gifi.png') }}" alt="" width="141" /></div>
+                                        src="{{ $message->embed('img/gtri.png') }}" alt="" width="141" /></div>
                             </div>
                             <!--[if (mso)|(IE)]></td></tr></table><![endif]-->
                         </div>
@@ -60,7 +60,7 @@
                                                 <span class="font-bitter">
                                                     <strong>
                                                         <span style="color:#ffffff">
-                                                            Green Infrastructure and Facilities Indonesia
+                                                            Green Toll Road Indonesia
                                                         </span>
                                                     </strong>
                                                 </span>
@@ -101,7 +101,7 @@
                                                 lang="x-size-16">
                                                 <span class="font-bitter">
                                                     <span style="color:#000000">Dear All, <br>
-                                                        Berikut formulir pendaftaran GIFI dari
+                                                        Berikut formulir pendaftaran GTRI dari
                                                         <b>{{ Str::upper($nama_bujt) }}</b>
                                                         dengan Ruas
                                                         <b>{{ Str::upper($nama_ruas) }}</b>

@@ -78,6 +78,51 @@
                 </div>
                 <div x-show="openTab === 2" class="p-4">
                     <dl>
+                        @if ($data->status == 3)
+                            <div
+                                class="flex flex-col justify-between w-full px-4 py-4 border border-green-300 rounded-md shadow-md sm:space-x-4 sm:flex-row">
+                                @php
+                                    $sum_total = 0;
+                                @endphp
+                                @foreach ($score as $item)
+                                    @php
+                                        $sum_score = 0;
+                                        $sum_target = 0;
+                                    @endphp
+                                    @foreach ($item->dokumen as $result)
+                                        @php
+                                            $sum_score += $result->registration[0]->pivot->score;
+                                            $sum_target += $result->bobot;
+                                        @endphp
+                                    @endforeach
+                                    @if ($sum_score && $sum_target != 0)
+                                        @php
+                                            $sum_total += ($sum_score / $sum_target) * $item->kategori[0]->pivot->total_bobot;
+                                        @endphp
+                                    @endif
+                                @endforeach
+                                <div class="items-center text-xs">
+                                    <p>Score :
+                                        <span class="ml-4 text-xl font-bold"> {{ round($sum_total, 2) }} % </span>
+                                        <span>
+                                            @if ($sum_total < 61)
+                                                (Bronze)
+                                            @elseif($sum_total > 60 && $sum_total < 76)
+                                                (Silver)
+                                            @elseif($sum_total > 75)
+                                                (Gold)
+                                            @endif
+                                        </span>
+                                    </p>
+                                </div>
+                                {{-- <div class="text-sm font-semibold">
+                                    <a href="#"
+                                        class="px-4 py-3 text-xs text-white bg-green-500 rounded-md focus:bg-green-600 hover:bg-green-600">Cetak
+                                        Sertifikat
+                                    </a>
+                                </div> --}}
+                            </div>
+                        @endif
                         <div class="px-4 py-5 bg-white sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
                             <dt class="text-sm font-medium text-gray-500">
                                 Nama Ruas Jalan Tol
@@ -131,7 +176,24 @@
                                 Status Sertifikasi
                             </dt>
                             <dd class="mt-1 text-sm text-gray-900 sm:mt-0 sm:col-span-2">
-                                {{ $data->status }}
+                                @switch($data->status)
+                                    @case(1)
+                                        <span class="px-2 py-0 text-xs text-white bg-red-500 rounded-lg">Belum
+                                            disertifikasi</span>
+                                    @break
+
+                                    @case(2)
+                                        <span class="px-2 py-0 text-xs text-white bg-yellow-500 rounded-lg">Sedang
+                                            disertifikasi</span>
+                                    @break
+
+                                    @case(3)
+                                        <span class="px-2 py-0 text-xs text-white bg-green-500 rounded-lg">Sudah
+                                            Disertifikasi</span>
+                                    @break
+
+                                    @default
+                                @endswitch
                             </dd>
                         </div>
                         <div class="px-4 py-5 bg-gray-50 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">

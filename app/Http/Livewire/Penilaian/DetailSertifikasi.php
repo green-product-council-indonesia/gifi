@@ -74,16 +74,16 @@ class DetailSertifikasi extends Component
         $data = [
             'data' => Registration::with('kategoriSertifikasi')->where('id', $id)->first()
         ];
-        $pdf = PDF::loadView('livewire.generate-form-gifi', $data)->output();
+        $pdf = PDF::loadView('livewire.generate-form-gtri', $data)->output();
         // return $pdf->stream('form-gli.pdf');
         return response()->streamDownload(
             fn () => print($pdf),
-            'form-gifi-' . $slug . '.pdf'
+            'form-gtri-' . $slug . '.pdf'
         );
     }
 
     protected $messages = [
-        'required' => 'kolom :attribute kosong, harap diisi',
+        'required' => 'kolom :attribute kosong, hgtriarap diisi',
         'mimes' => 'kolom :attribute harus berbentuk PDF atau DOCX',
     ];
     public function assignScore($id, $ruas)

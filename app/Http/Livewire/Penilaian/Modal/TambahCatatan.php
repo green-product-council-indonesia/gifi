@@ -44,7 +44,7 @@ class TambahCatatan extends ModalComponent
                 'message' => 'Berhasil!'
             ]
         );
-        activity()->log('User ' . Auth::user()->name . ' Menambah Catatan di Dokumen Sertifikasi GIFI');
+        activity()->log('User ' . Auth::user()->name . ' Menambah Catatan di Dokumen Sertifikasi GTRI');
         $this->emit('addCatatan');
     }
 }

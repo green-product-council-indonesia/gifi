@@ -5,13 +5,13 @@
         <div class="col-span-12 md:col-span-7 md:place-self-center">
             <div class="mx-auto sm:w-full sm:max-w-md">
                 <a href="{{ route('home') }}">
-                    <img class="w-auto h-24 mx-auto md:h-48" src="{{ asset('img/gifi.png') }}" alt="logo-gifi">
+                    <img class="w-auto h-24 mx-auto md:h-48" src="{{ asset('img/gtri.png') }}" alt="logo-gtri">
                 </a>
 
                 <h2 class="mt-6 font-serif text-4xl font-extrabold leading-9 text-center text-gray-900 uppercase">
                     Registration
                 </h2>
-                <p class="text-sm tracking-wider text-center font-gray-700">Green Infrastructure and Facilities Indonesia
+                <p class="text-sm tracking-widest text-center font-gray-700">Green Toll Road Indonesia
                 </p>
             </div>
         </div>

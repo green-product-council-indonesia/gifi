@@ -32,7 +32,7 @@
                                 align="center">
                                 <div class="logo-center" align="center" id="emb-email-header"><img
                                         style="display: block;height: auto;width: 100%;border: 0;max-width: 141px;"
-                                        src="{{ $message->embed('img/gifi.png') }}" alt="" width="141" /></div>
+                                        src="{{ $message->embed('img/gtri.png') }}" alt="" width="141" /></div>
                             </div>
                             <!--[if (mso)|(IE)]></td></tr></table><![endif]-->
                         </div>
@@ -60,7 +60,7 @@
                                                 <span class="font-bitter">
                                                     <strong>
                                                         <span style="color:#ffffff">
-                                                            Green Infrastructure and Facilities Indonesia
+                                                            Green Toll Road Indonesia
                                                         </span>
                                                     </strong>
                                                 </span>
@@ -101,7 +101,7 @@
                                                 lang="x-size-16">
                                                 <span class="font-bitter">
                                                     <span style="color:#000000">Terima kasih atas Registrasi di Portal
-                                                        Client Green Infrastructure and Facilities Indonesia atas
+                                                        Client Green Toll Road Indonesia atas
                                                         <b>{{ Str::upper($name) }}</b>.
                                                     </span>
                                                 </span>
@@ -110,7 +110,7 @@
                                                 style="Margin-top: 20px;Margin-bottom: 0;font-family: bitter,georgia,serif;font-size: 16px;line-height: 24px;text-align: center;"
                                                 lang="x-size-16"><span class="font-bitter"><span
                                                         style="color:#000000">Registrasi akun anda sudah kami terima dan
-                                                        saat ini web client GIFI sudah bisa diakses
+                                                        saat ini web client GTRI sudah bisa diakses
                                                     </span>
                                                     <a style="text-decoration: underline;transition: opacity 0.1s ease-in;color: #18527c;"
                                                         href="{{ route('login') }}">
@@ -124,7 +124,7 @@
                                                 style="Margin-top: 20px;Margin-bottom: 0;font-family: bitter,georgia,serif;font-size: 16px;line-height: 24px;text-align: center;"
                                                 lang="x-size-16"><span class="font-bitter"><span
                                                         style="color:#000000">dengan memasukan email dan password terdaftar
-                                                        untuk melanjutkan pendaftaran sertifikasi Green Label Indonesia
+                                                        untuk melanjutkan pendaftaran sertifikasi Green Toll Road Indonesia
                                                     </span>
                                                 </span>
                                             </p>
@@ -163,8 +163,7 @@
                                     <div style="Margin-left: 20px;Margin-right: 20px;Margin-top: 10px;Margin-bottom: 10px;">
 
                                         <div style="font-size: 12px;line-height: 19px;margin-bottom: 15px;">
-                                            <div><span style="color:#000000">Green Infrastructure and Facilities
-                                                    Indonesia<br />
+                                            <div><span style="color:#000000">Green Toll Road Indonesia<br />
                                                     Jl. Ciputat Raya No. 27A Pondok Pinang, Kebayoran Lama Jakarta Selatan
                                                     12310 Indonesia&nbsp;</span></div>
                                         </div>

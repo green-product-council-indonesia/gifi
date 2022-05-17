@@ -43,7 +43,7 @@ class EditCatatan extends ModalComponent
                 'message' => 'Berhasil!'
             ]
         );
-        activity()->log('User ' . Auth::user()->name . ' Mengubah Catatan Keterangan Dokumen Sertifikasi GIFI');
+        activity()->log('User ' . Auth::user()->name . ' Mengubah Catatan Keterangan Dokumen Sertifikasi GTRI');
         $this->emit('editCatatan');
     }
 }

@@ -45,7 +45,7 @@ class ModalApprove extends ModalComponent
             ]
         );
 
-        activity()->log('User ' . Auth::user()->name . ' Menyetujui Dokumen ' . $data->pivot->nama_dokumen . ' GIFI');
+        activity()->log('User ' . Auth::user()->name . ' Menyetujui Dokumen ' . $data->pivot->nama_dokumen . ' GTRI');
         $this->emit('approveDokumen');
     }
 }

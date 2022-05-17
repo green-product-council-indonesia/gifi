@@ -2,14 +2,14 @@
 <div>
     <div class="sm:mx-auto sm:w-full sm:max-w-md">
         <a href="{{ route('home') }}">
-            <img class="w-auto h-24 mx-auto" src="{{ asset('img/gifi.png') }}" alt="logo-gpci">
+            <img class="w-auto h-24 mx-auto" src="{{ asset('img/gtri.png') }}" alt="logo-gpci">
             {{-- <x-logo class="w-auto h-16 mx-auto text-green-600" /> --}}
         </a>
         <h2
             class="mt-6 font-serif text-4xl font-extrabold leading-9 tracking-widest text-center text-gray-900 uppercase">
             Client Portal
         </h2>
-        <p class="text-sm tracking-wider text-center font-gray-700">Green Infrastructure and Facilities Indonesia</p>
+        <p class="text-sm tracking-widest text-center font-gray-700">Green Toll Road Indonesia</p>
     </div>
 
     <div class="mt-4 sm:mx-auto sm:w-full sm:max-w-md">
@@ -97,7 +97,7 @@
         </div>
         {{-- <p class="mt-2 text-sm leading-5 text-right text-gray-600 max-w">
             <button wire:click="download"
-                class="text-blue-600 font-semibold transition duration-150 ease-in-out hover:text-blue-400 focus:outline-none focus:underline">
+                class="font-semibold text-blue-600 transition duration-150 ease-in-out hover:text-blue-400 focus:outline-none focus:underline">
                 Pedoman Sertifikasi
             </button>
         </p> --}}

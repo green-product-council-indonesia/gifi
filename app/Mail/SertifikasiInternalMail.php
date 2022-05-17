@@ -29,8 +29,8 @@ class SertifikasiInternalMail extends Mailable
      */
     public function build()
     {
-        return $this->from('notif@gifi.or.id')
-            ->subject('Data Sertifikasi Green Infrastructure and Facilities Indonesia')->view('components.sertifikasi-internal-mail')->with(
+        return $this->from('notif@gtri.or.id')
+            ->subject('Data Sertifikasi Green Toll Road Indonesia')->view('components.sertifikasi-internal-mail')->with(
                 [
                     'nama_bujt' => $this->nama_bujt,
                     'nama_ruas' => $this->nama_ruas,

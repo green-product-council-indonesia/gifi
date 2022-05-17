@@ -1,16 +1,16 @@
 <!-- sidebar -->
 <div class="fixed inset-y-0 left-0 z-10 px-2 space-y-6 text-blue-100 transition duration-200 ease-in-out transform bg-green-600 divide-y divide-green-300 xl:top-0 xl:min-h-screen w-60 py-7 xl:sticky"
     @click.away="isMobileNavOpen"
-    :class="{ '' : !isMobileNavOpen, 'xl:translate-x-0 -translate-x-full' : isMobileNavOpen   }"
+    :class="{ '': !isMobileNavOpen, 'xl:translate-x-0 -translate-x-full': isMobileNavOpen }"
     x-transition:enter="transition ease-linear duration-400 transform" x-transition:enter-start="-translate-x-full"
     x-transition:enter-end="translate-x-0" x-transition:leave="transition ease-out duration-400 transform"
     x-transition:leave-start="translate-x-0" x-transition:leave-end="-translate-x-full">
     <div class="px-4 text-white">
         <a href="{{ route('home') }}" class="flex items-center space-x-2">
-            <img class="w-12 bg-white rounded-full" src="{{ asset('img/gifi.png') }}" alt="logo-gifi">
-            <span class="text-3xl font-extrabold">GIFI</span>
+            <img class="w-12 bg-white rounded-full" src="{{ asset('img/gtri.png') }}" alt="logo-gtri">
+            <span class="text-3xl font-extrabold">GTRI</span>
         </a>
-        <p class="mt-2 text-sm">Green Infrastructure and Facilities Indonesia</p>
+        <p class="mt-2 text-sm">Green Toll Road Indonesia</p>
     </div>
     <nav class="">
         <ul>
@@ -40,7 +40,7 @@
                                 </svg>
                                 <span>Sertifikasi</span>
                             </div>
-                            <svg fill="currentColor" viewBox="0 0 20 20" :class="{'rotate-180': open, 'rotate-0': !open}"
+                            <svg fill="currentColor" viewBox="0 0 20 20" :class="{ 'rotate-180': open, 'rotate-0': !open }"
                                 class="inline w-4 h-4 mt-1 ml-1 transition-transform duration-200 transform md:-mt-1">
                                 <path fill-rule="evenodd"
                                     d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z"
@@ -86,7 +86,7 @@
                                 </svg>
                                 <span>Penilaian</span>
                             </div>
-                            <svg fill="currentColor" viewBox="0 0 20 20" :class="{'rotate-180': open, 'rotate-0': !open}"
+                            <svg fill="currentColor" viewBox="0 0 20 20" :class="{ 'rotate-180': open, 'rotate-0': !open }"
                                 class="inline w-4 h-4 mt-1 ml-1 transition-transform duration-200 transform md:-mt-1">
                                 <path fill-rule="evenodd"
                                     d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z"
@@ -141,7 +141,7 @@
                                 </svg>
                                 <span>Dokumen</span>
                             </div>
-                            <svg fill="currentColor" viewBox="0 0 20 20" :class="{'rotate-180': open, 'rotate-0': !open}"
+                            <svg fill="currentColor" viewBox="0 0 20 20" :class="{ 'rotate-180': open, 'rotate-0': !open }"
                                 class="inline w-4 h-4 mt-1 ml-1 transition-transform duration-200 transform md:-mt-1">
                                 <path fill-rule="evenodd"
                                     d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z"
@@ -178,7 +178,7 @@
                                 </svg>
                                 <span>Import Data</span>
                             </div>
-                            <svg fill="currentColor" viewBox="0 0 20 20" :class="{'rotate-180': open, 'rotate-0': !open}"
+                            <svg fill="currentColor" viewBox="0 0 20 20" :class="{ 'rotate-180': open, 'rotate-0': !open }"
                                 class="inline w-4 h-4 mt-1 ml-1 transition-transform duration-200 transform md:-mt-1">
                                 <path fill-rule="evenodd"
                                     d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z"
@@ -217,7 +217,7 @@
                                 </svg>
                                 <span>User Management</span>
                             </div>
-                            <svg fill="currentColor" viewBox="0 0 20 20" :class="{'rotate-180': open, 'rotate-0': !open}"
+                            <svg fill="currentColor" viewBox="0 0 20 20" :class="{ 'rotate-180': open, 'rotate-0': !open }"
                                 class="inline w-4 h-4 mt-1 ml-1 transition-transform duration-200 transform md:-mt-1">
                                 <path fill-rule="evenodd"
                                     d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z"

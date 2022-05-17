@@ -28,8 +28,8 @@ class UserApprovalMail extends Mailable
      */
     public function build()
     {
-        return $this->from('notif@gifi.or.id')
-            ->subject('Approval Registration Web Client GIFI')
+        return $this->from('notif@gtri.or.id')
+            ->subject('Approval Registration Web Client GTRI')
             ->view('components.user-approval-mail')
             ->with(
                 [

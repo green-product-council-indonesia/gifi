@@ -3,13 +3,13 @@
 <div>
     <div class="sm:mx-auto sm:w-full sm:max-w-md">
         <a href="{{ route('home') }}">
-            <img class="w-auto h-36 mx-auto bg-white rounded-full" src="{{ asset('img/gifi.png') }}" alt="logo-gifi">
+            <img class="w-auto mx-auto bg-white rounded-full h-36" src="{{ asset('img/gtri.png') }}" alt="logo-gtri">
         </a>
 
-        <h2 class="mt-6 text-3xl font-extrabold text-center text-gray-900 leading-9">
+        <h2 class="mt-6 text-3xl font-extrabold leading-9 text-center text-gray-900">
             Confirm your password
         </h2>
-        <p class="mt-2 text-sm text-center text-gray-600 leading-5 max-w">
+        <p class="mt-2 text-sm leading-5 text-center text-gray-600 max-w">
             Please confirm your password before continuing
         </p>
     </div>
@@ -18,7 +18,7 @@
         <div class="px-4 py-8 bg-white shadow sm:rounded-lg sm:px-10">
             <form wire:submit.prevent="confirm">
                 <div>
-                    <label for="password" class="block text-sm font-medium text-gray-700 leading-5">
+                    <label for="password" class="block text-sm font-medium leading-5 text-gray-700">
                         Password
                     </label>
 
@@ -36,7 +36,7 @@
                 <div class="flex items-center justify-end mt-6">
                     <div class="text-sm leading-5">
                         <a href="{{ route('password.request') }}"
-                            class="font-medium text-indigo-600 hover:text-indigo-500 focus:outline-none focus:underline transition ease-in-out duration-150">
+                            class="font-medium text-indigo-600 transition duration-150 ease-in-out hover:text-indigo-500 focus:outline-none focus:underline">
                             Forgot your password?
                         </a>
                     </div>
@@ -45,7 +45,7 @@
                 <div class="mt-6">
                     <span class="block w-full rounded-md shadow-sm">
                         <button type="submit"
-                            class="flex justify-center w-full px-4 py-2 text-sm font-medium text-white bg-indigo-600 border border-transparent rounded-md hover:bg-indigo-500 focus:outline-none focus:border-indigo-700 focus:ring-indigo active:bg-indigo-700 transition duration-150 ease-in-out">
+                            class="flex justify-center w-full px-4 py-2 text-sm font-medium text-white transition duration-150 ease-in-out bg-indigo-600 border border-transparent rounded-md hover:bg-indigo-500 focus:outline-none focus:border-indigo-700 focus:ring-indigo active:bg-indigo-700">
                             Confirm password
                         </button>
                     </span>

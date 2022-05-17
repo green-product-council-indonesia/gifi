@@ -29,7 +29,7 @@ class NotifAngketPenilaian extends Mailable
      */
     public function build()
     {
-        return $this->from('notif@gifi.or.id')
+        return $this->from('notif@gtri.or.id')
             ->view('components.notif-angket-penilaian')
             ->subject('Informasi Upload Dokumen Penilaian Sertifikasi')
             ->with(

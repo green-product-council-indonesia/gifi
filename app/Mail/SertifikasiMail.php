@@ -29,8 +29,8 @@ class SertifikasiMail extends Mailable
      */
     public function build()
     {
-        return $this->from('notif@gifi.or.id')
-            ->subject('Pendaftaran Sertifikasi Green Infrastructure and Facilities Indonesia')
+        return $this->from('notif@gtri.or.id')
+            ->subject('Pendaftaran Sertifikasi Green Toll Road Indonesia')
             ->view('components.sertifikasi-mail')
             ->with(
                 [

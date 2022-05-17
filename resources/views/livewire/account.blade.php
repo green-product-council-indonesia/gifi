@@ -80,5 +80,7 @@
             @endhasanyrole
         </div>
     </div>
-    <div class="absolute bottom-0 right-0 p-2 text-xs text-gray-600">Developed by -</div>
+    <div class="absolute bottom-0 right-0 p-2 text-xs text-gray-600">Developed by - <a
+            href="https://github.com/Nassabiq" class="font-semibold text-gray-700 hover:text-gray-600 ">Nassabiq</a>
+    </div>
 </div>
