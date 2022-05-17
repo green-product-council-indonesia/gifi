@@ -12,7 +12,7 @@
 
     <!-- Favicon -->
     {{-- <link rel="shortcut icon" href="{{ url(asset('favicon.ico')) }}"> --}}
-    <link rel="shortcut icon" href="{{ url(asset('img/gpci.png')) }}">
+    <link rel="shortcut icon" href="{{ url(asset('img/gtri.png')) }}">
 
     <!-- Fonts -->
     <link rel="stylesheet" href="https://rsms.me/inter/inter.css">
