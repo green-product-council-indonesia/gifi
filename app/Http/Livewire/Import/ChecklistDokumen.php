@@ -8,7 +8,7 @@ use Livewire\Component;
 
 class ChecklistDokumen extends Component
 {
-    public $categories, $category_name;
+    public $categories, $category, $docs;
 
     protected $listeners = [
         'tambahChecklist',
@@ -19,20 +19,27 @@ class ChecklistDokumen extends Component
     {
         $this->categories =  Category::get();
     }
+
+    // public function updatedCategory($value)
+    // {
+    //     // $this->reset('category');
+    // }
+
     public function render()
     {
-        $category = $this->category_name;
-        $docs = DocumentCategory::with(['dokumen' => function ($q) use ($category) {
-            $q->where('category_id', $category);
-        }, 'kategori' => function ($q) use ($category) {
-            $q->where('category_id', $category);
-        }])->whereHas('dokumen', function ($q) use ($category) {
+        $category = $this->category;
+        $this->docs = DocumentCategory::with([
+            'dokumen' => function ($q) use ($category) {
+                $q->where('category_id', $category);
+            },
+            'kategori' => function ($q) use ($category) {
+                $q->where('category_id', $category);
+            }
+        ])->whereHas('dokumen', function ($q) use ($category) {
             $q->where('category_id', $category);
         })->get();
 
-        return view('livewire.import.checklist-dokumen', [
-            'docs' => $docs
-        ])->extends('layouts.app');
+        return view('livewire.import.checklist-dokumen')->extends('layouts.app');
     }
 
     public function tambahChecklist()

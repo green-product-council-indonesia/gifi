@@ -8,11 +8,11 @@
     <div class="flex flex-col items-center justify-between mt-4 sm:flex-row">
         <div class="flex flex-col">
             <label class="mb-2 text-sm font-semibold">Select Jenis Sertifikasi</label>
-            <select wire:model="category_name"
+            <select wire:model.lazy="category"
                 class="w-full px-5 text-xs bg-white border border-gray-300 rounded-md shadow-sm appearance-none focus:outline-none focus:ring-green-400 focus:border-green-400">
                 <option value="">Select Jenis Sertifikasi</option>
-                @foreach ($categories as $category)
-                    <option value="{{ $category->id }}">{{ $category->nama_kategori }}</option>
+                @foreach ($categories as $item)
+                    <option value="{{ $item->id }}">{{ $item->nama_kategori }}</option>
                 @endforeach
             </select>
         </div>
@@ -34,10 +34,13 @@
                 <tr>
                     <th scope="col"
                         class="w-1/12 px-6 py-4 text-xs font-medium tracking-wider text-left text-gray-800 uppercase border-r border-gray-300">
+                        No
+                    <th scope="col"
+                        class="w-1/12 px-6 py-4 text-xs font-medium tracking-wider text-left text-gray-800 uppercase border-r border-gray-300">
                         Kode
                     </th>
                     <th scope="col"
-                        class="w-8/12 px-6 py-4 text-xs font-medium tracking-wider text-left text-gray-800 uppercase border-r border-gray-300">
+                        class="w-7/12 px-6 py-4 text-xs font-medium tracking-wider text-left text-gray-800 uppercase border-r border-gray-300">
                         Nama Dokumen Checklist
                     </th>
                     <th scope="col"
@@ -50,11 +53,11 @@
                 </tr>
             </thead>
             <tbody class="text-sm bg-white divide-y divide-gray-200" x-data="{ show: 0 }">
-                @if (!empty($category_name))
-                    @forelse ($docs as $key => $doc)
+                @if (!empty($category))
+                    @forelse ($docs as $doc)
                         <tr wire:loading.remove wire:target="previousPage, nextPage, gotoPage">
-                            <td class="px-6 py-4 font-semibold bg-gray-100" colspan="2">
-                                {{ $doc->nama_kategori_dokumen }}
+                            <td class="px-6 py-4 font-semibold bg-gray-100" colspan="3">
+                                {{ $doc->nama_kategori_dokumen }} {{ $doc->id }}
                             </td>
                             <td class="px-6 py-4 font-semibold bg-gray-100">
                                 @foreach ($doc->kategori as $item)
@@ -64,11 +67,12 @@
                                 @endforeach
                             </td>
                             <td class="px-6 py-4 font-semibold bg-gray-100 flex justify-end">
-                                <button @click="show = {{ $key + 1 }}"
+                                <button @click="show = {{ $doc->id }}"
                                     class="p-1 text-blue-400 border  border-blue-600 rounded-full focus:bg-blue-100 hover:text-blue-800"
-                                    :aria-expanded="show == {{ $key + 1 }} ? 'true' : 'false'">
+                                    :aria-expanded="show == {{ $doc->id }} ? 'true' : 'false'">
                                     <svg xmlns="http://www.w3.org/2000/svg"
-                                        :class="show == {{ $key + 1 }} ? ' rotate-90 duration-300' : 'rotate-0 duration-300'"
+                                        :class="show == {{ $doc->id }} ? ' rotate-90 duration-300' :
+                                            'rotate-0 duration-300'"
                                         class="w-4 h-4 transform" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                                             d="M9 5l7 7-7 7" />
@@ -76,10 +80,14 @@
                                 </button>
                             </td>
                         </tr>
-                        @foreach ($doc->dokumen as $item)
-                            <tr class="tracking-wide" wire:loading.remove x-show="show == {{ $key + 1 }}"
+                        @foreach ($doc->dokumen as $index => $item)
+                            <tr class="tracking-wide" wire:loading.remove x-show="show === {{ $doc->id }}"
                                 @click.away="show = 0" wire:target="previousPage, nextPage, gotoPage">
-                                <td class="px-4 py-2 text-xs font-medium md:w-1/12 border border-gray-100">
+                                <td
+                                    class="px-4 py-2 text-center text-xs font-semibold md:w-1/12 border border-gray-100">
+                                    {{ $index + 1 }}
+                                </td>
+                                <td class="px-4 py-2 text-center text-xs font-medium md:w-1/12 border border-gray-100">
                                     {{ $item->kode }}
                                 </td>
                                 <td class="px-4 py-2 text-xs font-medium md:w-8/12 border border-gray-100">
@@ -89,6 +97,8 @@
                                     class="px-4 py-2 text-center text-xs font-semibold md:w-1/12 border border-gray-100">
                                     @if ($item->bobot != 0)
                                         {{ $item->bobot }}
+                                    @else
+                                        -
                                     @endif
                                 </td>
                                 <td class="text-sm py-2 px-4 font-semibold  md:w-2/12">
@@ -109,7 +119,7 @@
                         @endforeach
                     @empty
                         <tr>
-                            <td colspan="4">
+                            <td colspan="5">
                                 <div class="flex items-center justify-center gap-4 py-20 font-semibold text-center">
                                     <svg xmlns="http://www.w3.org/2000/svg" class="w-12 h-12 text-yellow-500"
                                         viewBox="0 0 20 20" fill="currentColor">
@@ -126,7 +136,7 @@
                     @endforelse
                 @else
                     <tr>
-                        <td colspan="4">
+                        <td colspan="5">
                             <div class="flex items-center justify-center gap-4 py-20 font-semibold text-center">
                                 <svg xmlns="http://www.w3.org/2000/svg" class="w-12 h-12 text-blue-600"
                                     viewBox="0 0 20 20" fill="currentColor">

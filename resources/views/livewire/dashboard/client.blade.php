@@ -107,7 +107,7 @@
     </div>
     <div class="col-span-12 space-y-4 md:col-span-5">
         <div class="p-4 bg-white border-l-4 border-purple-500 rounded-md shadow-lg">
-            <p class="text-lg font-semibold">Sertifikasi dalam penilaian</p>
+            <p class="text-lg font-semibold">Sertifikasi sudah disertifikasi</p>
 
             @forelse ($data_is_approved as $item)
                 @if ($loop->iteration > 3)
@@ -119,11 +119,6 @@
                         <p class="text-2xl font-bold">{{ $item->nama_ruas }}</p>
 
                     </div>
-                    <p class="text-xs text-right text-white md:text-left">
-                        <span class="px-1 bg-yellow-500 rounded-lg">
-                            dalam penilaian
-                        </span>
-                    </p>
                 </div>
                 <p class="text-xs font-light tracking-wider text-gray-700">
                     {{ \Carbon\Carbon::parse($item->tgl_approve)->locale('id')->diffForHumans() }}
