@@ -57,7 +57,7 @@
                     @forelse ($docs as $doc)
                         <tr wire:loading.remove wire:target="previousPage, nextPage, gotoPage">
                             <td class="px-6 py-4 font-semibold bg-gray-100" colspan="3">
-                                {{ $doc->nama_kategori_dokumen }} {{ $doc->id }}
+                                {{ $doc->nama_kategori_dokumen }}
                             </td>
                             <td class="px-6 py-4 font-semibold bg-gray-100">
                                 @foreach ($doc->kategori as $item)

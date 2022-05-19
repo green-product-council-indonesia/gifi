@@ -108,6 +108,6 @@
         </table>
     </div>
     <div class="mt-4">
-        {{-- {{ $perusahaan->links() }} --}}
+        {{ $data->links() }}
     </div>
 </div>

@@ -102,9 +102,6 @@
                                     class="px-2 py-1 text-sm text-white bg-blue-600 rounded-lg hover:bg-blue-500">
                                     Approve
                                 </button>
-                                {{-- <button class="px-2 py-1 text-sm text-white bg-red-600 rounded-lg hover:bg-red-500">
-                                    Reject
-                                </button> --}}
                             @endif
                         </td>
                     </tr>

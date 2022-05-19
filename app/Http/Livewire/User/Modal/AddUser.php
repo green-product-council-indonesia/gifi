@@ -32,7 +32,7 @@ class AddUser extends ModalComponent
         $user = User::create([
             'name' => $this->name,
             'email' => $this->email,
-            'password' => bcrypt('gpci12345'),
+            'password' => bcrypt('gtri12345'),
             'status' => 1
         ]);
         $user->assignRole($this->role);

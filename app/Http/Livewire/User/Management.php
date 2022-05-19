@@ -19,8 +19,6 @@ class Management extends Component
     {
         $search = '%' . $this->search . '%';
         $status = '%' . $this->status . '%';
-        $role = '%' . $this->role . '%';
-        // $role = $this->role;
 
         $users = User::with('roles')
             ->whereHas("roles", function ($q) {
