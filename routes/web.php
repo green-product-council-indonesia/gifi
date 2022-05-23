@@ -65,12 +65,11 @@ Route::middleware('auth')->group(function () {
     Route::prefix('sertifikasi')->group(function () {
         Route::group(['middleware' => ['role:client|super-admin']], function () {
             Route::get('/pendaftaran', Pendaftaran::class)->name('pendaftaran-sertifikasi');
-
-            Route::get('/data/{id}/{slug}', DetailData::class);
             Route::get('/dokumen', Dokumen::class)->name('dokumen-sertifikasi');
         });
-        Route::group(['middleware' => ['role:admin|super-admin']], function () {
+        Route::group(['middleware' => ['role:client|super-admin|admin']], function () {
             Route::get('/data', Data::class)->name('data-sertifikasi');
+            Route::get('/data/{id}/{slug}', DetailData::class);
         });
     });
 
