@@ -30,7 +30,7 @@
             <div class="col-span-2 mt-4 md:mt-0 md:col-span-1">
                 <p class="text-sm text-center">
                     Dokumen yang diperbolehkan harus berbentuk <b>PDF</b> <br> dan setiap dokumen memiliki ukuran
-                    maksimal 5MB
+                    maksimal 15MB
                 </p>
             </div>
         </div>

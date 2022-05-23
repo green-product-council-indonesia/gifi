@@ -66,9 +66,9 @@
                                     @endif
                                 @endforeach
                             </td>
-                            <td class="px-6 py-4 font-semibold bg-gray-100 flex justify-end">
+                            <td class="flex justify-end px-6 py-4 font-semibold bg-gray-100">
                                 <button @click="show = {{ $doc->id }}"
-                                    class="p-1 text-blue-400 border  border-blue-600 rounded-full focus:bg-blue-100 hover:text-blue-800"
+                                    class="p-1 text-blue-400 border border-blue-600 rounded-full focus:bg-blue-100 hover:text-blue-800"
                                     :aria-expanded="show == {{ $doc->id }} ? 'true' : 'false'">
                                     <svg xmlns="http://www.w3.org/2000/svg"
                                         :class="show == {{ $doc->id }} ? ' rotate-90 duration-300' :
@@ -84,33 +84,33 @@
                             <tr class="tracking-wide" wire:loading.remove x-show="show === {{ $doc->id }}"
                                 @click.away="show = 0" wire:target="previousPage, nextPage, gotoPage">
                                 <td
-                                    class="px-4 py-2 text-center text-xs font-semibold md:w-1/12 border border-gray-100">
+                                    class="px-4 py-2 text-xs font-semibold text-center border border-gray-100 md:w-1/12">
                                     {{ $index + 1 }}
                                 </td>
-                                <td class="px-4 py-2 text-center text-xs font-medium md:w-1/12 border border-gray-100">
+                                <td class="px-4 py-2 text-xs font-medium text-center border border-gray-100 md:w-1/12">
                                     {{ $item->kode }}
                                 </td>
-                                <td class="px-4 py-2 text-xs font-medium md:w-8/12 border border-gray-100">
+                                <td class="px-4 py-2 text-xs font-medium border border-gray-100 md:w-8/12">
                                     {{ $item->nama_dokumen }}
                                 </td>
                                 <td
-                                    class="px-4 py-2 text-center text-xs font-semibold md:w-1/12 border border-gray-100">
+                                    class="px-4 py-2 text-xs font-semibold text-center border border-gray-100 md:w-1/12">
                                     @if ($item->bobot != 0)
                                         {{ $item->bobot }}
                                     @else
                                         -
                                     @endif
                                 </td>
-                                <td class="text-sm py-2 px-4 font-semibold  md:w-2/12">
-                                    <div class="flex  justify-center space-x-2">
+                                <td class="px-4 py-2 text-sm font-semibold md:w-2/12">
+                                    <div class="flex justify-center space-x-2">
                                         <button
                                             wire:click="$emit('openModal', 'import.modal.edit-checklist', {{ json_encode(['id' => $item->id]) }})"
-                                            class="px-3 py-1 text-white text-xs bg-green-600 rounded-md hover:bg-green-700">
+                                            class="px-3 py-1 text-xs text-white bg-green-600 rounded-md hover:bg-green-700">
                                             Edit
                                         </button>
                                         <button
                                             wire:click="$emit('openModal', 'import.modal.delete-checklist', {{ json_encode(['id' => $item->id]) }})"
-                                            class="px-3 py-1 text-white text-xs bg-red-600 rounded-md hover:bg-red-700">
+                                            class="px-3 py-1 text-xs text-white bg-red-600 rounded-md hover:bg-red-700">
                                             Delete
                                         </button>
                                     </div>
