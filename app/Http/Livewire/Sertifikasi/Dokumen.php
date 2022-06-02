@@ -59,7 +59,7 @@ class Dokumen extends Component
 
         if ($doc->type == 'file') {
             $this->validate([
-                'nama_dokumen' => 'file|mimes:pdf|max:15500',
+                'nama_dokumen' => 'file|mimes:pdf|max:110000',
             ], [
                 'nama_dokumen.max' => 'Dokumen harus berukuran maksimal 15MB',
                 'nama_dokumen.mimes' => 'Dokumen harus berbentuk PDF',
