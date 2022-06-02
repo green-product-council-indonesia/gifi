@@ -104,6 +104,9 @@
                                         {{ $doc->nama_dokumen }}
                                     </td>
                                     @if ($doc->pivot->nama_dokumen == null)
+                                        @php
+                                            preg_match("/(?:\w+(?:\W+|$)){0,5}/", $doc->nama_dokumen, $matches);
+                                        @endphp
                                         @if ($doc->type == 'file')
                                             <td>
                                                 <input type="file" wire:model.lazy="nama_dokumen">
@@ -119,7 +122,7 @@
                                                 wire:loading.class="animate-pulse"
                                                 wire:target="uploadDokumen({{ $doc->id }}), nama_dokumen"
                                                 class="flex items-center justify-between px-2 py-1 mx-1 text-xs text-blue-500 bg-transparent border-2 border-blue-500 rounded-md focus:ring-blue-500 hover:bg-blue-500 hover:text-white"
-                                                wire:click="uploadDokumen({{ $doc->id }})">
+                                                wire:click="uploadDokumen({{ $doc->id }}, '{{ Str::replace(')', '', str_replace('(', '', $matches[0])) }}')">
 
                                                 <span wire:loading
                                                     wire:target="uploadDokumen({{ $doc->id }}), nama_dokumen"
