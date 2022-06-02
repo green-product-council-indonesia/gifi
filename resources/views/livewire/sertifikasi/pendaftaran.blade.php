@@ -82,10 +82,10 @@
                             </div>
                             <!-- Jenis Sertifikasi -->
                             <div class="col-span-12 sm:col-span-6 md:col-span-3">
-                                <label for="category_id" class="label">Jenis Sertifikasi</label>
+                                <label for="category_id" class="label">Kategori Tol yang disertifikasi</label>
                                 <select id="category_id" name="category_id" class="form-input"
                                     wire:model="category_id">
-                                    <option value="" selected>Jenis Sertifikasi ... </option>
+                                    <option value="" selected>Kategori Tol yang disertifikasi ... </option>
                                     <option value="1">New</option>
                                     <option value="2">Existing</option>
                                 </select>
@@ -95,10 +95,10 @@
                             </div>
                             <!-- Tipe Sertifikasi -->
                             <div class="col-span-12 sm:col-span-6 md:col-span-3">
-                                <label class="label">Tipe Pengajuan</label>
+                                <label class="label">Jenis Pengajuan</label>
                                 <select id="tipe_sertifikasi" name="tipe_sertifikasi" class="form-input"
                                     wire:model="tipe_sertifikasi">
-                                    <option value="" selected>Tipe Pengajuan Sertifikasi ... </option>
+                                    <option value="" selected>Jenis Pengajuan Sertifikasi ... </option>
                                     <option value="1">Pengajuan Baru</option>
                                     <option value="2">Perpanjangan</option>
                                 </select>
