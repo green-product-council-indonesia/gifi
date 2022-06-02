@@ -47,7 +47,7 @@
         </div>
         <div class="col-span-12 md:col-span-7">
             <div class="p-4 bg-white border-t-4 border-indigo-500 rounded-md shadow-lg">
-                <p class="text-xl font-semibold">Brand Tersertifikasi</p>
+                <p class="text-xl font-semibold">Konsesi Tersertifikasi</p>
                 @forelse ($data_is_approved as $item)
                     @if ($loop->iteration > 5)
                     @break
