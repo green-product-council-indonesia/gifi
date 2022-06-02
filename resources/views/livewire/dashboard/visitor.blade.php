@@ -10,7 +10,7 @@
                 <div>
                     <p class="text-4xl font-bold">{{ $brand }}</p>
                     <p class="text-xs tracking-wider text-gray-600">
-                        Brand yang belum dinilai
+                        Konsesi yang belum dinilai
                     </p>
                 </div>
             </div>

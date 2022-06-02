@@ -48,7 +48,7 @@
         <div class="col-span-12 md:col-span-7">
             <div class="p-4 bg-white border-l-2 border-indigo-500 rounded-md shadow-lg md:border-l-0 md:border-t-2">
                 <div class="justify-between mb-2 space-y-2 md:flex">
-                    <p class="text-xl font-semibold">Brand Terdaftar</p>
+                    <p class="text-xl font-semibold">Konsesi Terdaftar</p>
                     <a href="{{ route('data-sertifikasi') }}"
                         class="float-right px-3 py-1 text-sm tracking-wide text-white bg-indigo-500 rounded-md hover:bg-indigo-600 ">
                         View All
