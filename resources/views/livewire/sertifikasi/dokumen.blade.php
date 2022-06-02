@@ -109,7 +109,10 @@
                                         @endphp
                                         @if ($doc->type == 'file')
                                             <td>
-                                                <input type="file" wire:model.lazy="nama_dokumen">
+                                                <input type="file" wire:model="nama_dokumen">
+
+                                                <div wire:loading wire:target="nama_dokumen"
+                                                    class="mt-2 text-xs text-green-500">Uploading...</div>
                                             </td>
                                         @else
                                             <td>
@@ -124,9 +127,6 @@
                                                 class="flex items-center justify-between px-2 py-1 mx-1 text-xs text-blue-500 bg-transparent border-2 border-blue-500 rounded-md focus:ring-blue-500 hover:bg-blue-500 hover:text-white"
                                                 wire:click="uploadDokumen({{ $doc->id }}, '{{ Str::replace(')', '', str_replace('(', '', $matches[0])) }}')">
 
-                                                <span wire:loading
-                                                    wire:target="uploadDokumen({{ $doc->id }}), nama_dokumen"
-                                                    wire:loading.delay>Loading</span>
                                                 <span wire:loading.remove
                                                     wire:target="uploadDokumen({{ $doc->id }}), nama_dokumen">
                                                     Upload
