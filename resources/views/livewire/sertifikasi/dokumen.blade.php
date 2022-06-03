@@ -149,11 +149,18 @@
                                                     class="px-2 py-1 text-xs text-white bg-indigo-500 rounded-md hover:bg-indigo-600">
                                                     Edit
                                                 </button>
-                                                <a href="{{ asset('storage/checklist-dokumen/' . $item->nama_bujt . '/' . $item->nama_ruas . '/' . $doc->pivot->nama_dokumen) }}"
-                                                    target="_blank"
-                                                    class="px-2 py-1 text-xs text-white bg-green-500 rounded-md hover:bg-green-600">
-                                                    Preview
-                                                </a>
+                                                @if ($doc->type == 'file')
+                                                    <a href="{{ asset('storage/checklist-dokumen/' . $item->nama_bujt . '/' . $item->nama_ruas . '/' . $doc->pivot->nama_dokumen) }}"
+                                                        target="_blank"
+                                                        class="px-2 py-1 text-xs text-white bg-green-500 rounded-md hover:bg-green-600">
+                                                        Preview
+                                                    </a>
+                                                @else
+                                                    <a href="{{ $doc->pivot->nama_dokumen }}" target="_blank"
+                                                        class="px-2 py-1 text-xs text-white bg-green-500 rounded-md hover:bg-green-600">
+                                                        Preview
+                                                    </a>
+                                                @endif
                                             @endif
                                         </td>
                                     @endif
