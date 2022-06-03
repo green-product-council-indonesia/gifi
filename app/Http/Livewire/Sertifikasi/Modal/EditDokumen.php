@@ -40,10 +40,10 @@ class EditDokumen extends ModalComponent
 
         if ($doc->type == 'file') {
             $this->validate([
-                'nama_dokumen' => 'mimes:pdf,jpg,jpeg,png|max:5500',
+                'nama_dokumen' => 'mimes:pdf|max:102400',
             ], [
-                'nama_dokumen.max' => 'Dokumen harus berukuran maksimal 5MB',
-                'nama_dokumen.mimes' => 'Dokumen harus berbentuk JPG, JPEG atau PDF',
+                'nama_dokumen.max' => 'Dokumen harus berukuran maksimal 15MB',
+                'nama_dokumen.mimes' => 'Dokumen harus berbentuk PDF',
             ]);
 
             $file = $this->nama_dokumen;
