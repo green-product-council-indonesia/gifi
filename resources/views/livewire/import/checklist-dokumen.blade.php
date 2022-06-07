@@ -71,8 +71,7 @@
                                 @endforeach
                             </td>
                             <td class="flex justify-end px-6 py-4 font-semibold bg-gray-100">
-                                <button
-                                    @click="show !== {{ $doc->id }} ? show === {{ $doc->id }} : show === 0 "
+                                <button @click="show = {{ $doc->id }}"
                                     class="p-1 text-blue-400 border border-blue-600 rounded-full focus:bg-blue-100 hover:text-blue-800"
                                     :aria-expanded="show == {{ $doc->id }} ? 'true' : 'false'">
                                     <svg xmlns="http://www.w3.org/2000/svg"
@@ -87,7 +86,7 @@
                         </tr>
                         @foreach ($doc->dokumen as $index => $item)
                             <tr class="tracking-wide" wire:loading.remove x-show="show === {{ $doc->id }}"
-                                wire:target="previousPage, nextPage, gotoPage">
+                                @click.away="show = 0" wire:target="previousPage, nextPage, gotoPage">
                                 <td
                                     class="px-4 py-2 text-xs font-semibold text-center border border-gray-100 md:w-1/12">
                                     {{ $index + 1 }}
