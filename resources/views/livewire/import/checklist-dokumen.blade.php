@@ -47,6 +47,10 @@
                         class="w-1/12 px-6 py-4 text-xs font-medium tracking-wider text-left text-gray-800 uppercase border-r border-gray-300">
                         Bobot
                     </th>
+                    <th scope="col"
+                        class="w-1/12 px-6 py-4 text-xs font-medium tracking-wider text-left text-gray-800 uppercase border-r border-gray-300">
+                        Tipe
+                    </th>
                     <th scope="col" class="relative w-2/12 px-6 py-3">
                         <span class="sr-only">Action</span>
                     </th>
@@ -56,7 +60,7 @@
                 @if (!empty($category))
                     @forelse ($docs as $doc)
                         <tr wire:loading.remove wire:target="previousPage, nextPage, gotoPage">
-                            <td class="px-6 py-4 font-semibold bg-gray-100" colspan="3">
+                            <td class="px-6 py-4 font-semibold bg-gray-100" colspan="4">
                                 {{ $doc->nama_kategori_dokumen }}
                             </td>
                             <td class="px-6 py-4 font-semibold bg-gray-100">
@@ -82,7 +86,7 @@
                         </tr>
                         @foreach ($doc->dokumen as $index => $item)
                             <tr class="tracking-wide" wire:loading.remove x-show="show === {{ $doc->id }}"
-                                @click.away="show = 0" wire:target="previousPage, nextPage, gotoPage">
+                                wire:target="previousPage, nextPage, gotoPage">
                                 <td
                                     class="px-4 py-2 text-xs font-semibold text-center border border-gray-100 md:w-1/12">
                                     {{ $index + 1 }}
@@ -90,7 +94,7 @@
                                 <td class="px-4 py-2 text-xs font-medium text-center border border-gray-100 md:w-1/12">
                                     {{ $item->kode }}
                                 </td>
-                                <td class="px-4 py-2 text-xs font-medium border border-gray-100 md:w-8/12">
+                                <td class="px-4 py-2 text-xs font-medium border border-gray-100 md:w-7/12">
                                     {{ $item->nama_dokumen }}
                                 </td>
                                 <td
@@ -100,6 +104,9 @@
                                     @else
                                         -
                                     @endif
+                                </td>
+                                <td class="px-4 py-2 text-xs font-medium text-center border border-gray-100 md:w-1/12">
+                                    {{ $item->type }}
                                 </td>
                                 <td class="px-4 py-2 text-sm font-semibold md:w-2/12">
                                     <div class="flex justify-center space-x-2">
