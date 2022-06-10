@@ -54,7 +54,8 @@
                         <!-- Alamat -->
                         <div class="col-span-12 sm:col-span-6">
                             <label class="label">Alamat Operasional</label>
-                            <textarea rows="4" class="block w-full px-2 py-3 mt-1 border border-gray-300 rounded-md shadow focus:ring-green-300 focus:ring-2 focus:border-green-200 focus:outline-none sm:text-sm"
+                            <textarea rows="4"
+                                class="block w-full px-2 py-3 mt-1 border border-gray-300 rounded-md shadow focus:ring-green-300 focus:ring-2 focus:border-green-200 focus:outline-none sm:text-sm"
                                 placeholder="Alamat Operasional" wire:model="alamat_operasional"></textarea>
                             @error('alamat_operasional')
                                 <span class="error">{{ $message }}</span>
@@ -155,6 +156,56 @@
                                 <span class="error">{{ $message }}</span>
                             @enderror
                         </div>
+
+                        {{-- Jumlah Jembatan --}}
+                        <div class="col-span-12 sm:col-span-6 md:col-span-3">
+                            <label class="label">Jumlah Jembatan</label>
+                            <input type="text" placeholder="Jumlah Jembatan" class="form-input"
+                                wire:model="jumlah_jembatan">
+                            @error('jumlah_jembatan')
+                                <span class="error">{{ $message }}</span>
+                            @enderror
+                        </div>
+
+                        {{-- Jumlah JPO --}}
+                        <div class="col-span-12 sm:col-span-6 md:col-span-3">
+                            <label class="label">Jumlah JPO</label>
+                            <input type="text" placeholder="Jumlah JPO" class="form-input" wire:model="jumlah_jpo">
+                            @error('jumlah_jpo')
+                                <span class="error">{{ $message }}</span>
+                            @enderror
+                        </div>
+
+                        {{-- Jumlah Underpass --}}
+                        <div class="col-span-12 sm:col-span-6 md:col-span-3">
+                            <label class="label">Jumlah Underpass</label>
+                            <input type="text" placeholder="Jumlah Underpass" class="form-input"
+                                wire:model="jumlah_underpass">
+                            @error('jumlah_underpass')
+                                <span class="error">{{ $message }}</span>
+                            @enderror
+                        </div>
+
+                        {{-- Jumlah Terowongan --}}
+                        <div class="col-span-12 sm:col-span-6 md:col-span-3">
+                            <label class="label">Jumlah Terowongan</label>
+                            <input type="text" placeholder="Jumlah Terowongan" class="form-input"
+                                wire:model="jumlah_terowongan">
+                            @error('jumlah_terowongan')
+                                <span class="error">{{ $message }}</span>
+                            @enderror
+                        </div>
+
+                        {{-- Jumlah Underpass Satwa --}}
+                        <div class="col-span-12 sm:col-span-6 md:col-span-3">
+                            <label class="label">Jumlah Underpass Satwa</label>
+                            <input type="text" placeholder="Jumlah Underpass Satwa" class="form-input"
+                                wire:model="jumlah_underpass_satwa">
+                            @error('jumlah_underpass_satwa')
+                                <span class="error">{{ $message }}</span>
+                            @enderror
+                        </div>
+
                         <div class="col-span-12">
                             <span class="text-lg font-medium">Contact Person:</span>
                         </div>

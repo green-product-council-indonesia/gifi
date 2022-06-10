@@ -227,6 +227,35 @@
                     </button>
                 </div>
             </div>
+            @error('score')
+                <div
+                    class="flex items-center justify-center px-2 py-1 mt-4 font-medium text-red-700 bg-red-100 border border-red-300 rounded-md">
+                    <div slot="avatar">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="100%" height="100%" fill="none" viewBox="0 0 24 24"
+                            stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+                            class="w-5 h-5 mx-2 feather feather-alert-octagon">
+                            <polygon points="7.86 2 16.14 2 22 7.86 22 16.14 16.14 22 7.86 22 2 16.14 2 7.86 7.86 2">
+                            </polygon>
+                            <line x1="12" y1="8" x2="12" y2="12"></line>
+                            <line x1="12" y1="16" x2="12.01" y2="16"></line>
+                        </svg>
+                    </div>
+                    <div class="items-center flex-initial max-w-full text-xl font-normal">
+                        <span class="error">{{ $message }}</span>
+                    </div>
+                    <div class="flex flex-row-reverse flex-auto">
+                        <div wire:click="resetError">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="100%" height="100%" fill="none"
+                                viewBox="0 0 24 24" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                                stroke-linejoin="round"
+                                class="w-5 h-5 ml-2 rounded-full cursor-pointer feather feather-x hover:text-red-400">
+                                <line x1="18" y1="6" x2="6" y2="18"></line>
+                                <line x1="6" y1="6" x2="18" y2="18"></line>
+                            </svg>
+                        </div>
+                    </div>
+                </div>
+            @enderror
 
             <div class="mt-4 overflow-hidden overflow-x-auto border border-gray-200 rounded-md shadow-md">
                 <table class="min-w-full divide-y divide-gray-200">
@@ -313,10 +342,10 @@
                                         @endswitch
                                     </td>
                                     <td class="py-4 font-semibold {{ $item->pivot->score ? 'px-6' : 'px-2' }} ">
-                                        @if ($item->pivot->score === null)
+                                        @if ($item->pivot->score == null && !is_null($item->pivot->nama_dokumen))
                                             <div class="flex gap-2">
                                                 <input type="text" class="form-input" placeholder="Score ..."
-                                                    wire:model.lazy="score">
+                                                    wire:model="score.{{ $item->id }}" :key="{{ $item->id }}">
                                                 <button type="button" wire:loading.attr="disabled"
                                                     class="mx-1 text-xs"
                                                     wire:click="assignScore({{ $item->id }}, '{{ $data->id }}')">
@@ -332,7 +361,7 @@
                                                 </button>
                                             </div>
                                         @else
-                                            {{ $item->pivot->score }}
+                                            {{ $item->pivot->score ? $item->pivot->score : '-' }}
                                         @endif
                                     </td>
                                     <td class="px-6 py-4 font-semibold">
@@ -343,11 +372,18 @@
                                     </td>
                                     <td class="px-2 py-4 space-y-2 font-semibold">
                                         @if (!is_null($item->pivot->nama_dokumen))
-                                            <a href="{{ asset('storage/checklist-dokumen/' . $data->nama_bujt . '/' . $data->nama_ruas . '/' . $item->pivot->nama_dokumen) }}"
-                                                target="_blank"
-                                                class="px-2 py-1 text-xs text-white bg-indigo-500 rounded-md shadow-lg hover:bg-indigo-600">
-                                                Preview
-                                            </a>
+                                            @if ($item->type == 'file')
+                                                <a href="{{ asset('storage/checklist-dokumen/' . $data->nama_bujt . '/' . $data->nama_ruas . '/' . $item->pivot->nama_dokumen) }}"
+                                                    target="_blank"
+                                                    class="px-2 py-1 text-xs text-white bg-indigo-500 rounded-md shadow-lg hover:bg-indigo-600">
+                                                    Preview
+                                                </a>
+                                            @else
+                                                <a href="{{ $item->pivot->nama_dokumen }}" target="_blank"
+                                                    class="px-2 py-1 text-xs text-white bg-green-500 rounded-md hover:bg-green-600">
+                                                    Preview
+                                                </a>
+                                            @endif
                                         @endif
                                         @hasanyrole('verifikator|super-admin')
                                             @if ($item->pivot->status !== 2)

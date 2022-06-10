@@ -14,7 +14,7 @@ class Dokumen extends Component
 {
     use WithFileUploads;
     public $data, $result, $ruas, $kategori, $categories;
-    public $nama_dokumen;
+    public $nama_dokumen = [];
 
     protected $listeners = [
         'editDokumen'
@@ -65,35 +65,38 @@ class Dokumen extends Component
                 'nama_dokumen.mimes' => 'Dokumen harus berbentuk PDF',
             ]);
 
-            $file = $this->nama_dokumen;
-            preg_match("/(?:\w+(?:\W+|$)){0,5}/", $doc->nama_dokumen, $matches);
+            foreach ($this->nama_dokumen as $id => $nama_dokumen) {
+                # code...
+                $file = $nama_dokumen;
+                preg_match("/(?:\w+(?:\W+|$)){0,5}/", $doc->nama_dokumen, $matches);
 
-            $nama_file = Str::slug($bujt->nama_ruas) . '-' . Str::slug($doc->kode) . '-' . Str::slug($matches[0]);
-            $data = $nama_file . '.' . $file->extension();
+                $nama_file = Str::slug($bujt->nama_ruas) . '-' . Str::slug($doc->kode) . '-' . Str::slug($matches[0]);
+                $data = $nama_file . '.' . $file->extension();
 
-            $path = 'storage/checklist-dokumen/' . $bujt->nama_bujt . '/' . $bujt->nama_ruas;
-            $filename = $path  . '/' . $data;
+                $path = 'storage/checklist-dokumen/' . $bujt->nama_bujt . '/' . $bujt->nama_ruas;
+                $filename = $path  . '/' . $data;
 
-            if (file_exists($filename)) {
-                unlink($filename);
+                if (file_exists($filename)) {
+                    unlink($filename);
+                }
+                $bujt->pivot->status = 1;
+                $bujt->pivot->nama_dokumen = $data;
+                $bujt->pivot->save();
+                $file->storeAs('checklist-dokumen/' . $bujt->nama_bujt . '/' . $bujt->nama_ruas, $data);
+                $this->nama_dokumen = [];
             }
-
-            $bujt->pivot->status = 1;
-            $bujt->pivot->nama_dokumen = $data;
-            $bujt->pivot->save();
-
-            $file->storeAs('checklist-dokumen/' . $bujt->nama_bujt . '/' . $bujt->nama_ruas, $data);
-            $this->nama_dokumen = null;
         } else {
             $this->validate([
-                'nama_dokumen' => 'required',
+                'nama_dokumen.*' => 'required',
             ], [
-                'nama_dokumen.required' => 'Dokumen kosong, harap diisi',
+                'nama_dokumen.*.required' => 'Dokumen kosong, harap diisi',
             ]);
 
-            $bujt->pivot->status = 1;
-            $bujt->pivot->nama_dokumen = $this->nama_dokumen;
-            $bujt->pivot->save();
+            foreach ($this->nama_dokumen as $id => $nama_dokumen) {
+                $bujt->pivot->status = 1;
+                $bujt->pivot->nama_dokumen = $nama_dokumen;
+                $bujt->pivot->save();
+            }
         }
 
         $this->dispatchBrowserEvent(

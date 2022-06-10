@@ -15,7 +15,7 @@ class Pendaftaran extends Component
 {
     public $currentStep = 1;
 
-    public $nama_bujt, $alamat_operasional, $email_operasional, $noTelp_operasional, $kodePos_operasional, $nama_ruas, $panjang_ruas,  $category_id, $jumlah_rest_area, $jumlah_gerbang_tol, $tgl_mulai_operasional, $tipe_sertifikasi;
+    public $nama_bujt, $alamat_operasional, $email_operasional, $noTelp_operasional, $kodePos_operasional, $nama_ruas, $panjang_ruas,  $category_id, $jumlah_rest_area, $jumlah_gerbang_tol, $jumlah_jembatan, $jumlah_jpo, $jumlah_underpass, $jumlah_terowongan, $jumlah_underpass_satwa,  $tgl_mulai_operasional, $tipe_sertifikasi;
 
     public $nama, $jabatan, $no_hp, $email;
     public $nama2, $jabatan2, $no_hp2, $email2;
@@ -43,8 +43,7 @@ class Pendaftaran extends Component
         'required' => 'kolom :attribute kosong, harap diisi',
         'min' => ':attribute harus diisi minimal :min karakter',
         'max' => ':attribute harus diisi maksimal :max karakter',
-        'numeric' => ':attribute harus berupa angka',
-        'unique:companies' => ':attribute sudah digunakan, silahkan gunakan email yang lain'
+        'numeric' => 'kolom ini harus berupa angka',
     ];
     public function firstStep()
     {
@@ -60,6 +59,11 @@ class Pendaftaran extends Component
             'category_id' => 'required',
             'jumlah_rest_area' => 'required|numeric',
             'jumlah_gerbang_tol' => 'required|numeric',
+            'jumlah_jembatan' => 'required|numeric',
+            'jumlah_jpo' => 'required|numeric',
+            'jumlah_underpass' => 'required|numeric',
+            'jumlah_terowongan' => 'required|numeric',
+            'jumlah_underpass_satwa' => 'required|numeric',
             'tipe_sertifikasi' => 'required',
 
             'nama' => 'required',
@@ -103,8 +107,15 @@ class Pendaftaran extends Component
                 'panjang_ruas' => $this->panjang_ruas,
                 'tgl_mulai_operasional' => Carbon::parse($this->tgl_mulai_operasional),
                 'category_id' => $this->category_id,
+
                 'jumlah_rest_area' => $this->jumlah_rest_area,
                 'jumlah_gerbang_tol' => $this->jumlah_gerbang_tol,
+                'jumlah_jembatan' => $this->jumlah_jembatan,
+                'jumlah_jpo' => $this->jumlah_jpo,
+                'jumlah_underpass' => $this->jumlah_underpass,
+                'jumlah_terowongan' => $this->jumlah_terowongan,
+                'jumlah_underpass_satwa' => $this->jumlah_underpass_satwa,
+
                 'tipe_sertifikasi' => $this->tipe_sertifikasi,
                 'tgl_pendaftaran' => Carbon::now(),
                 'contact' => json_encode($contact, 128),

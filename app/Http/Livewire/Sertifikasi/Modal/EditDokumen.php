@@ -12,12 +12,20 @@ use Illuminate\Support\Str;
 class EditDokumen extends ModalComponent
 {
     use WithFileUploads;
-    public $doc_id, $ruas, $document, $data, $nama_dokumen;
+    public $doc, $doc_id, $ruas, $document, $data, $nama_dokumen;
 
     public function mount($id, $data)
     {
         $this->doc_id =  $id;
         $this->ruas =  $data;
+
+        $this->doc = Document::with(['registration' => function ($q) {
+            $q->where('registrations.id', $this->ruas);
+        }])->findOrFail($this->doc_id);
+
+        if ($this->doc->type == 'url') {
+            $this->nama_dokumen = $this->doc->registration[0]->pivot->nama_dokumen;
+        }
     }
 
     public function render()
@@ -32,10 +40,10 @@ class EditDokumen extends ModalComponent
 
     public function upload($id)
     {
+
         $doc = Document::with(['registration' => function ($q) {
             $q->where('registrations.id', $this->ruas);
         }])->findOrFail($id);
-
         $bujt = $doc->registration[0];
 
         if ($doc->type == 'file') {

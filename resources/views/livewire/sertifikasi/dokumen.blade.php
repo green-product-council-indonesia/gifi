@@ -109,28 +109,26 @@
                                         @endphp
                                         @if ($doc->type == 'file')
                                             <td>
-                                                <input type="file" wire:model="nama_dokumen">
+                                                <input type="file" wire:model="nama_dokumen.{{ $doc->id }}"
+                                                    :key="{{ $doc->id }}">
 
-                                                <div wire:loading wire:target="nama_dokumen"
-                                                    class="mt-2 text-xs text-green-500">Uploading...</div>
+                                                <div wire:loading wire:target="nama_dokumen.{{ $doc->id }}"
+                                                    class="mt-2 text-xs text-green-500 animate-pulse">Uploading...</div>
                                             </td>
                                         @else
                                             <td>
                                                 <input type="text" class="form-input" placeholder="Url dokumen ..."
-                                                    wire:model.lazy="nama_dokumen">
+                                                    wire:model="nama_dokumen.{{ $doc->id }}"
+                                                    :key="{{ $doc->id }}">
                                             </td>
                                         @endif
                                         <td class="px-6 py-4 text-center">
                                             <button type="button" wire:loading.attr="disabled"
-                                                wire:loading.class="animate-pulse"
-                                                wire:target="uploadDokumen({{ $doc->id }}), nama_dokumen"
                                                 class="flex items-center justify-between px-2 py-1 mx-1 text-xs text-blue-500 bg-transparent border-2 border-blue-500 rounded-md focus:ring-blue-500 hover:bg-blue-500 hover:text-white"
+                                                wire:loading.class="animate-pulse"
                                                 wire:click="uploadDokumen({{ $doc->id }}, '{{ Str::replace(')', '', str_replace('(', '', $matches[0])) }}')">
 
-                                                <span wire:loading.remove
-                                                    wire:target="uploadDokumen({{ $doc->id }}), nama_dokumen">
-                                                    Upload
-                                                </span>
+                                                Upload
                                             </button>
                                         </td>
                                     @else
@@ -164,21 +162,21 @@
                                             @endif
                                         </td>
                                     @endif
-                                    <td class="px-6 py-4 font-semibold text-center">
+                                    <td class="px-6 py-4 font-semibold text-center whitespace-nowrap">
                                         @switch($doc->pivot->status)
                                             @case(0)
-                                                <p class="px-0 py-0 mx-0 text-xs text-white bg-red-500 rounded-lg">
+                                                <p class="px-1 py-0 mx-0 text-xs text-white bg-red-500 rounded-lg">
                                                     kosong</p>
                                             @break
 
                                             @case(1)
-                                                <p class="px-0 py-0 mx-0 text-xs text-white bg-yellow-500 rounded-lg">
+                                                <p class="px-1 py-0 mx-0 text-xs text-white bg-yellow-500 rounded-lg">
                                                     Belum
                                                     diapprove</p>
                                             @break
 
                                             @case(2)
-                                                <p class="px-0 py-0 mx-0 text-xs text-white bg-green-500 rounded-lg">
+                                                <p class="px-1 py-0 mx-0 text-xs text-white bg-green-500 rounded-lg">
                                                     Approved</p>
                                             @break
 

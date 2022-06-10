@@ -19,7 +19,7 @@ class DetailSertifikasi extends Component
 
     use WithFileUploads;
     public $categories;
-    public $data_id, $slug, $kategori, $score;
+    public $data_id, $slug, $kategori, $score = [];
 
     public $laporan_ringkas_verifikasi, $rekomendasi;
 
@@ -100,9 +100,10 @@ class DetailSertifikasi extends Component
             'score.required' => 'Kolom harus diisi',
             'score.numeric' => 'Kolom harus berupa angka',
         ]);
-
-        $bujt->pivot->score = $this->score;
-        $bujt->pivot->save();
+        foreach ($this->score as $id => $score) {
+            $bujt->pivot->score = $score;
+            $bujt->pivot->save();
+        }
 
         $this->dispatchBrowserEvent(
             'alert',
@@ -111,6 +112,8 @@ class DetailSertifikasi extends Component
                 'message' => 'Berhasil!'
             ]
         );
+
+        $this->score = [];
         activity()->log('User ' . Auth::user()->name . ' Meng-upload Score di Checklist Dokumen ');
         return back();
     }
@@ -225,5 +228,9 @@ class DetailSertifikasi extends Component
     }
     public function editScore()
     {
+    }
+    public function resetError()
+    {
+        $this->resetErrorBag();
     }
 }

@@ -17,13 +17,19 @@
         <div class="grid grid-cols-12 gap-4 p-8">
 
             <div class="col-span-12">
-                <div class="flex justify-between gap-2">
-                    <div class="input text-xs">
+                <div class="input text-xs">
+                    @if ($doc->type == 'file')
                         <input type="file" wire:model="nama_dokumen">
-                        @error('nama_dokumen')
-                            <span class="error">{{ $message }}</span>
-                        @enderror
-                    </div>
+                        <div wire:loading wire:target="nama_dokumen" class="mt-2 text-xs text-green-500">
+                            Uploading...</div>
+                    @else
+                        <label for="category_id" class="label">Nama Dokumen</label>
+                        <input type="text" class="form-input" placeholder="Url dokumen ..."
+                            wire:model.lazy="nama_dokumen">
+                    @endif
+                    @error('nama_dokumen')
+                        <span class="error">{{ $message }}</span>
+                    @enderror
                 </div>
             </div>
         </div>
@@ -31,14 +37,9 @@
     </div>
     <div class="flex justify-end px-4 py-3 space-x-4 bg-gray-50">
         <button type="button" wire:loading.attr="disabled" wire:loading.class="animate-pulse"
-            wire:target="upload({{ $doc_id }}), nama_dokumen" wire:click="upload({{ $doc_id }})"
+            wire:click="upload({{ $doc_id }})"
             class="inline-flex justify-center w-full px-4 py-2 mt-3 text-xs font-medium text-blue-700 bg-white border border-blue-500 rounded-md shadow-sm hover:bg-blue-500 hover:text-white focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 sm:mt-0 sm:ml-3 sm:w-auto sm:text-sm">
-            <span wire:loading wire:target="upload({{ $doc_id }}), nama_dokumen" wire:loading.delay>
-                Loading
-            </span>
-            <span wire:loading.remove wire:target="upload({{ $doc_id }}), nama_dokumen">
-                Upload
-            </span>
+            Update
         </button>
         <button type="button" wire:click.prevent="$emit('closeModal')"
             class="inline-flex justify-center w-full px-4 py-2 mt-3 text-xs font-medium text-gray-700 bg-white border border-gray-300 rounded-md shadow-sm hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-red-500 sm:mt-0 sm:ml-3 sm:w-auto sm:text-sm">
