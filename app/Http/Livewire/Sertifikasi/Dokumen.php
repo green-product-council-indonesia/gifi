@@ -58,17 +58,19 @@ class Dokumen extends Component
         $bujt = $doc->registration[0];
 
         if ($doc->type == 'file') {
+            // dd($this->nama_dokumen);
             $this->validate([
-                'nama_dokumen' => 'mimes:pdf|max:102400',
+                'nama_dokumen' => 'required',
+                'nama_dokumen.*' => 'mimes:pdf|max:102400',
             ], [
-                'nama_dokumen.max' => 'Dokumen harus berukuran maksimal 15MB',
-                'nama_dokumen.mimes' => 'Dokumen harus berbentuk PDF',
+                'nama_dokumen.*.max' => 'Dokumen harus berukuran maksimal 15MB',
+                'nama_dokumen.*.mimes' => 'Dokumen harus berbentuk PDF',
             ]);
 
             foreach ($this->nama_dokumen as $id => $nama_dokumen) {
                 # code...
                 $file = $nama_dokumen;
-                preg_match("/(?:\w+(?:\W+|$)){0,5}/", $doc->nama_dokumen, $matches);
+                preg_match("/(?:\w+(?:\W+|$)){0,10}/", $doc->nama_dokumen, $matches);
 
                 $nama_file = Str::slug($bujt->nama_ruas) . '-' . Str::slug($doc->kode) . '-' . Str::slug($matches[0]);
                 $data = $nama_file . '.' . $file->extension();

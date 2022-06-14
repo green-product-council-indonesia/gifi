@@ -263,6 +263,10 @@
                         <tr>
                             <th scope="col"
                                 class="px-6 py-4 text-xs font-medium tracking-wider text-left text-gray-800 uppercase border-r border-gray-100">
+                                Kode
+                            </th>
+                            <th scope="col"
+                                class="px-6 py-4 text-xs font-medium tracking-wider text-left text-gray-800 uppercase border-r border-gray-100">
                                 Nama Dokumen
                             </th>
                             <th scope="col"
@@ -298,6 +302,9 @@
                             @endphp
                             @foreach ($data->document as $item)
                                 <tr>
+                                    <td class="px-6 py-4 font-semibold">
+                                        {{ $item->kode }}
+                                    </td>
                                     <td class="px-6 py-4 font-semibold">
                                         {{ $item->nama_dokumen }}
                                     </td>

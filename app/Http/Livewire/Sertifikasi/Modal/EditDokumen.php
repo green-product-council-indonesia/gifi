@@ -55,7 +55,7 @@ class EditDokumen extends ModalComponent
             ]);
 
             $file = $this->nama_dokumen;
-            preg_match("/(?:\w+(?:\W+|$)){0,5}/", $doc->nama_dokumen, $matches);
+            preg_match("/(?:\w+(?:\W+|$)){0,10}/", $doc->nama_dokumen, $matches);
 
             $nama_file = Str::slug($bujt->nama_ruas) . '-' . Str::slug($doc->kode) . '-' . Str::slug($matches[0]);
             $data = $nama_file . '.' . $file->extension();

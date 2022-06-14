@@ -105,7 +105,7 @@
                                     </td>
                                     @if ($doc->pivot->nama_dokumen == null)
                                         @php
-                                            preg_match("/(?:\w+(?:\W+|$)){0,5}/", $doc->nama_dokumen, $matches);
+                                            preg_match("/(?:\w+(?:\W+|$)){0,10}/", $doc->nama_dokumen, $matches);
                                         @endphp
                                         @if ($doc->type == 'file')
                                             <td>
@@ -114,6 +114,14 @@
 
                                                 <div wire:loading wire:target="nama_dokumen.{{ $doc->id }}"
                                                     class="mt-2 text-xs text-green-500 animate-pulse">Uploading...</div>
+
+                                                {{-- @dump() --}}
+                                                {{-- @foreach ($errors->all() as $item)
+                                                    {{ $item }}
+                                                @endforeach --}}
+                                                @error('nama_dokumen.*')
+                                                    <span class="error">{{ $message }}</span>
+                                                @enderror
                                             </td>
                                         @else
                                             <td>
