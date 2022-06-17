@@ -191,7 +191,7 @@
                                             @default
                                         @endswitch
                                     </td>
-                                    <td class="px-6 py-4 font-semibold whitespace-nowrap">
+                                    <td class="px-6 py-4 font-semibold">
                                         {{ $doc->pivot->keterangan }}
                                     </td>
                                 </tr>
