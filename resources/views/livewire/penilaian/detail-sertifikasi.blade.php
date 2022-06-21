@@ -372,12 +372,23 @@
                                     </td>
                                     <td class="px-6 py-4 font-semibold">
                                         @if (!is_null($item->pivot->nama_dokumen))
-                                            <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5 text-green-500"
-                                                viewBox="0 0 20 20" fill="currentColor">
-                                                <path fill-rule="evenodd"
-                                                    d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z"
-                                                    clip-rule="evenodd" />
-                                            </svg>
+                                            @if ($item->pivot->status == 2)
+                                                <svg xmlns="http://www.w3.org/2000/svg"
+                                                    class="w-5 h-5 text-yellow-400" viewBox="0 0 20 20"
+                                                    fill="currentColor">
+                                                    <path fill-rule="evenodd"
+                                                        d="M8.257 3.099c.765-1.36 2.722-1.36 3.486 0l5.58 9.92c.75 1.334-.213 2.98-1.742 2.98H4.42c-1.53 0-2.493-1.646-1.743-2.98l5.58-9.92zM11 13a1 1 0 11-2 0 1 1 0 012 0zm-1-8a1 1 0 00-1 1v3a1 1 0 002 0V6a1 1 0 00-1-1z"
+                                                        clip-rule="evenodd" />
+                                                </svg>
+                                            @else
+                                                <svg xmlns="http://www.w3.org/2000/svg"
+                                                    class="w-5 h-5  {{ $item->pivot->status == 1 ? 'text-blue-500' : 'text-green-500' }}"
+                                                    viewBox="0 0 20 20" fill="currentColor">
+                                                    <path fill-rule="evenodd"
+                                                        d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z"
+                                                        clip-rule="evenodd" />
+                                                </svg>
+                                            @endif
                                         @else
                                             <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5 text-red-500"
                                                 viewBox="0 0 20 20" fill="currentColor">
@@ -468,14 +479,12 @@
                                                     class="px-2 py-1 text-xs text-white bg-green-600 rounded-md shadow-lg hover:bg-green-700">
                                                     Approve
                                                 </button>
-                                                @if (!$item->pivot->keterangan)
-                                                    @if ($item->pivot->status !== 2)
-                                                        <button
-                                                            wire:click="$emit('openModal', 'penilaian.modal.tambah-catatan', {{ json_encode(['id' => $item->id, 'data_id' => $data->id]) }})"
-                                                            class="px-2 py-1 text-xs text-white bg-yellow-600 rounded-md shadow-lg hover:bg-yellow-700">
-                                                            Reject
-                                                        </button>
-                                                    @endif
+                                                @if (!$item->pivot->keterangan || $item->pivot->status !== 2)
+                                                    <button
+                                                        wire:click="$emit('openModal', 'penilaian.modal.tambah-catatan', {{ json_encode(['id' => $item->id, 'data_id' => $data->id]) }})"
+                                                        class="px-2 py-1 text-xs text-white bg-yellow-600 rounded-md shadow-lg hover:bg-yellow-700">
+                                                        Reject
+                                                    </button>
                                                 @else
                                                     <button
                                                         wire:click="$emit('openModal', 'penilaian.modal.edit-catatan', {{ json_encode(['id' => $item->id, 'data_id' => $data->id, 'data' => $item->pivot->keterangan]) }})"
