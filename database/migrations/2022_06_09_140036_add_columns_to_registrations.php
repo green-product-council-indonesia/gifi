@@ -19,6 +19,8 @@ class AddColumnsToRegistrations extends Migration
             $table->string('jumlah_underpass')->after('jumlah_gerbang_tol');
             $table->string('jumlah_terowongan')->after('jumlah_gerbang_tol');
             $table->string('jumlah_underpass_satwa')->after('jumlah_gerbang_tol');
+            $table->string('status_dokumen')->after('status')->nullable();
+            $table->string('note_dokumen')->after('status')->nullable();
         });
     }
 
@@ -30,8 +32,7 @@ class AddColumnsToRegistrations extends Migration
     public function down()
     {
         Schema::table('registrations', function (Blueprint $table) {
-            //
-            $table->dropColumn(['jumlah_jembatan', 'jumlah_jpo', 'jumlah_underpass', 'jumlah_terowongan', 'jumlah_underpass_satwa']);
+            $table->dropColumn(['jumlah_jembatan', 'jumlah_jpo', 'jumlah_underpass', 'jumlah_terowongan', 'jumlah_underpass_satwa', 'status_dokumen', 'note_dokumen']);
         });
     }
 }

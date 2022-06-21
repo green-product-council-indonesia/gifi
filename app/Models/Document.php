@@ -14,7 +14,7 @@ class Document extends Model
     public function registration()
     {
         return $this->belongsToMany(Registration::class, 'registration_document')
-            ->withPivot('nama_dokumen', 'status', 'keterangan', 'score', 'document_category_id');
+            ->withPivot('nama_dokumen', 'nama_dokumen_edited', 'status', 'keterangan', 'score', 'document_category_id');
     }
 
     public function kategoriSertifikasi()

@@ -51,8 +51,9 @@
                 </div>
                 <div class="flex flex-row-reverse flex-auto">
                     <div wire:click="resetError">
-                        <svg xmlns="http://www.w3.org/2000/svg" width="100%" height="100%" fill="none" viewBox="0 0 24 24"
-                            stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+                        <svg xmlns="http://www.w3.org/2000/svg" width="100%" height="100%" fill="none"
+                            viewBox="0 0 24 24" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                            stroke-linejoin="round"
                             class="w-5 h-5 ml-2 rounded-full cursor-pointer feather feather-x hover:text-red-400">
                             <line x1="18" y1="6" x2="6" y2="18"></line>
                             <line x1="6" y1="6" x2="18" y2="18"></line>
@@ -114,11 +115,6 @@
 
                                                 <div wire:loading wire:target="nama_dokumen.{{ $doc->id }}"
                                                     class="mt-2 text-xs text-green-500 animate-pulse">Uploading...</div>
-
-                                                {{-- @dump() --}}
-                                                {{-- @foreach ($errors->all() as $item)
-                                                    {{ $item }}
-                                                @endforeach --}}
                                                 @error('nama_dokumen.*')
                                                     <span class="error">{{ $message }}</span>
                                                 @enderror
@@ -135,38 +131,47 @@
                                                 class="flex items-center justify-between px-2 py-1 mx-1 text-xs text-blue-500 bg-transparent border-2 border-blue-500 rounded-md focus:ring-blue-500 hover:bg-blue-500 hover:text-white"
                                                 wire:loading.class="animate-pulse"
                                                 wire:click="uploadDokumen({{ $doc->id }}, '{{ Str::replace(')', '', str_replace('(', '', $matches[0])) }}')">
-
                                                 Upload
                                             </button>
                                         </td>
                                     @else
                                         <td class="px-6 py-4 font-semibold text-center">
-                                            <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5 text-green-500"
-                                                viewBox="0 0 20 20" fill="currentColor">
-                                                <path fill-rule="evenodd"
-                                                    d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z"
-                                                    clip-rule="evenodd" />
-                                            </svg>
+                                            @if ($doc->pivot->status == 2)
+                                                <svg xmlns="http://www.w3.org/2000/svg"
+                                                    class="w-5 h-5 text-yellow-400" viewBox="0 0 20 20"
+                                                    fill="currentColor">
+                                                    <path fill-rule="evenodd"
+                                                        d="M8.257 3.099c.765-1.36 2.722-1.36 3.486 0l5.58 9.92c.75 1.334-.213 2.98-1.742 2.98H4.42c-1.53 0-2.493-1.646-1.743-2.98l5.58-9.92zM11 13a1 1 0 11-2 0 1 1 0 012 0zm-1-8a1 1 0 00-1 1v3a1 1 0 002 0V6a1 1 0 00-1-1z"
+                                                        clip-rule="evenodd" />
+                                                </svg>
+                                            @else
+                                                <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5 text-green-500"
+                                                    viewBox="0 0 20 20" fill="currentColor">
+                                                    <path fill-rule="evenodd"
+                                                        d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z"
+                                                        clip-rule="evenodd" />
+                                                </svg>
+                                            @endif
                                         </td>
                                         <td class="flex flex-col px-6 py-4 space-y-2 font-semibold text-center">
-                                            @if ($doc->pivot->status == 1)
+                                            @if ($doc->pivot->status !== 3)
                                                 <button
                                                     wire:click="$emit('openModal', 'sertifikasi.modal.edit-dokumen', {{ json_encode(['id' => $doc->id, 'data' => $ruas]) }})"
                                                     class="px-2 py-1 text-xs text-white bg-indigo-500 rounded-md hover:bg-indigo-600">
                                                     Edit
                                                 </button>
-                                                @if ($doc->type == 'file')
-                                                    <a href="{{ asset('storage/checklist-dokumen/' . $item->nama_bujt . '/' . $item->nama_ruas . '/' . $doc->pivot->nama_dokumen) }}"
-                                                        target="_blank"
-                                                        class="px-2 py-1 text-xs text-white bg-green-500 rounded-md hover:bg-green-600">
-                                                        Preview
-                                                    </a>
-                                                @else
-                                                    <a href="{{ $doc->pivot->nama_dokumen }}" target="_blank"
-                                                        class="px-2 py-1 text-xs text-white bg-green-500 rounded-md hover:bg-green-600">
-                                                        Preview
-                                                    </a>
-                                                @endif
+                                            @endif
+                                            @if ($doc->type == 'file')
+                                                <a href="{{ asset('storage/checklist-dokumen/' . $item->nama_bujt . '/' . $item->nama_ruas . '/' . $doc->pivot->nama_dokumen) }}"
+                                                    target="_blank"
+                                                    class="px-2 py-1 text-xs text-white bg-indigo-500 rounded-md hover:bg-indigo-600">
+                                                    Preview
+                                                </a>
+                                            @else
+                                                <a href="{{ $doc->pivot->nama_dokumen }}" target="_blank"
+                                                    class="px-2 py-1 text-xs text-white bg-green-500 rounded-md hover:bg-green-600">
+                                                    Preview
+                                                </a>
                                             @endif
                                         </td>
                                     @endif
@@ -180,12 +185,18 @@
                                             @case(1)
                                                 <p class="px-1 py-0 mx-0 text-xs text-white bg-yellow-500 rounded-lg">
                                                     Belum
-                                                    diapprove</p>
+                                                    disetujui</p>
                                             @break
 
                                             @case(2)
+                                                <p class="px-1 py-0 mx-0 text-xs text-white bg-yellow-500 rounded-lg">
+                                                    Rejected
+                                                </p>
+                                            @break
+
+                                            @case(3)
                                                 <p class="px-1 py-0 mx-0 text-xs text-white bg-green-500 rounded-lg">
-                                                    Approved</p>
+                                                    Sudah Disetujui</p>
                                             @break
 
                                             @default

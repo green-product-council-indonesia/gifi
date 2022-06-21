@@ -17,9 +17,13 @@
         <div class="grid grid-cols-12 gap-4 p-8">
 
             <div class="col-span-12">
-                <div class="input text-xs">
+                <div class="text-xs input">
                     @if ($doc->type == 'file')
-                        <input type="file" wire:model="nama_dokumen">
+                        @if ($doc->registration[0]->pivot->status == 2)
+                            <input type="file" wire:model="nama_dokumen_edited" multiple>
+                        @else
+                            <input type="file" wire:model="nama_dokumen">
+                        @endif
                         <div wire:loading wire:target="nama_dokumen" class="mt-2 text-xs text-green-500">
                             Uploading...</div>
                     @else

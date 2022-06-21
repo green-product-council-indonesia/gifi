@@ -17,8 +17,7 @@
                     :class="openTab === 1 ? 'font-semibold text-white' : 'hover:text-blue-800'">Informasi Umum</button>
             </div>
             <div :class="openTab === 2 ? active : inactive" class="px-4 py-2 text-xs text-gray-800 rounded-md">
-                <button @click="openTab = 2"
-                    :class="openTab === 2 ? 'font-semibold text-white' : 'hover:text-blue-800'">
+                <button @click="openTab = 2" :class="openTab === 2 ? 'font-semibold text-white' : 'hover:text-blue-800'">
                     Informasi Sertifikasi
                 </button>
             </div>
@@ -78,7 +77,7 @@
                 </div>
                 <div x-show="openTab === 2" class="p-4">
                     <dl>
-                        @if ($data->status == 3)
+                        {{-- @if ($data->status == 3)
                             <div
                                 class="flex flex-col justify-between w-full px-4 py-4 border border-green-300 rounded-md shadow-md sm:space-x-4 sm:flex-row">
                                 @php
@@ -115,14 +114,8 @@
                                         </span>
                                     </p>
                                 </div>
-                                {{-- <div class="text-sm font-semibold">
-                                    <a href="#"
-                                        class="px-4 py-3 text-xs text-white bg-green-500 rounded-md focus:bg-green-600 hover:bg-green-600">Cetak
-                                        Sertifikat
-                                    </a>
-                                </div> --}}
                             </div>
-                        @endif
+                        @endif --}}
                         <div class="px-4 py-5 bg-white sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
                             <dt class="text-sm font-medium text-gray-500">
                                 Nama Ruas Jalan Tol

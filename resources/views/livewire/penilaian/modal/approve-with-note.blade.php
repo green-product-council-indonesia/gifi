@@ -3,7 +3,7 @@
         <div class="flex items-center justify-between px-5 py-4 bg-white">
             <div class="flex items-center space-x-4">
                 <p class="text-sm font-semibold text-gray-800">
-                    Reject dan Tambah Catatan untuk Dokumen
+                    Approve dan Tambah Catatan untuk Rangkuman Dokumen
                 </p>
             </div>
             <button class="text-gray-400 hover:text-gray-600" wire:click="$emit('closeModal')">
@@ -29,9 +29,9 @@
 
     </div>
     <div class="flex justify-end px-4 py-3 bg-white">
-        <button wire:click.prevent="addCatatan({{ $doc }})"
-            class="inline-flex justify-center w-full px-4 py-2 text-base font-medium text-white bg-yellow-600 border border-transparent rounded-md shadow-sm hover:bg-yellow-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-yellow-500 sm:ml-3 sm:w-auto sm:text-sm">
-            Reject
+        <button wire:click.prevent="approveDokumen"
+            class="inline-flex justify-center w-full px-4 py-2 text-base font-medium text-white bg-blue-600 border border-transparent rounded-md shadow-sm hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 sm:ml-3 sm:w-auto sm:text-sm">
+            Approve
         </button>
         <button type="button" wire:click.prevent="$emit('closeModal')"
             class="inline-flex justify-center w-full px-4 py-2 mt-3 text-base font-medium text-gray-700 bg-white border border-gray-300 rounded-md shadow-sm hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 sm:mt-0 sm:ml-3 sm:w-auto sm:text-sm">

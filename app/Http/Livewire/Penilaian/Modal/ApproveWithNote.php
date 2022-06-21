@@ -3,39 +3,33 @@
 namespace App\Http\Livewire\Penilaian\Modal;
 
 use App\Models\Document;
+use App\Models\Registration;
 use Illuminate\Support\Facades\Auth;
 use LivewireUI\Modal\ModalComponent;
 
-class TambahCatatan extends ModalComponent
+class ApproveWithNote extends ModalComponent
 {
-    public $catatan;
-
-    public $doc, $data;
-
-    public function mount($id, $data_id)
+    public $catatan, $data_id;
+    public function mount($id)
     {
-        $this->data = $data_id;
-        $this->doc = $id;
+        $this->data_id = $id;
     }
     public function render()
     {
-        return view('livewire.penilaian.modal.tambah-catatan');
+        return view('livewire.penilaian.modal.approve-with-note');
     }
-    public function addCatatan($id)
+
+    public function approveDokumen()
     {
         $this->validate([
             'catatan' => 'required',
         ]);
 
-        $doc = Document::with(['registration' => function ($q) {
-            $q->where('registrations.id', $this->data);
-        }])->findOrFail($id);
+        $data = Registration::findOrFail($this->data_id);
 
-        $data = $doc->registration[0];
-
-        $data->pivot->status = 2;
-        $data->pivot->keterangan = $this->catatan;
-        $data->pivot->save();
+        $data->status_dokumen = 2;
+        $data->note_dokumen = $this->catatan;
+        $data->save();
 
         $this->closeModal();
         $this->dispatchBrowserEvent(

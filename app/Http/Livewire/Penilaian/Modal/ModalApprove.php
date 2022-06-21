@@ -33,7 +33,7 @@ class ModalApprove extends ModalComponent
 
         $data = $doc->registration[0];
 
-        $data->pivot->status = 2;
+        $data->pivot->status = 3;
         $data->pivot->save();
 
         $this->closeModal();
