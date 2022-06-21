@@ -396,7 +396,7 @@
                                             @break
 
                                             @case(1)
-                                                <span class="px-2 text-xs text-white bg-yellow-500 rounded-lg">
+                                                <span class="px-2 text-xs text-white bg-blue-500 rounded-lg">
                                                     Belum Disetujui
                                                 </span>
                                             @break
