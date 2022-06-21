@@ -456,7 +456,7 @@
                                                 </a>
                                             @else
                                                 <a href="{{ $item->pivot->nama_dokumen }}" target="_blank"
-                                                    class="px-2 py-1 text-xs text-white rounded-md bg-gre en-500 hover:bg-green-600">
+                                                    class="px-2 py-1 text-xs text-white bg-green-500 rounded-md hover:bg-green-600">
                                                     Preview
                                                 </a>
                                             @endif
