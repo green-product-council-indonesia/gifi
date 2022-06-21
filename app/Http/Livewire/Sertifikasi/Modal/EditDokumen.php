@@ -50,22 +50,22 @@ class EditDokumen extends ModalComponent
         if ($doc->type == 'file') {
 
             if ($bujt->pivot->status == 2) {
-                // $this->validate([
-                //     'nama_dokumen' => 'required',
-                //     'nama_dokumen.*' => 'mimes:pdf|max:102400',
-                // ], [
-                //     'nama_dokumen.*.max' => 'Dokumen harus berukuran maksimal 15MB',
-                //     'nama_dokumen.*.mimes' => 'Dokumen harus berbentuk PDF',
-                // ]);
-                // # code...
-                // $i = 1;
-                // foreach ($this->nama_dokumen_edited as $data) {
-                //     preg_match("/(?:\w+(?:\W+|$)){0,10}/", $doc->nama_dokumen, $matches);
+                $this->validate([
+                    'nama_dokumen' => 'required',
+                    'nama_dokumen.*' => 'mimes:pdf|max:102400',
+                ], [
+                    'nama_dokumen.*.max' => 'Dokumen harus berukuran maksimal 15MB',
+                    'nama_dokumen.*.mimes' => 'Dokumen harus berbentuk PDF',
+                ]);
+                # code...
+                $i = 1;
+                foreach ($this->nama_dokumen_edited as $data) {
+                    dd($data);
+                    preg_match("/(?:\w+(?:\W+|$)){0,10}/", $data->nama_dokumen, $matches);
+                    $nama_file = Str::slug($bujt->nama_ruas) . '-' . Str::slug($doc->kode) . '-' . Str::slug($matches[0]) . '-edited-' . $i++;
 
-                //     $nama_file = Str::slug($bujt->nama_ruas) . '-' . Str::slug($doc->kode) . '-' . Str::slug($matches[0]);
-
-                //     # code...
-                // }
+                    # code...
+                }
             } else {
                 $this->validate([
                     'nama_dokumen' => 'mimes:pdf|max:102400',

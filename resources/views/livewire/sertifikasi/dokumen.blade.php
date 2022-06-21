@@ -183,7 +183,7 @@
                                             @break
 
                                             @case(1)
-                                                <p class="px-1 py-0 mx-0 text-xs text-white bg-yellow-500 rounded-lg">
+                                                <p class="px-1 py-0 mx-0 text-xs text-white bg-blue-500 rounded-lg">
                                                     Belum
                                                     disetujui</p>
                                             @break

@@ -9,7 +9,7 @@
         <div class="grid grid-cols-2 gap-2 ">
             <div class="col-span-2 md:col-span-1">
                 <dl>
-                    <div class="px-4 py-5  sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
+                    <div class="px-4 py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
                         <dt class="text-xs font-semibold text-gray-500">
                             Nama Badan Usaha Jalan Tol
                         </dt>
@@ -21,7 +21,7 @@
             </div>
             <div class="col-span-2 md:col-span-1">
                 <dl>
-                    <div class="px-4 py-5  sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
+                    <div class="px-4 py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
                         <dt class="text-xs font-semibold text-gray-500">
                             Nama Ruas
                         </dt>
@@ -31,8 +31,8 @@
                     </div>
                 </dl>
             </div>
-            <div class="col-span-2 md:col-span-1 mx-4">
-                <label class="block text-xs m-1 font-medium text-gray-700 ">
+            <div class="col-span-2 mx-4 md:col-span-1">
+                <label class="block m-1 text-xs font-medium text-gray-700 ">
                     Laporan Ringkas Verifikasi
                 </label>
                 <dl>
@@ -45,7 +45,7 @@
                                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                                         d="M7 21h10a2 2 0 002-2V9.414a1 1 0 00-.293-.707l-5.414-5.414A1 1 0 0012.586 3H7a2 2 0 00-2 2v14a2 2 0 002 2z" />
                                 </svg>
-                                <p class="font-semibold text-sm">
+                                <p class="text-sm font-semibold">
                                     {{ $data->reports->laporan_ringkas_verifikasi }}
                                 </p>
                             </div>
@@ -110,8 +110,8 @@
                     @endif
                 </dl>
             </div>
-            <div class="col-span-2 md:col-span-1 mx-4">
-                <label class="block text-xs m-1 font-medium text-gray-700 ">
+            <div class="col-span-2 mx-4 md:col-span-1">
+                <label class="block m-1 text-xs font-medium text-gray-700 ">
                     Rekomendasi
                 </label>
                 <dl>
@@ -124,7 +124,7 @@
                                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                                         d="M7 21h10a2 2 0 002-2V9.414a1 1 0 00-.293-.707l-5.414-5.414A1 1 0 0012.586 3H7a2 2 0 00-2 2v14a2 2 0 002 2z" />
                                 </svg>
-                                <p class="font-semibold text-sm">
+                                <p class="text-sm font-semibold">
                                     {{ $data->reports->rekomendasi }}
                                 </p>
                             </div>
@@ -192,7 +192,7 @@
 
         @if ($data->status == 1)
             <div
-                class="flex items-center justify-center gap-4 py-20 font-semibold text-center border-2 border-dashed border-green-500 rounded-lg mt-8">
+                class="flex items-center justify-center gap-4 py-20 mt-8 font-semibold text-center border-2 border-green-500 border-dashed rounded-lg">
                 <svg xmlns="http://www.w3.org/2000/svg" class="w-12 h-12 text-yellow-500" viewBox="0 0 20 20"
                     fill="currentColor">
                     <path fill-rule="evenodd"
@@ -204,7 +204,7 @@
                 </a>
             </div>
         @else
-            <div class="flex flex-col items-center mt-8 justify-between md:flex-row">
+            <div class="flex flex-col items-center justify-between mt-8 md:flex-row">
                 <div class="">
                     <label for="" class="label">Sub Kategori Dokumen</label>
                     <select id="category_id" name="category_id" wire:model="kategori"
@@ -227,25 +227,25 @@
                     </button>
                 </div>
             </div>
-            <div class="justify-between flex items-center my-2 ">
+            <div class="flex items-center justify-between my-2 ">
                 <div class="flex flex-col">
                     <p class="text-xs">
                         status :
                         @switch($data->status_dokumen)
                             @case(null)
-                                <span class="text-red-500 font-semibold">-</span>
+                                <span class="font-semibold text-red-500">-</span>
                             @break
 
                             @case(1)
-                                <span class="text-red-500 font-semibold">Reject</span>
+                                <span class="font-semibold text-red-500">Reject</span>
                             @break
 
                             @case(2)
-                                <span class="text-green-500 font-semibold">Approved with Note</span>
+                                <span class="font-semibold text-green-500">Approved with Note</span>
                             @break
 
                             @case(3)
-                                <span class="text-green-500 font-semibold">Approved</span>
+                                <span class="font-semibold text-green-500">Approved</span>
                             @break
 
                             @default
@@ -256,7 +256,7 @@
                     @if ($data->status_dokumen == null)
                         <button
                             class="flex items-center gap-2 px-3 py-2 text-xs text-white bg-green-500 rounded-md shadow-lg hover:bg-green-600">
-                            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20"
+                            <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5" viewBox="0 0 20 20"
                                 fill="currentColor">
                                 <path fill-rule="evenodd"
                                     d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z"
@@ -267,7 +267,7 @@
                         <button
                             wire:click="$emit('openModal', 'penilaian.modal.approve-with-note', {{ json_encode(['id' => $data->id]) }})"
                             class="flex items-center gap-2 px-3 py-2 text-xs text-white bg-indigo-500 rounded-md shadow-lg hover:bg-indigo-600">
-                            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20"
+                            <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5" viewBox="0 0 20 20"
                                 fill="currentColor">
                                 <path d="M9 2a1 1 0 000 2h2a1 1 0 100-2H9z" />
                                 <path fill-rule="evenodd"
@@ -278,7 +278,7 @@
                         </button>
                         <button
                             class="flex items-center gap-2 px-3 py-2 text-xs text-white bg-yellow-500 rounded-md shadow-lg hover:bg-yellow-600">
-                            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20"
+                            <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5" viewBox="0 0 20 20"
                                 fill="currentColor">
                                 <path fill-rule="evenodd"
                                     d="M10 18a8 8 0 100-16 8 8 0 000 16zM8.707 7.293a1 1 0 00-1.414 1.414L8.586 10l-1.293 1.293a1 1 0 101.414 1.414L10 11.414l1.293 1.293a1 1 0 001.414-1.414L11.414 10l1.293-1.293a1 1 0 00-1.414-1.414L10 8.586 8.707 7.293z"
@@ -427,8 +427,8 @@
                                                     wire:click="assignScore({{ $item->id }}, '{{ $data->id }}')">
                                                     <div wire:loading.class="animate-pulse"
                                                         wire:target="assignScore({{ $item->id }}, '{{ $data->id }}')"
-                                                        class="rounded-full border-2 border-blue-500 focus:ring-blue-500 text-blue-500 bg-transparent  hover:bg-blue-600 hover:text-white">
-                                                        <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6"
+                                                        class="text-blue-500 bg-transparent border-2 border-blue-500 rounded-full focus:ring-blue-500 hover:bg-blue-600 hover:text-white">
+                                                        <svg xmlns="http://www.w3.org/2000/svg" class="w-6 h-6"
                                                             viewBox="0 0 20 20" fill="currentColor">
                                                             <path fill-rule="evenodd"
                                                                 d="M10 18a8 8 0 100-16 8 8 0 000 16zm1-11a1 1 0 10-2 0v2H7a1 1 0 100 2h2v2a1 1 0 102 0v-2h2a1 1 0 100-2h-2V7z"
@@ -456,7 +456,7 @@
                                                 </a>
                                             @else
                                                 <a href="{{ $item->pivot->nama_dokumen }}" target="_blank"
-                                                    class="px-2 py-1 text-xs text-white bg-gre  en-500 rounded-md hover:bg-green-600">
+                                                    class="px-2 py-1 text-xs text-white rounded-md bg-gre en-500 hover:bg-green-600">
                                                     Preview
                                                 </a>
                                             @endif
@@ -469,11 +469,13 @@
                                                     Approve
                                                 </button>
                                                 @if (!$item->pivot->keterangan)
-                                                    <button
-                                                        wire:click="$emit('openModal', 'penilaian.modal.tambah-catatan', {{ json_encode(['id' => $item->id, 'data_id' => $data->id]) }})"
-                                                        class="px-2 py-1 text-xs text-white bg-yellow-600 rounded-md shadow-lg hover:bg-yellow-700">
-                                                        Reject
-                                                    </button>
+                                                    @if ($item->pivot->status !== 2)
+                                                        <button
+                                                            wire:click="$emit('openModal', 'penilaian.modal.tambah-catatan', {{ json_encode(['id' => $item->id, 'data_id' => $data->id]) }})"
+                                                            class="px-2 py-1 text-xs text-white bg-yellow-600 rounded-md shadow-lg hover:bg-yellow-700">
+                                                            Reject
+                                                        </button>
+                                                    @endif
                                                 @else
                                                     <button
                                                         wire:click="$emit('openModal', 'penilaian.modal.edit-catatan', {{ json_encode(['id' => $item->id, 'data_id' => $data->id, 'data' => $item->pivot->keterangan]) }})"
