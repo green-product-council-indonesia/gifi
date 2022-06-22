@@ -45,17 +45,16 @@ class EditDokumen extends ModalComponent
             $q->where('registrations.id', $this->ruas);
         }])->findOrFail($id);
         $bujt = $doc->registration[0];
-        dd($bujt);
 
         if ($doc->type == 'file') {
 
             if ($bujt->pivot->status == 2) {
                 $this->validate([
-                    'nama_dokumen' => 'required',
-                    'nama_dokumen.*' => 'mimes:pdf|max:102400',
+                    'nama_dokumen_edited' => 'required',
+                    'nama_dokumen_edited.*' => 'mimes:pdf|max:102400',
                 ], [
-                    'nama_dokumen.*.max' => 'Dokumen harus berukuran maksimal 15MB',
-                    'nama_dokumen.*.mimes' => 'Dokumen harus berbentuk PDF',
+                    'nama_dokumen_edited.*.max' => 'Dokumen harus berukuran maksimal 15MB',
+                    'nama_dokumen_edited.*.mimes' => 'Dokumen harus berbentuk PDF',
                 ]);
                 # code...
                 $i = 1;
