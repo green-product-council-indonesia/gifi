@@ -2,7 +2,6 @@
 
 namespace App\Http\Livewire\Penilaian\Modal;
 
-use Livewire\Component;
 use LivewireUI\Modal\ModalComponent;
 
 class ApproveDokumen extends ModalComponent

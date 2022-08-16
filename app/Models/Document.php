@@ -9,7 +9,7 @@ class Document extends Model
 {
     use HasFactory;
     protected $fillable = [
-        'kode', 'nama_dokumen', 'category_id', 'bobot', 'type', 'document_category_id'
+        'kode', 'nama_dokumen', 'category_id', 'bobot', 'document_category_id'
     ];
     public function registration()
     {

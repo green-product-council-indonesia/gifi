@@ -40,6 +40,6 @@ class ApproveWithNote extends ModalComponent
             ]
         );
         activity()->log('User ' . Auth::user()->name . ' Menambah Catatan di Dokumen Sertifikasi GTRI');
-        $this->emit('addCatatan');
+        $this->emit('penilaianSertifikasi');
     }
 }

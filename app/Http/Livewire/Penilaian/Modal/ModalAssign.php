@@ -48,6 +48,6 @@ class ModalAssign extends ModalComponent
     {
         $data = Registration::with('verifikators')->where('verifikator', $verifikator_id)->first();
         activity()->log('User ' . Auth::user()->name . ' Menunjuk ' . $data->verifikators->name . ' Sebagai Verifikator Ruas Jalan ' . $data->nama_ruas);
-        $this->emit('assignUser');
+        $this->emit('assignment');
     }
 }

@@ -8,12 +8,12 @@ use LivewireUI\Modal\ModalComponent;
 
 class EditCatatan extends ModalComponent
 {
-    public $doc, $document, $data_id, $catatan;
-    public function mount($id, $data_id, $data)
+    public $doc_id, $document, $registration_id, $catatan;
+    public function mount($doc_id, $registration_id, $catatan)
     {
-        $this->doc = $id;
-        $this->data_id = $data_id;
-        $this->catatan = $data;
+        $this->doc_id = $doc_id;
+        $this->registration_id = $registration_id;
+        $this->catatan = $catatan;
     }
     public function render()
     {
@@ -27,8 +27,8 @@ class EditCatatan extends ModalComponent
         ]);
 
         $doc = Document::with(['registration' => function ($q) {
-            $q->where('registrations.id', $this->data_id);
-        }])->findOrFail($this->doc);
+            $q->where('registrations.id', $this->registration_id);
+        }])->findOrFail($this->doc_id);
 
         $data = $doc->registration[0];
 
@@ -36,14 +36,9 @@ class EditCatatan extends ModalComponent
         $data->pivot->save();
 
         $this->closeModal();
-        $this->dispatchBrowserEvent(
-            'alert',
-            [
-                'type' => 'success',
-                'message' => 'Berhasil!'
-            ]
-        );
+        $this->dispatchBrowserEvent('alert', ['type' => 'success', 'message' => 'Berhasil!']);
+
         activity()->log('User ' . Auth::user()->name . ' Mengubah Catatan Keterangan Dokumen Sertifikasi GTRI');
-        $this->emit('editCatatan');
+        $this->emit('penilaianSertifikasi');
     }
 }

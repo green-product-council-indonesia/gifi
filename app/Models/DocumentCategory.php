@@ -9,9 +9,7 @@ class DocumentCategory extends Model
 {
     use HasFactory;
 
-    protected $fillable = [
-        'nama_kategori_dokumen'
-    ];
+    protected $fillable = ['nama_kategori_dokumen'];
 
     public function kategori()
     {

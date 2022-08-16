@@ -10,26 +10,26 @@ class TambahCatatan extends ModalComponent
 {
     public $catatan;
 
-    public $doc, $data;
+    public $doc_id, $registration_id;
 
-    public function mount($id, $data_id)
+    public function mount($doc_id, $registration_id)
     {
-        $this->data = $data_id;
-        $this->doc = $id;
+        $this->registration_id = $registration_id;
+        $this->doc_id = $doc_id;
     }
     public function render()
     {
         return view('livewire.penilaian.modal.tambah-catatan');
     }
-    public function addCatatan($id)
+    public function addCatatan()
     {
         $this->validate([
             'catatan' => 'required',
         ]);
 
         $doc = Document::with(['registration' => function ($q) {
-            $q->where('registrations.id', $this->data);
-        }])->findOrFail($id);
+            $q->where('registrations.id', $this->registration_id);
+        }])->findOrFail($this->doc_id);
 
         $data = $doc->registration[0];
 
@@ -46,6 +46,6 @@ class TambahCatatan extends ModalComponent
             ]
         );
         activity()->log('User ' . Auth::user()->name . ' Menambah Catatan di Dokumen Sertifikasi GTRI');
-        $this->emit('addCatatan');
+        $this->emit('penilaianSertifikasi');
     }
 }

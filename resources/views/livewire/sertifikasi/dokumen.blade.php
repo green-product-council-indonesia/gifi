@@ -8,8 +8,7 @@
             <div class="grid grid-cols-2 col-span-2 gap-4 md:col-span-1">
                 <div class="col-span-2 sm:col-span-1">
                     <label for="" class="label">Select Nama Ruas</label>
-                    <select id=" category_id" name="category_id" wire:model="ruas"
-                        class="block w-full px-2 py-2 mt-1 text-xs border border-gray-300 rounded shadow md:mt-0 focus:border-green-200 focus:outline-none focus:ring-2 focus:ring-green-300">
+                    <select id=" category_id" name="category_id" wire:model="registration_id" class="block w-full px-2 py-2 mt-1 text-xs border border-gray-300 rounded shadow md:mt-0 focus:border-green-200 focus:outline-none focus:ring-2 focus:ring-green-300">
                         <option value="" selected>Nama Ruas Jalan Tol ... </option>
                         @foreach ($data as $item)
                             <option value="{{ $item->id }}">{{ $item->nama_ruas }}</option>
@@ -18,8 +17,7 @@
                 </div>
                 <div class="col-span-2 sm:col-span-1">
                     <label for="" class="label">Sub Kategori Dokumen</label>
-                    <select id="category_id" name="category_id" wire:model="kategori"
-                        class="block w-full px-2 py-2 mt-1 text-xs border border-gray-300 rounded shadow md:mt-0 focus:border-green-200 focus:outline-none focus:ring-2 focus:ring-green-300">
+                    <select id="category_id" name="category_id" wire:model="kategori" class="block w-full px-2 py-2 mt-1 text-xs border border-gray-300 rounded shadow md:mt-0 focus:border-green-200 focus:outline-none focus:ring-2 focus:ring-green-300">
                         <option value="" selected>Sub Kategori Dokumen ... </option>
                         @foreach ($categories as $category)
                             <option value="{{ $category->id }}">{{ $category->nama_kategori_dokumen }}</option>
@@ -27,191 +25,144 @@
                     </select>
                 </div>
             </div>
-            <div class="col-span-2 mt-4 md:mt-0 md:col-span-1">
-                <p class="text-sm text-center">
-                    Dokumen yang diperbolehkan harus berbentuk <b>PDF</b> <br> dan setiap dokumen memiliki ukuran
-                    maksimal 15MB
-                </p>
-            </div>
         </div>
-        @error('nama_dokumen')
-            <div
-                class="flex items-center justify-center px-2 py-1 mt-4 font-medium text-red-700 bg-red-100 border border-red-300 rounded-md">
-                <div slot="avatar">
-                    <svg xmlns="http://www.w3.org/2000/svg" width="100%" height="100%" fill="none" viewBox="0 0 24 24"
-                        stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
-                        class="w-5 h-5 mx-2 feather feather-alert-octagon">
-                        <polygon points="7.86 2 16.14 2 22 7.86 22 16.14 16.14 22 7.86 22 2 16.14 2 7.86 7.86 2"></polygon>
-                        <line x1="12" y1="8" x2="12" y2="12"></line>
-                        <line x1="12" y1="16" x2="12.01" y2="16"></line>
-                    </svg>
-                </div>
-                <div class="items-center flex-initial max-w-full text-xl font-normal">
-                    <span class="error">{{ $message }}</span>
-                </div>
-                <div class="flex flex-row-reverse flex-auto">
-                    <div wire:click="resetError">
-                        <svg xmlns="http://www.w3.org/2000/svg" width="100%" height="100%" fill="none"
-                            viewBox="0 0 24 24" stroke="currentColor" stroke-width="2" stroke-linecap="round"
-                            stroke-linejoin="round"
-                            class="w-5 h-5 ml-2 rounded-full cursor-pointer feather feather-x hover:text-red-400">
-                            <line x1="18" y1="6" x2="6" y2="18"></line>
-                            <line x1="6" y1="6" x2="18" y2="18"></line>
-                        </svg>
-                    </div>
-                </div>
-            </div>
-        @enderror
 
         <div class="mt-6 overflow-hidden overflow-x-auto border border-gray-200 shadow-md sm:rounded">
-            @if ($result)
-                <table class="min-w-full divide-y divide-gray-200">
-                    <thead class="bg-green-200">
+            <table class="min-w-full divide-y divide-gray-200">
+                <thead class="bg-green-200">
+                    <tr>
+                        <th scope="col" class="px-6 py-4 text-xs font-medium tracking-wider text-left text-gray-800 uppercase">
+                            Kode
+                        </th>
+                        <th scope="col" class="px-6 py-4 text-xs font-medium tracking-wider text-left text-gray-800 uppercase">
+                            Nama Dokumen
+                        </th>
+                        <th scope="col" class="px-6 py-4 text-xs font-medium tracking-wider text-left text-gray-800 uppercase">
+                            File
+                        </th>
+                        <th scope="col" class="px-6 py-4 text-xs font-medium tracking-wider text-center text-gray-800 uppercase">
+                            Action
+                        </th>
+                        <th scope="col" class="px-6 py-4 text-xs font-medium tracking-wider text-center text-gray-800 uppercase">
+                            Status
+                        </th>
+                        <th scope="col" class="px-6 py-4 text-xs font-medium tracking-wider text-left text-gray-800 uppercase">
+                            Catatan
+                        </th>
+                    </tr>
+                </thead>
+                <tbody class="text-xs bg-white divide-y divide-gray-200" x-data="{ selected: null }">
+                    @forelse ($result as $item)
+                        @forelse ($item->document as $doc)
                         <tr>
-                            <th scope="col"
-                                class="px-6 py-4 text-xs font-medium tracking-wider text-left text-gray-800 uppercase">
-                                Kode
-                            </th>
-                            <th scope="col"
-                                class="px-6 py-4 text-xs font-medium tracking-wider text-left text-gray-800 uppercase">
-                                Nama Dokumen
-                            </th>
-                            <th scope="col"
-                                class="px-6 py-4 text-xs font-medium tracking-wider text-left text-gray-800 uppercase">
-                                File
-                            </th>
-                            <th scope="col"
-                                class="px-6 py-4 text-xs font-medium tracking-wider text-center text-gray-800 uppercase">
-                                Action
-                            </th>
-                            <th scope="col"
-                                class="px-6 py-4 text-xs font-medium tracking-wider text-center text-gray-800 uppercase">
-                                Status
-                            </th>
-                            <th scope="col"
-                                class="px-6 py-4 text-xs font-medium tracking-wider text-left text-gray-800 uppercase">
-                                Keterangan
-                            </th>
+                            <td class="px-6 py-4 font-semibold">
+                                {{ $doc->kode }}
+                            </td>
+                            <td class="px-6 py-4 font-semibold">
+                                {{ $doc->nama_dokumen }}
+                            </td>
+                            @if ($doc->pivot->nama_dokumen == null)
+                                <td class="px-6 py-4 font-semibold text-center">
+                                    <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5 text-red-500" viewBox="0 0 20 20" fill="currentColor">
+                                        <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zM8.707 7.293a1 1 0 00-1.414 1.414L8.586 10l-1.293 1.293a1 1 0 101.414 1.414L10 11.414l1.293 1.293a1 1 0 001.414-1.414L11.414 10l1.293-1.293a1 1 0 00-1.414-1.414L10 8.586 8.707 7.293z" clip-rule="evenodd" />
+                                    </svg>
+                                </td>
+                                <td class="px-6 py-4 text-center">
+                                    <button type="button" class="flex items-center justify-between px-2 py-1 mx-1 text-xs text-blue-500 bg-transparent border-2 border-blue-500 rounded-md focus:ring-blue-500 hover:bg-blue-500 hover:text-white" wire:click="$emit('openModal', 'sertifikasi.modal.upload-dokumen', {{ json_encode(['doc_id' => $doc->id, 'registration_id' => $registration_id]) }})">
+                                        Upload
+                                    </button>
+                                </td>
+                            @else
+                            <td class="px-6 py-4 font-semibold text-center">
+                                @if ($doc->pivot->status == 2)
+                                    <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5 text-yellow-400" viewBox="0 0 20 20" fill="currentColor">
+                                        <path fill-rule="evenodd" d="M8.257 3.099c.765-1.36 2.722-1.36 3.486 0l5.58 9.92c.75 1.334-.213 2.98-1.742 2.98H4.42c-1.53 0-2.493-1.646-1.743-2.98l5.58-9.92zM11 13a1 1 0 11-2 0 1 1 0 012 0zm-1-8a1 1 0 00-1 1v3a1 1 0 002 0V6a1 1 0 00-1-1z" clip-rule="evenodd" />
+                                    </svg>
+                                @else
+                                    <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5 {{ $doc->pivot->status == 1 ? 'text-blue-500' : 'text-green-500' }}" viewBox="0 0 20 20" fill="currentColor">
+                                        <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd" />
+                                    </svg>
+                                @endif
+                            </td>
+                            <td class="flex flex-col px-6 py-4 space-y-2 font-semibold text-center">
+                                @if ($doc->pivot->status == 2 && !$doc->pivot->nama_dokumen_edited)
+                                    <button wire:click="$emit('openModal', 'sertifikasi.modal.revisi-dokumen', {{ json_encode(['doc_id' => $doc->id, 'registration_id' => $registration_id]) }})" class="px-2 py-1 text-xs text-white bg-yellow-500 rounded-md hover:bg-yellow-600">
+                                        Revisi
+                                    </button>
+                                @endif
+                                <button wire:click="$emit('openModal', 'penilaian.modal.preview-document', {{ json_encode(['doc_id' => $doc->id, 'registration_id' => $registration_id]) }})" class="px-2 py-1 text-xs text-white {{ $doc->type == 'file' ? 'bg-indigo-500 hover:bg-indigo-600' : 'bg-green-500 hover:bg-green-600' }} rounded-md ">
+                                    Preview
+                                </button>
+                            </td>
+                            @endif
+                            <td class="px-6 py-4 text-center whitespace-nowrap">
+                                @switch($doc->pivot->status)
+                                    @case(0)
+                                        <span class="px-2 py-0 mx-0 text-xs text-white bg-red-500 rounded-lg">
+                                            kosong
+                                                </span>
+                                    @break
+
+                                    @case(1)
+                                        <span class="px-2 py-0 mx-0 text-xs text-white bg-blue-500 rounded-lg">
+                                            Belum disetujui
+                                        </span>
+                                    @break
+
+                                    @case(2)
+                                        <span class="px-2 py-0 mx-0 text-xs text-white bg-yellow-500 rounded-lg">
+                                            Rejected
+                                        </span>
+                                    @break
+
+                                    @case(3)
+                                        <span class="px-2 py-0 mx-0 text-xs text-white bg-green-500 rounded-lg">
+                                            Sudah Disetujui
+                                        </span>
+                                    @break
+
+                                    @default
+                                @endswitch
+                            </td>
+                            <td class="px-6 py-4 font-semibold">
+                                {{ $doc->pivot->keterangan }}
+                            </td>
                         </tr>
-                    </thead>
-                    <tbody class="text-xs bg-white divide-y divide-gray-200" x-data="{ selected: null }">
-                        @foreach ($result as $item)
-                            @foreach ($item->document as $doc)
-                                <tr>
-                                    <td class="px-6 py-4 font-semibold">
-                                        {{ $doc->kode }}
-                                    </td>
-                                    <td class="px-6 py-4 font-semibold">
-                                        {{ $doc->nama_dokumen }}
-                                    </td>
-                                    @if ($doc->pivot->nama_dokumen == null)
-                                        @php
-                                            preg_match("/(?:\w+(?:\W+|$)){0,10}/", $doc->nama_dokumen, $matches);
-                                        @endphp
-                                        @if ($doc->type == 'file')
-                                            <td>
-                                                <input type="file" wire:model="nama_dokumen.{{ $doc->id }}"
-                                                    :key="{{ $doc->id }}">
-
-                                                <div wire:loading wire:target="nama_dokumen.{{ $doc->id }}"
-                                                    class="mt-2 text-xs text-green-500 animate-pulse">Uploading...</div>
-                                                @error('nama_dokumen.*')
-                                                    <span class="error">{{ $message }}</span>
-                                                @enderror
-                                            </td>
-                                        @else
-                                            <td>
-                                                <input type="text" class="form-input" placeholder="Url dokumen ..."
-                                                    wire:model="nama_dokumen.{{ $doc->id }}"
-                                                    :key="{{ $doc->id }}">
-                                            </td>
-                                        @endif
-                                        <td class="px-6 py-4 text-center">
-                                            <button type="button" wire:loading.attr="disabled"
-                                                class="flex items-center justify-between px-2 py-1 mx-1 text-xs text-blue-500 bg-transparent border-2 border-blue-500 rounded-md focus:ring-blue-500 hover:bg-blue-500 hover:text-white"
-                                                wire:loading.class="animate-pulse"
-                                                wire:click="uploadDokumen({{ $doc->id }}, '{{ Str::replace(')', '', str_replace('(', '', $matches[0])) }}')">
-                                                Upload
-                                            </button>
-                                        </td>
-                                    @else
-                                        <td class="px-6 py-4 font-semibold text-center">
-                                            @if ($doc->pivot->status == 2)
-                                                <svg xmlns="http://www.w3.org/2000/svg"
-                                                    class="w-5 h-5 text-yellow-400" viewBox="0 0 20 20"
-                                                    fill="currentColor">
-                                                    <path fill-rule="evenodd"
-                                                        d="M8.257 3.099c.765-1.36 2.722-1.36 3.486 0l5.58 9.92c.75 1.334-.213 2.98-1.742 2.98H4.42c-1.53 0-2.493-1.646-1.743-2.98l5.58-9.92zM11 13a1 1 0 11-2 0 1 1 0 012 0zm-1-8a1 1 0 00-1 1v3a1 1 0 002 0V6a1 1 0 00-1-1z"
-                                                        clip-rule="evenodd" />
-                                                </svg>
-                                            @else
-                                                <svg xmlns="http://www.w3.org/2000/svg"
-                                                    class="w-5 h-5 {{ $doc->pivot->status == 1 ? 'text-blue-500' : 'text-green-500' }}"
-                                                    viewBox="0 0 20 20" fill="currentColor">
-                                                    <path fill-rule="evenodd"
-                                                        d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z"
-                                                        clip-rule="evenodd" />
-                                                </svg>
-                                            @endif
-                                        </td>
-                                        <td class="flex flex-col px-6 py-4 space-y-2 font-semibold text-center">
-                                            @if ($doc->pivot->status !== 3)
-                                                <button
-                                                    wire:click="$emit('openModal', 'sertifikasi.modal.edit-dokumen', {{ json_encode(['id' => $doc->id, 'data' => $ruas]) }})"
-                                                    class="px-2 py-1 text-xs text-white bg-indigo-500 rounded-md hover:bg-indigo-600">
-                                                    Edit
-                                                </button>
-                                            @endif
-                                            @if ($doc->type == 'file')
-                                                <a href="{{ asset('storage/checklist-dokumen/' . $item->nama_bujt . '/' . $item->nama_ruas . '/' . $doc->pivot->nama_dokumen) }}"
-                                                    target="_blank"
-                                                    class="px-2 py-1 text-xs text-white bg-indigo-500 rounded-md hover:bg-indigo-600">
-                                                    Preview
-                                                </a>
-                                            @else
-                                                <a href="{{ $doc->pivot->nama_dokumen }}" target="_blank"
-                                                    class="px-2 py-1 text-xs text-white bg-green-500 rounded-md hover:bg-green-600">
-                                                    Preview
-                                                </a>
-                                            @endif
-                                        </td>
-                                    @endif
-                                    <td class="px-6 py-4 font-semibold text-center whitespace-nowrap">
-                                        @switch($doc->pivot->status)
-                                            @case(0)
-                                                <p class="px-1 py-0 mx-0 text-xs text-white bg-red-500 rounded-lg">
-                                                    kosong</p>
-                                            @break
-
-                                            @case(1)
-                                                <p class="px-1 py-0 mx-0 text-xs text-white bg-blue-500 rounded-lg">
-                                                    Belum
-                                                    disetujui</p>
-                                            @break
-
-                                            @case(2)
-                                                <p class="px-1 py-0 mx-0 text-xs text-white bg-yellow-500 rounded-lg">
-                                                    Rejected
-                                                </p>
-                                            @break
-
-                                            @case(3)
-                                                <p class="px-1 py-0 mx-0 text-xs text-white bg-green-500 rounded-lg">
-                                                    Sudah Disetujui</p>
-                                            @break
-
-                                            @default
-                                        @endswitch
-                                    </td>
-                                    <td class="px-6 py-4 font-semibold">
-                                        {{ $doc->pivot->keterangan }}
-                                    </td>
-                                </tr>
-                            @endforeach
-                        @endforeach
-                    </tbody>
-                </table>
-            @endif
+                        @empty
+                        <tr>
+                            <td colspan="6">
+                                <div class="flex items-center justify-center gap-4 py-20 font-semibold text-center">
+                                    <svg xmlns="http://www.w3.org/2000/svg" class="w-12 h-12 text-yellow-500"
+                                        viewBox="0 0 20 20" fill="currentColor">
+                                        <path fill-rule="evenodd"
+                                            d="M8.257 3.099c.765-1.36 2.722-1.36 3.486 0l5.58 9.92c.75 1.334-.213 2.98-1.742 2.98H4.42c-1.53 0-2.493-1.646-1.743-2.98l5.58-9.92zM11 13a1 1 0 11-2 0 1 1 0 012 0zm-1-8a1 1 0 00-1 1v3a1 1 0 002 0V6a1 1 0 00-1-1z"
+                                            clip-rule="evenodd" />
+                                    </svg>
+                                    <span class="text-2xl">
+                                        Data Tidak Ada
+                                    </span>
+                                </div>
+                            </td>
+                        </tr>
+                        @endforelse
+                    @empty
+                    <tr>
+                        <td colspan="6">
+                            <div class="flex items-center justify-center gap-4 py-20 font-semibold text-center">
+                                <svg xmlns="http://www.w3.org/2000/svg" class="w-12 h-12 text-blue-600"
+                                    viewBox="0 0 20 20" fill="currentColor">
+                                    <path
+                                        d="M7 3a1 1 0 000 2h6a1 1 0 100-2H7zM4 7a1 1 0 011-1h10a1 1 0 110 2H5a1 1 0 01-1-1zM2 11a2 2 0 012-2h12a2 2 0 012 2v4a2 2 0 01-2 2H4a2 2 0 01-2-2v-4z" />
+                                </svg>
+                                <span class="text-2xl">
+                                    Choose Data First
+                                </span>
+                            </div>
+                        </td>
+                    </tr>
+                    @endforelse
+                </tbody>
+            </table>
         </div>
     </div>
 </div>

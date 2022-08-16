@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class AddColumnsToRegistrationDocumentTable extends Migration
+class DropColumnsFromDocumentsTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,8 +13,8 @@ class AddColumnsToRegistrationDocumentTable extends Migration
      */
     public function up()
     {
-        Schema::table('registration_document', function (Blueprint $table) {
-            $table->longText('nama_dokumen_edited')->after('nama_dokumen')->nullable();
+        Schema::table('documents', function (Blueprint $table) {
+            $table->dropColumn('type');
         });
     }
 
@@ -25,8 +25,8 @@ class AddColumnsToRegistrationDocumentTable extends Migration
      */
     public function down()
     {
-        Schema::table('registration_document', function (Blueprint $table) {
-            $table->dropColumn(['nama_dokumen_edited']);
+        Schema::table('documents', function (Blueprint $table) {
+            $table->string('type');
         });
     }
 }

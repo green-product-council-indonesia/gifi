@@ -14,7 +14,7 @@ class AssignVerifikator extends Component
     public $status;
 
     protected $listeners = [
-        'assignUser', 'removeAssignment'
+        'assignment'
     ];
 
     public function render()
@@ -32,10 +32,7 @@ class AssignVerifikator extends Component
             'data' => $data
         ])->extends('layouts.app');
     }
-    public function assignUser()
-    {
-    }
-    public function removeAssignment()
+    public function assignment()
     {
     }
     public function updatingSearch()

@@ -34,6 +34,6 @@ class RemoveAssignment extends ModalComponent
         );
 
         activity()->log('User ' . Auth::user()->name . ' Menghapus ' . $data->verifikators->name . ' Dari Verifikator Ruas Jalan ' . $data->nama_ruas);
-        $this->emit('removeAssignment');
+        $this->emit('assignment');
     }
 }

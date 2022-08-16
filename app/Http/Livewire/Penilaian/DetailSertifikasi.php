@@ -19,17 +19,15 @@ class DetailSertifikasi extends Component
 
     use WithFileUploads;
     public $categories;
-    public $data_id, $slug, $kategori, $score = [];
+    public $registration_id, $slug, $kategori, $score = [];
 
     public $laporan_ringkas_verifikasi, $rekomendasi;
 
-    protected $listeners = [
-        'status', 'approveDokumen', 'addCatatan', 'editCatatan', 'editScore'
-    ];
+    protected $listeners = ['penilaianSertifikasi'];
 
     public function mount($id, $slug)
     {
-        $this->data_id = $id;
+        $this->registration_id = $id;
         $this->slug = $slug;
 
         $this->categories = DocumentCategory::get();
@@ -38,15 +36,12 @@ class DetailSertifikasi extends Component
     {
         $data = Registration::with(
             [
-                'document' =>
-                function ($q) {
-                    $q->where('documents.document_category_id', $this->kategori);
-                },
+                'document' => fn ($q) => $q->where('documents.document_category_id', $this->kategori),
                 'document.kategoriDokumen.kategori',
                 'kategoriSertifikasi',
                 'reports'
             ],
-        )->where('id', $this->data_id)->first();
+        )->where('id', $this->registration_id)->first();
 
         $scoring = DocumentCategory::with([
             'kategori' => function ($q) use ($data) {
@@ -62,7 +57,7 @@ class DetailSertifikasi extends Component
 
     public function ubahStatus()
     {
-        $data = Registration::findOrFail($this->data_id);
+        $data = Registration::findOrFail($this->registration_id);
         $data->status = 2;
         $data->save();
 
@@ -71,9 +66,7 @@ class DetailSertifikasi extends Component
 
     public function generatePdf($id, $slug)
     {
-        $data = [
-            'data' => Registration::with('kategoriSertifikasi')->where('id', $id)->first()
-        ];
+        $data = ['data' => Registration::with('kategoriSertifikasi')->where('id', $id)->first()];
         $pdf = PDF::loadView('livewire.generate-form-gtri', $data)->output();
         // return $pdf->stream('form-gli.pdf');
         return response()->streamDownload(
@@ -83,7 +76,7 @@ class DetailSertifikasi extends Component
     }
 
     protected $messages = [
-        'required' => 'kolom :attribute kosong, hgtriarap diisi',
+        'required' => 'kolom :attribute kosong, harap diisi',
         'mimes' => 'kolom :attribute harus berbentuk PDF atau DOCX',
     ];
     public function assignScore($id, $ruas)
@@ -195,38 +188,16 @@ class DetailSertifikasi extends Component
     public function delete($id, $data, $row)
     {
         $doc = Docreport::with('register')->findOrFail($id);
-
         $filename = 'storage/dokumen_audit/' . $doc->register->slug . '/' . \Str::slug($doc->register->nama_ruas) . '/' . $data;
 
-        if (isset($doc)) {
-            unlink($filename);
-        }
-
+        if (isset($doc)) unlink($filename);
         $doc->update([$row => null]);
 
-        $this->dispatchBrowserEvent(
-            'alert',
-            [
-                'type' => 'success',
-                'message' => 'Berhasil!'
-            ]
-        );
+        $this->dispatchBrowserEvent('alert', ['type' => 'success', 'message' => 'Berhasil!']);
         return back();
     }
 
-    public function status()
-    {
-    }
-    public function approveDokumen()
-    {
-    }
-    public function addCatatan()
-    {
-    }
-    public function editCatatan()
-    {
-    }
-    public function editScore()
+    public function penilaianSertifikasi()
     {
     }
     public function resetError()

@@ -79,7 +79,6 @@ class Pendaftaran extends Component
     {
         DB::beginTransaction();
         try {
-
             // Submit Registrasi
             $contact = [
                 "cp_1" => [
@@ -124,12 +123,11 @@ class Pendaftaran extends Component
             ]);
 
             // Submit Dokumen Persyaratan
-            $document = Document::get()->where('category_id', $this->category_id);
+            if ($this->jumlah_rest_area == 0) $document = Document::where('category_id', $this->category_id)->where('kode', 'not like', '%T%')->get();
+            else $document = Document::where('category_id', $this->category_id)->get();
 
             foreach ($document as $doc) {
-                if (isset($doc)) {
-                    $data->document()->attach($doc->id, ['status' => 0, 'document_category_id' => $doc->document_category_id]);
-                }
+                if (isset($doc)) $data->document()->attach($doc->id, ['status' => 0, 'document_category_id' => $doc->document_category_id]);
             }
 
             Docreport::create([
@@ -137,16 +135,15 @@ class Pendaftaran extends Component
             ]);
 
             // Kirim Email
-            //if (config('app.env') === 'production') {
+            // if (config('app.env') === 'production') {
             // Mail Prod 
             // Mail::to([$data->email_operasional, Auth::user()->email])->send(new SertifikasiMail($data->nama_bujt, $this->nama_ruas));
-            // Mail::to(['info@gpci.or.id','dahlan@gpci.or.id'])->send(new SertifikasiInternalMail($data->nama_bujt, $this->nama_ruas   ));
-            //} else {
+            // Mail::to(['info@gpci.or.id','dahlan@gpci.or.id'])->send(new SertifikasiInternalMail($data->nama_bujt, $this->nama_ruas));
+            // } else {
             // Mail Local 
             // Mail::to("nasirudin.sabiq16@mhs.uinjkt.ac.id")->send(new SertifikasiMail($data->nama_bujt, $this->nama_ruas));
             // Mail::to("nasirudin.sabiq16@mhs.uinjkt.ac.id")->send(new SertifikasiInternalMail($data->nama_bujt, $this->nama_ruas));
-            //}
-
+            // }
 
             DB::commit();
 

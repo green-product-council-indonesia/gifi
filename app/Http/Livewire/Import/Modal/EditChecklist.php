@@ -10,7 +10,7 @@ use LivewireUI\Modal\ModalComponent;
 
 class EditChecklist extends ModalComponent
 {
-    public $document, $kode, $nama_dokumen, $kategori_dokumen, $category, $bobot, $type;
+    public $document, $kode, $nama_dokumen, $kategori_dokumen, $category, $bobot;
     public function mount($id)
     {
         $this->document = Document::findOrFail($id);
@@ -53,22 +53,16 @@ class EditChecklist extends ModalComponent
         $this->validate();
 
         $doc = Document::findOrFail($id);
+
         $doc->kode = $this->kode;
         $doc->nama_dokumen = $this->nama_dokumen;
         $doc->document_category_id = $this->kategori_dokumen;
         $doc->category_id = $this->category;
         $doc->bobot = $this->bobot;
-        $doc->type = $this->type;
         $doc->save();
 
         $this->closeModal();
-        $this->dispatchBrowserEvent(
-            'alert',
-            [
-                'type' => 'success',
-                'message' => 'Berhasil!'
-            ]
-        );
+        $this->dispatchBrowserEvent('alert', ['type' => 'success', 'message' => 'Berhasil!']);
 
         activity()->log('User ' . Auth::user()->name . ' Mengubah Item Checklist Dokumen GTRI');
         $this->emit('editChecklist');

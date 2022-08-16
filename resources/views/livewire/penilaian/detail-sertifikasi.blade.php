@@ -289,35 +289,6 @@
                     @endif
                 </div>
             </div>
-            @error('score')
-                <div
-                    class="flex items-center justify-center px-2 py-1 mt-4 font-medium text-red-700 bg-red-100 border border-red-300 rounded-md">
-                    <div slot="avatar">
-                        <svg xmlns="http://www.w3.org/2000/svg" width="100%" height="100%" fill="none"
-                            viewBox="0 0 24 24" stroke="currentColor" stroke-width="2" stroke-linecap="round"
-                            stroke-linejoin="round" class="w-5 h-5 mx-2 feather feather-alert-octagon">
-                            <polygon points="7.86 2 16.14 2 22 7.86 22 16.14 16.14 22 7.86 22 2 16.14 2 7.86 7.86 2">
-                            </polygon>
-                            <line x1="12" y1="8" x2="12" y2="12"></line>
-                            <line x1="12" y1="16" x2="12.01" y2="16"></line>
-                        </svg>
-                    </div>
-                    <div class="items-center flex-initial max-w-full text-xl font-normal">
-                        <span class="error">{{ $message }}</span>
-                    </div>
-                    <div class="flex flex-row-reverse flex-auto">
-                        <div wire:click="resetError">
-                            <svg xmlns="http://www.w3.org/2000/svg" width="100%" height="100%" fill="none"
-                                viewBox="0 0 24 24" stroke="currentColor" stroke-width="2" stroke-linecap="round"
-                                stroke-linejoin="round"
-                                class="w-5 h-5 ml-2 rounded-full cursor-pointer feather feather-x hover:text-red-400">
-                                <line x1="18" y1="6" x2="6" y2="18"></line>
-                                <line x1="6" y1="6" x2="18" y2="18"></line>
-                            </svg>
-                        </div>
-                    </div>
-                </div>
-            @enderror
 
             <div class="mt-4 overflow-hidden overflow-x-auto border border-gray-200 rounded-md shadow-md">
                 <table class="min-w-full divide-y divide-gray-200">
@@ -427,26 +398,13 @@
                                             @default
                                         @endswitch
                                     </td>
-                                    <td class="py-4 font-semibold {{ $item->pivot->score ? 'px-6' : 'px-2' }} ">
+                                    <td class="py-4 font-semibold {{ $item->pivot->score ? 'px-6' : 'px-2' }} whitespace-nowrap">
                                         @if ($item->pivot->score == null && !is_null($item->pivot->nama_dokumen))
-                                            <div class="flex gap-2">
-                                                <input type="text" class="form-input" placeholder="Score ..."
-                                                    wire:model="score.{{ $item->id }}"
-                                                    :key="{{ $item->id }}">
-                                                <button type="button" wire:loading.attr="disabled"
-                                                    class="mx-1 text-xs"
-                                                    wire:click="assignScore({{ $item->id }}, '{{ $data->id }}')">
-                                                    <div wire:loading.class="animate-pulse"
-                                                        wire:target="assignScore({{ $item->id }}, '{{ $data->id }}')"
-                                                        class="text-blue-500 bg-transparent border-2 border-blue-500 rounded-full focus:ring-blue-500 hover:bg-blue-600 hover:text-white">
-                                                        <svg xmlns="http://www.w3.org/2000/svg" class="w-6 h-6"
-                                                            viewBox="0 0 20 20" fill="currentColor">
-                                                            <path fill-rule="evenodd"
-                                                                d="M10 18a8 8 0 100-16 8 8 0 000 16zm1-11a1 1 0 10-2 0v2H7a1 1 0 100 2h2v2a1 1 0 102 0v-2h2a1 1 0 100-2h-2V7z"
-                                                                clip-rule="evenodd" />
-                                                        </svg>
-                                                </button>
-                                            </div>
+                                            <button
+                                                wire:click="$emit('openModal', 'penilaian.modal.submit-score', {{ json_encode(['doc_id' => $item->id, 'registration_id' => $data->id]) }})"
+                                                class="px-2 py-1 text-xs text-white bg-blue-600 rounded-md shadow-lg hover:bg-blue-700">
+                                                Submit Score
+                                            </button>
                                         @else
                                             {{ $item->pivot->score ? $item->pivot->score : '-' }}
                                         @endif
@@ -458,36 +416,29 @@
                                         {{ $item->pivot->keterangan }}
                                     </td>
                                     <td class="px-2 py-4 space-y-2 font-semibold">
-                                        @if (!is_null($item->pivot->nama_dokumen))
-                                            @if ($item->type == 'file')
-                                                <a href="{{ asset('storage/checklist-dokumen/' . $data->nama_bujt . '/' . $data->nama_ruas . '/' . $item->pivot->nama_dokumen) }}"
-                                                    target="_blank"
-                                                    class="px-2 py-1 text-xs text-white bg-indigo-500 rounded-md shadow-lg hover:bg-indigo-600">
-                                                    Preview
-                                                </a>
-                                            @else
-                                                <a href="{{ $item->pivot->nama_dokumen }}" target="_blank"
-                                                    class="px-2 py-1 text-xs text-white bg-green-500 rounded-md hover:bg-green-600">
-                                                    Preview
-                                                </a>
-                                            @endif
+                                        @if ($item->pivot->nama_dokumen)
+                                            <button
+                                                wire:click="$emit('openModal', 'penilaian.modal.preview-document', {{ json_encode(['doc_id' => $item->id, 'registration_id' => $data->id]) }})"
+                                                class="px-2 py-1 text-xs text-white bg-blue-600 rounded-md shadow-lg hover:bg-blue-700">
+                                                Preview
+                                            </button>
                                         @endif
                                         @hasanyrole('verifikator|super-admin')
                                             @if ($item->pivot->status !== 3 && $item->pivot->status !== 0)
                                                 <button
-                                                    wire:click="$emit('openModal', 'penilaian.modal.modal-approve', {{ json_encode(['id' => $item->id, 'data_id' => $data->id]) }})"
+                                                    wire:click="$emit('openModal', 'penilaian.modal.modal-approve', {{ json_encode(['doc_id' => $item->id, 'registration_id' => $data->id]) }})"
                                                     class="px-2 py-1 text-xs text-white bg-green-600 rounded-md shadow-lg hover:bg-green-700">
                                                     Approve
                                                 </button>
                                                 @if (!$item->pivot->keterangan || $item->pivot->status !== 2)
                                                     <button
-                                                        wire:click="$emit('openModal', 'penilaian.modal.tambah-catatan', {{ json_encode(['id' => $item->id, 'data_id' => $data->id]) }})"
+                                                        wire:click="$emit('openModal', 'penilaian.modal.tambah-catatan', {{ json_encode(['doc_id' => $item->id, 'registration_id' => $data->id]) }})"
                                                         class="px-2 py-1 text-xs text-white bg-yellow-600 rounded-md shadow-lg hover:bg-yellow-700">
                                                         Reject
                                                     </button>
                                                 @else
                                                     <button
-                                                        wire:click="$emit('openModal', 'penilaian.modal.edit-catatan', {{ json_encode(['id' => $item->id, 'data_id' => $data->id, 'data' => $item->pivot->keterangan]) }})"
+                                                        wire:click="$emit('openModal', 'penilaian.modal.edit-catatan', {{ json_encode(['doc_id' => $item->id, 'registration_id' => $data->id, 'catatan' => $item->pivot->keterangan]) }})"
                                                         class="px-2 py-1 text-xs text-white bg-green-600 rounded-md shadow-lg hover:bg-green-700">
                                                         Edit Catatan
                                                     </button>
@@ -497,7 +448,7 @@
 
                                             @if ($item->pivot->score)
                                                 <button
-                                                    wire:click="$emit('openModal', 'penilaian.modal.edit-score', {{ json_encode(['id' => $item->id, 'data_id' => $data->id, 'data' => $item->pivot->score]) }})"
+                                                    wire:click="$emit('openModal', 'penilaian.modal.edit-score', {{ json_encode(['doc_id' => $item->id, 'registration_id' => $data->id, 'score' => $item->pivot->score]) }})"
                                                     class="px-2 py-1 text-xs text-white bg-blue-500 rounded-md shadow-lg hover:bg-blue-600">
                                                     Edit Score
                                                 </button>

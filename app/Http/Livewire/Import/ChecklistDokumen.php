@@ -3,16 +3,18 @@
 namespace App\Http\Livewire\Import;
 
 use App\Models\Category;
+use App\Models\Document;
 use App\Models\DocumentCategory;
 use Livewire\Component;
 
 class ChecklistDokumen extends Component
 {
-    public $categories, $category, $docs;
+    public $categories, $category = 1, $document_category_id = 1;
 
     protected $listeners = [
         'tambahChecklist',
-        'editChecklist', 'deleteChecklist'
+        'editChecklist',
+        'deleteChecklist'
     ];
 
     public function mount()
@@ -20,26 +22,24 @@ class ChecklistDokumen extends Component
         $this->categories =  Category::get();
     }
 
-    // public function updatedCategory($value)
-    // {
-    //     // $this->reset('category');
-    // }
-
     public function render()
     {
-        $category = $this->category;
-        $this->docs = DocumentCategory::with([
-            'dokumen' => function ($q) use ($category) {
-                $q->where('category_id', $category);
-            },
-            'kategori' => function ($q) use ($category) {
-                $q->where('category_id', $category);
-            }
-        ])->whereHas('dokumen', function ($q) use ($category) {
-            $q->where('category_id', $category);
-        })->get();
+        $docs = DocumentCategory::with([
+            'dokumen' => fn ($q) => $q->where('category_id', $this->category),
+            'kategori' => fn ($q) => $q->where('categories.id', $this->category)
+        ])->get();
 
-        return view('livewire.import.checklist-dokumen')->extends('layouts.app');
+        $documents = Document::where('document_category_id', $this->document_category_id)->where('category_id', $this->category)->get();
+        return view('livewire.import.checklist-dokumen', ['docs' => $docs, 'documents' => $documents])->extends('layouts.app');
+    }
+
+    public function changeList($id)
+    {
+        $this->document_category_id = $id;
+    }
+    public function changeCategory($id)
+    {
+        $this->category = $id;
     }
 
     public function tambahChecklist()

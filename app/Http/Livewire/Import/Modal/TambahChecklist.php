@@ -10,7 +10,7 @@ use LivewireUI\Modal\ModalComponent;
 
 class TambahChecklist extends ModalComponent
 {
-    public $kode, $nama_dokumen, $kategori_dokumen, $category, $bobot, $type;
+    public $kode, $nama_dokumen, $kategori_dokumen, $category, $bobot;
     protected $rules = [
         'kode' => 'required',
         'nama_dokumen' => 'required',
@@ -20,6 +20,7 @@ class TambahChecklist extends ModalComponent
     protected $messages = [
         'required' => 'form ini harus diisi'
     ];
+
     public function render()
     {
         $categories = Category::get();
@@ -44,19 +45,12 @@ class TambahChecklist extends ModalComponent
             'kode' => $this->kode,
             'nama_dokumen' => $this->nama_dokumen,
             'bobot' => $this->bobot,
-            'type' => $this->type,
             'category_id' => $this->category,
             'document_category_id' => $this->kategori_dokumen,
         ]);
 
         $this->closeModal();
-        $this->dispatchBrowserEvent(
-            'alert',
-            [
-                'type' => 'success',
-                'message' => 'Berhasil!'
-            ]
-        );
+        $this->dispatchBrowserEvent('alert', ['type' => 'success', 'message' => 'Berhasil!']);
 
         activity()->log('User ' . Auth::user()->name . ' Menambah Item Checklist Dokumen GLI');
         $this->emit('tambahChecklist');

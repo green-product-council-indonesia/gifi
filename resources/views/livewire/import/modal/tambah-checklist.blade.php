@@ -25,7 +25,7 @@
             </div>
             <div class="col-span-12 space-y-4 md:col-span-4">
                 <div class="grid grid-cols-2 col-span-2 gap-4">
-                    <div class="flex flex-col md:col-span-1 col-span-2">
+                    <div class="flex flex-col col-span-2 md:col-span-1">
                         <label class="mb-2 text-xs font-semibold">Kode Dokumen</label>
                         <input type="text" wire:model="kode"
                             class="w-full px-5 text-xs bg-white border border-gray-300 rounded-md shadow-sm appearance-none focus:outline-none focus:ring-green-400 focus:border-green-400"
@@ -35,7 +35,7 @@
                         @enderror
                     </div>
 
-                    <div class="flex flex-col md:col-span-1 col-span-2">
+                    <div class="flex flex-col col-span-2 md:col-span-1">
                         <label class="mb-2 text-xs font-semibold">Jenis Sertifikasi</label>
                         <select wire:model="category"
                             class="w-full px-5 text-xs bg-white border border-gray-300 rounded-md shadow-sm appearance-none focus:outline-none focus:ring-green-400 focus:border-green-400">
@@ -65,24 +65,12 @@
                     @enderror
                 </div>
                 <div class="grid grid-cols-2 col-span-2 gap-4">
-                    <div class="flex flex-col md:col-span-1 col-span-2">
+                    <div class="flex flex-col col-span-2 md:col-span-1">
                         <label class="mb-2 text-xs font-semibold">Bobot</label>
                         <input type="text" placeholder="Bobot"
                             class="w-full text-xs bg-white border border-gray-300 rounded-md shadow-sm appearance-none focus:outline-none focus:ring-green-400 focus:border-green-400"
                             wire:model="bobot">
                         @error('bobot')
-                            <span class="error">{{ $message }}</span>
-                        @enderror
-                    </div>
-                    <div class="flex flex-col md:col-span-1 col-span-2">
-                        <label class="mb-2 text-xs font-semibold">Type</label>
-                        <select wire:model="type"
-                            class="w-full text-xs bg-white border border-gray-300 rounded-md shadow-sm appearance-none focus:outline-none focus:ring-green-400 focus:border-green-400">
-                            <option value="">Type</option>
-                            <option value="file">File / Dokumen</option>
-                            <option value="url">Text / Url</option>
-                        </select>
-                        @error('category')
                             <span class="error">{{ $message }}</span>
                         @enderror
                     </div>
