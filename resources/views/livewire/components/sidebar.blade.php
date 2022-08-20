@@ -127,82 +127,17 @@
                         <span>Approve Sertifikasi</span>
                     </a>
                 </li>
-            @endhasanyrole
-            @hasrole('visitor')
                 <li>
-                    <div @click.away="open = false" class="relative" x-data="{ open: false }">
-                        <a href="#" @click="open = !open"
-                            class="flex flex-row items-center justify-between px-4 py-1 my-1 text-sm text-left transition duration-200 rounded-md hover:bg-green-300 focus:bg-green-300 focus:text-black focus:outline-none focus:shadow-outline  {{ Route::is('dokumen-gli') ? 'bg-green-300 text-black' : '' }}">
-                            <div class="flex flex-row items-center">
-                                <svg xmlns="http://www.w3.org/2000/svg" class="pr-3 w-9 h-9" fill="none"
-                                    viewBox="0 0 24 24" stroke="currentColor">
-                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                        d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
-                                </svg>
-                                <span>Dokumen</span>
-                            </div>
-                            <svg fill="currentColor" viewBox="0 0 20 20" :class="{ 'rotate-180': open, 'rotate-0': !open }"
-                                class="inline w-4 h-4 mt-1 ml-1 transition-transform duration-200 transform md:-mt-1">
-                                <path fill-rule="evenodd"
-                                    d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z"
-                                    clip-rule="evenodd"></path>
-                            </svg>
-                        </a>
-                        <div x-show="open" class="relative right-0 w-full my-2 origin-top-right rounded-md shadow-lg"
-                            x-transition:enter="transition ease-out duration-100"
-                            x-transition:enter-start="transform opacity-0 scale-95"
-                            x-transition:enter-end="transform opacity-100 scale-100"
-                            x-transition:leave="transition ease-in duration-75"
-                            x-transition:leave-start="transform opacity-100 scale-100"
-                            x-transition:leave-end="transform opacity-0 scale-95">
-                            <div class="px-2 py-2 bg-white rounded-md shadow dark-mode:bg-gray-800">
-                                <a class="block px-4 py-2 mt-2 text-sm font-semibold text-green-800 bg-transparent rounded-lg md:mt-0 hover:text-gray-900 focus:text-gray-900 hover:bg-green-200 focus:bg-gray-200 focus:outline-none focus:shadow-outline {{ Route::is('dokumen-gli') ? 'focus: bg-green-200 text-black' : '' }}"
-                                    href="{{ route('dokumen-gli') }}">Dokumen Sertifikasi</a>
-                            </div>
-                        </div>
-                    </div>
+                    <a href="{{ route('import-checklist-dokumen') }}"
+                        class="relative flex flex-row items-center px-4 py-1 my-1 text-sm transition duration-200 rounded-md hover:bg-green-300 hover:text-black {{ request()->is('import-checklist-dokumen') ? 'focus: bg-green-300 text-black' : '' }}">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="pr-3 w-9 h-9" fill="none"
+                            viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                d="M9 17v-2m3 2v-4m3 4v-6m2 10H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
+                        </svg>
+                        <span>Import Checklist Dokumen</span>
+                    </a>
                 </li>
-            @endhasanyrole
-            @hasanyrole('admin|super-admin')
-                <li>
-                    <div @click.away="open = false" class="relative" x-data="{ open: false }">
-                        <a href="#" @click="open = !open"
-                            class="flex flex-row items-center justify-between px-4 py-1 my-1 text-sm text-left transition duration-200 rounded-md hover:bg-green-300 focus:bg-green-300 focus:text-black focus:outline-none focus:shadow-outline {{ request()->route()->getPrefix() == '/import'
-                                ? 'bg-green-300 text-black'
-                                : '' }}">
-                            <div class="flex flex-row items-center">
-                                <svg xmlns="http://www.w3.org/2000/svg" class="pr-3 w-9 h-9" fill="none"
-                                    viewBox="0 0 24 24" stroke="currentColor">
-                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                        d="M9 17v-2m3 2v-4m3 4v-6m2 10H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
-                                </svg>
-                                <span>Import Data</span>
-                            </div>
-                            <svg fill="currentColor" viewBox="0 0 20 20" :class="{ 'rotate-180': open, 'rotate-0': !open }"
-                                class="inline w-4 h-4 mt-1 ml-1 transition-transform duration-200 transform md:-mt-1">
-                                <path fill-rule="evenodd"
-                                    d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z"
-                                    clip-rule="evenodd"></path>
-                            </svg>
-                        </a>
-                        <div x-show="open" class="relative right-0 w-full my-2 origin-top-right rounded-md shadow-lg"
-                            x-transition:enter="transition ease-out duration-100"
-                            x-transition:enter-start="transform opacity-0 scale-95"
-                            x-transition:enter-end="transform opacity-100 scale-100"
-                            x-transition:leave="transition ease-in duration-75"
-                            x-transition:leave-start="transform opacity-100 scale-100"
-                            x-transition:leave-end="transform opacity-0 scale-95">
-                            <div class="px-2 py-2 bg-white rounded-md shadow dark-mode:bg-gray-800">
-                                <a class="block px-4 py-2 mt-2 text-sm font-semibold text-green-800 bg-transparent rounded-lg md:mt-0 hover:text-gray-900 focus:text-gray-900 hover:bg-green-200 focus:bg-gray-200 focus:outline-none focus:shadow-outline {{ Route::is('master-data') ? 'focus: bg-green-200 text-black' : '' }}"
-                                    href="{{ route('master-data') }}">Upload Master Data</a>
-                                <a class="block px-4 py-2 mt-2 text-sm font-semibold text-green-800 bg-transparent rounded-lg md:mt-0 hover:text-gray-900 focus:text-gray-900 hover:bg-green-200 focus:bg-gray-200 focus:outline-none focus:shadow-outline {{ Route::is('import-checklist-dokumen') ? 'focus: bg-green-200 text-black' : '' }}"
-                                    href="{{ route('import-checklist-dokumen') }}">Import Checklist Dokumen</a>
-                            </div>
-                        </div>
-                    </div>
-                </li>
-            @endhasanyrole
-            @hasanyrole('admin|super-admin')
                 <li>
                     <div @click.away="open = false" class="relative" x-data="{ open: false }">
                         <a href="#" @click="open = !open"
@@ -243,7 +178,41 @@
                     </div>
                 </li>
             @endhasanyrole
-
+            @hasrole('visitor')
+                <li>
+                    <div @click.away="open = false" class="relative" x-data="{ open: false }">
+                        <a href="#" @click="open = !open"
+                            class="flex flex-row items-center justify-between px-4 py-1 my-1 text-sm text-left transition duration-200 rounded-md hover:bg-green-300 focus:bg-green-300 focus:text-black focus:outline-none focus:shadow-outline  {{ Route::is('dokumen-gli') ? 'bg-green-300 text-black' : '' }}">
+                            <div class="flex flex-row items-center">
+                                <svg xmlns="http://www.w3.org/2000/svg" class="pr-3 w-9 h-9" fill="none"
+                                    viewBox="0 0 24 24" stroke="currentColor">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                        d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
+                                </svg>
+                                <span>Dokumen</span>
+                            </div>
+                            <svg fill="currentColor" viewBox="0 0 20 20" :class="{ 'rotate-180': open, 'rotate-0': !open }"
+                                class="inline w-4 h-4 mt-1 ml-1 transition-transform duration-200 transform md:-mt-1">
+                                <path fill-rule="evenodd"
+                                    d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z"
+                                    clip-rule="evenodd"></path>
+                            </svg>
+                        </a>
+                        <div x-show="open" class="relative right-0 w-full my-2 origin-top-right rounded-md shadow-lg"
+                            x-transition:enter="transition ease-out duration-100"
+                            x-transition:enter-start="transform opacity-0 scale-95"
+                            x-transition:enter-end="transform opacity-100 scale-100"
+                            x-transition:leave="transition ease-in duration-75"
+                            x-transition:leave-start="transform opacity-100 scale-100"
+                            x-transition:leave-end="transform opacity-0 scale-95">
+                            <div class="px-2 py-2 bg-white rounded-md shadow dark-mode:bg-gray-800">
+                                <a class="block px-4 py-2 mt-2 text-sm font-semibold text-green-800 bg-transparent rounded-lg md:mt-0 hover:text-gray-900 focus:text-gray-900 hover:bg-green-200 focus:bg-gray-200 focus:outline-none focus:shadow-outline {{ Route::is('dokumen-gli') ? 'focus: bg-green-200 text-black' : '' }}"
+                                    href="{{ route('dokumen-gli') }}">Dokumen Sertifikasi</a>
+                            </div>
+                        </div>
+                    </div>
+                </li>
+            @endhasanyrole
             <li>
                 <a href="{{ route('account') }}"
                     class="relative flex flex-row items-center px-4 py-1 my-1 text-sm transition duration-200 rounded-md hover:bg-green-300 hover:text-black  {{ request()->is('account') ? 'focus: bg-green-300 text-black' : '' }}">

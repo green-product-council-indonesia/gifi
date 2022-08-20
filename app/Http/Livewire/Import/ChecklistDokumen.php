@@ -26,7 +26,6 @@ class ChecklistDokumen extends Component
     {
         $docs = DocumentCategory::with([
             'dokumen' => fn ($q) => $q->where('category_id', $this->category),
-            'kategori' => fn ($q) => $q->where('categories.id', $this->category)
         ])->get();
 
         $documents = Document::where('document_category_id', $this->document_category_id)->where('category_id', $this->category)->get();

@@ -10,12 +10,11 @@ use LivewireUI\Modal\ModalComponent;
 
 class TambahChecklist extends ModalComponent
 {
-    public $kode, $nama_dokumen, $kategori_dokumen, $category, $bobot;
+    public $kode, $nama_dokumen, $kategori_dokumen, $category;
     protected $rules = [
         'kode' => 'required',
         'nama_dokumen' => 'required',
         'category' => 'required',
-        'bobot' => 'required',
     ];
     protected $messages = [
         'required' => 'form ini harus diisi'
@@ -44,7 +43,6 @@ class TambahChecklist extends ModalComponent
         Document::create([
             'kode' => $this->kode,
             'nama_dokumen' => $this->nama_dokumen,
-            'bobot' => $this->bobot,
             'category_id' => $this->category,
             'document_category_id' => $this->kategori_dokumen,
         ]);

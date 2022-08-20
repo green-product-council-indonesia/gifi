@@ -19,9 +19,6 @@ class CreateRegistrationDocumentTable extends Migration
             $table->integer('document_id');
             $table->longText('nama_dokumen')->nullable();
             $table->integer('status');
-            $table->integer('score')->nullable();
-
-            $table->foreignId('document_category_id');
 
             $table->text('keterangan')->nullable();
             $table->timestamps();

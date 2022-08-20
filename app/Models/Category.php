@@ -14,9 +14,4 @@ class Category extends Model
     {
         return $this->hasMany(Registration::class);
     }
-
-    public function kategoriDokumen()
-    {
-        return $this->belongsToMany(DocumentCategory::class, 'document_category_has_category')->withPivot('total_bobot');
-    }
 }

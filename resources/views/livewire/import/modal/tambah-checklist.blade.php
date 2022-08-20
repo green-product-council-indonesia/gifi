@@ -64,17 +64,6 @@
                         <span class="error">{{ $message }}</span>
                     @enderror
                 </div>
-                <div class="grid grid-cols-2 col-span-2 gap-4">
-                    <div class="flex flex-col col-span-2 md:col-span-1">
-                        <label class="mb-2 text-xs font-semibold">Bobot</label>
-                        <input type="text" placeholder="Bobot"
-                            class="w-full text-xs bg-white border border-gray-300 rounded-md shadow-sm appearance-none focus:outline-none focus:ring-green-400 focus:border-green-400"
-                            wire:model="bobot">
-                        @error('bobot')
-                            <span class="error">{{ $message }}</span>
-                        @enderror
-                    </div>
-                </div>
             </div>
         </div>
 

@@ -16,7 +16,6 @@ use App\Http\Livewire\EmailTest;
 use App\Http\Livewire\GenerateFormGli;
 use App\Http\Livewire\Home;
 use App\Http\Livewire\Import\ChecklistDokumen;
-use App\Http\Livewire\Import\MasterData;
 use App\Http\Livewire\Log;
 use App\Http\Livewire\Penilaian\AssignVerifikator;
 use App\Http\Livewire\Penilaian\DetailSertifikasi;
@@ -95,7 +94,6 @@ Route::middleware('auth')->group(function () {
     Route::prefix('import')->group(function () {
         Route::group(['middleware' => ['role:admin|super-admin']], function () {
             Route::get('/checklist-dokumen', ChecklistDokumen::class)->name('import-checklist-dokumen');
-            Route::get('/master-data', MasterData::class)->name('master-data');
         });
     });
 

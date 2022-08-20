@@ -17,8 +17,6 @@ class CreateDocumentsTable extends Migration
             $table->id();
             $table->string('kode');
             $table->longText('nama_dokumen');
-            $table->integer('bobot')->nullable();
-            $table->string('type');
             $table->foreignId('category_id');
             $table->foreignId('document_category_id');
             $table->timestamps();

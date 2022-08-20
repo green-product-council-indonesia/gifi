@@ -127,7 +127,7 @@ class Pendaftaran extends Component
             else $document = Document::where('category_id', $this->category_id)->get();
 
             foreach ($document as $doc) {
-                if (isset($doc)) $data->document()->attach($doc->id, ['status' => 0, 'document_category_id' => $doc->document_category_id]);
+                if (isset($doc)) $data->document()->attach($doc->id, ['status' => 0]);
             }
 
             Docreport::create([

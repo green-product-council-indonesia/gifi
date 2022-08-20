@@ -19,7 +19,6 @@ class DeleteDokumen extends ModalComponent
         $bujt = $doc->registration[0];
 
         $docs = json_decode($bujt->pivot->nama_dokumen);
-        dd($docs);
 
         $path = 'storage/checklist-dokumen/' . $bujt->nama_bujt . '/' . $bujt->nama_ruas;
         $filename = $path  . '/' . $this->nama_dokumen;

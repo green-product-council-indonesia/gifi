@@ -17,7 +17,6 @@ class EditChecklist extends ModalComponent
         $this->nama_dokumen = $this->document->nama_dokumen;
         $this->kategori_dokumen = $this->document->document_category_id;
         $this->category = $this->document->category_id;
-        $this->bobot = $this->document->bobot;
         $this->type = $this->document->type;
         $this->kode = $this->document->kode;
     }
@@ -25,13 +24,7 @@ class EditChecklist extends ModalComponent
     {
         $categories = Category::get();
         $doc_categories = DocumentCategory::get();
-        return view(
-            'livewire.import.modal.edit-checklist',
-            [
-                'categories' => $categories,
-                'doc_categories' => $doc_categories
-            ]
-        );
+        return view('livewire.import.modal.edit-checklist', ['categories' => $categories, 'doc_categories' => $doc_categories]);
     }
 
     public static function modalMaxWidth(): string
@@ -51,14 +44,12 @@ class EditChecklist extends ModalComponent
     public function editChecklist($id)
     {
         $this->validate();
-
         $doc = Document::findOrFail($id);
 
         $doc->kode = $this->kode;
         $doc->nama_dokumen = $this->nama_dokumen;
         $doc->document_category_id = $this->kategori_dokumen;
         $doc->category_id = $this->category;
-        $doc->bobot = $this->bobot;
         $doc->save();
 
         $this->closeModal();

@@ -312,14 +312,6 @@
                             </th>
                             <th scope="col"
                                 class="px-6 py-4 text-xs font-medium tracking-wider text-left text-gray-800 uppercase border-r border-gray-100">
-                                Score
-                            </th>
-                            <th scope="col"
-                                class="px-6 py-4 text-xs font-medium tracking-wider text-left text-gray-800 uppercase border-r border-gray-100">
-                                Target
-                            </th>
-                            <th scope="col"
-                                class="px-6 py-4 text-xs font-medium tracking-wider text-left text-gray-800 uppercase border-r border-gray-100">
                                 Catatan
                             </th>
                             <th scope="col" class="relative px-6 py-3">
@@ -398,20 +390,6 @@
                                             @default
                                         @endswitch
                                     </td>
-                                    <td class="py-4 font-semibold {{ $item->pivot->score ? 'px-6' : 'px-2' }} whitespace-nowrap">
-                                        @if ($item->pivot->score == null && !is_null($item->pivot->nama_dokumen))
-                                            <button
-                                                wire:click="$emit('openModal', 'penilaian.modal.submit-score', {{ json_encode(['doc_id' => $item->id, 'registration_id' => $data->id]) }})"
-                                                class="px-2 py-1 text-xs text-white bg-blue-600 rounded-md shadow-lg hover:bg-blue-700">
-                                                Submit Score
-                                            </button>
-                                        @else
-                                            {{ $item->pivot->score ? $item->pivot->score : '-' }}
-                                        @endif
-                                    </td>
-                                    <td class="px-6 py-4 font-semibold">
-                                        {{ $item->bobot }}
-                                    </td>
                                     <td class="px-6 py-4 font-semibold">
                                         {{ $item->pivot->keterangan }}
                                     </td>
@@ -444,54 +422,13 @@
                                                     </button>
                                                 @endif
                                             @endif
-
-
-                                            @if ($item->pivot->score)
-                                                <button
-                                                    wire:click="$emit('openModal', 'penilaian.modal.edit-score', {{ json_encode(['doc_id' => $item->id, 'registration_id' => $data->id, 'score' => $item->pivot->score]) }})"
-                                                    class="px-2 py-1 text-xs text-white bg-blue-500 rounded-md shadow-lg hover:bg-blue-600">
-                                                    Edit Score
-                                                </button>
-                                            @endif
                                         @endhasanyrole
                                     </td>
                                 </tr>
-                                @php
-                                    $sum_score += $item->pivot->score;
-                                    $sum_target += $item->bobot;
-                                @endphp
                             @endforeach
-                            <tr>
-                                <td colspan="3" class="px-6 py-4 border-r border-gray-200">
-                                    <p class="text-lg font-semibold">Total</p>
-                                </td>
-                                <td colspan="1" class="px-6 py-4 border-r border-gray-200">
-                                    <p class="text-xs font-semibold">{{ $sum_score }}</p>
-                                </td>
-                                <td colspan="1" class="px-6 py-4 border-r border-gray-200">
-                                    <p class="text-xs font-semibold">{{ $sum_target }}</p>
-                                </td>
-                                <td colspan="1" class="px-6 py-4 border-r border-gray-200">
-                                    <p class="text-xs font-semibold">
-                                        @if ($sum_score && $sum_target != 0)
-                                            {{ round(($sum_score / $sum_target) * $scoring->kategori[0]->pivot->total_bobot, 2) }}
-                                            %
-                                        @endif
-                                    </p>
-                                </td>
-                                <td colspan="1" class="px-6 py-4 text-center">
-                                    @if ($data)
-                                        <button
-                                            wire:click="$emit('openModal', 'penilaian.modal.detail-skor', {{ json_encode(['data' => $data->id]) }})"
-                                            class="px-2 py-2 text-xs text-white bg-indigo-600 rounded-md shadow-lg hover:bg-indigo-700">
-                                            Detail Skor
-                                        </button>
-                                    @endif
-                                </td>
-                            </tr>
                         @else
                             <tr>
-                                <td colspan="7">
+                                <td colspan="5">
                                     <div
                                         class="flex items-center justify-center gap-4 py-20 font-semibold text-center">
                                         <svg xmlns="http://www.w3.org/2000/svg" class="w-12 h-12 text-blue-600"
@@ -506,9 +443,9 @@
                                 </td>
                             </tr>
                         @endif
-                        <tr wire:loading.class="table-row " wire:loading.remove.class="hidden"
+                        <tr wire:loading.class="table-row" wire:loading.remove.class="hidden"
                             wire:target="previousPage, nextPage, gotoPage" class="hidden">
-                            <td colspan="7" class="text-center bg-gray-50 p-36">
+                            <td colspan="5" class="text-center bg-gray-50 p-36">
                                 <div class="flex justify-center">
                                     {{-- Loading --}}
                                     <svg xmlns="http://www.w3.org/2000/svg"
@@ -523,7 +460,6 @@
                     </tbody>
                 </table>
             </div>
-
         @endif
     </div>
 </div>
