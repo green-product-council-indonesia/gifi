@@ -37,21 +37,14 @@ class DetailSertifikasi extends Component
         $data = Registration::with(
             [
                 'document' => fn ($q) => $q->where('documents.document_category_id', $this->kategori),
-                'document.kategoriDokumen.kategori',
+                'document.kategoriDokumen',
                 'kategoriSertifikasi',
                 'reports'
             ],
         )->where('id', $this->registration_id)->first();
 
-        $scoring = DocumentCategory::with([
-            'kategori' => function ($q) use ($data) {
-                $q->where('category_id', $data->category_id);
-            }
-        ])->find($this->kategori);
-
         return view('livewire.penilaian.detail-sertifikasi', [
             'data' => $data,
-            'scoring' => $scoring
         ])->extends('layouts.app');
     }
 

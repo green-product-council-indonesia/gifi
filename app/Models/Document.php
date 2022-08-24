@@ -9,12 +9,12 @@ class Document extends Model
 {
     use HasFactory;
     protected $fillable = [
-        'kode', 'nama_dokumen', 'category_id', 'bobot', 'document_category_id'
+        'kode', 'nama_dokumen', 'category_id', 'document_category_id'
     ];
     public function registration()
     {
         return $this->belongsToMany(Registration::class, 'registration_document')
-            ->withPivot('nama_dokumen', 'nama_dokumen_edited', 'status', 'keterangan', 'score', 'document_category_id');
+            ->withPivot('nama_dokumen', 'nama_dokumen_edited', 'status', 'keterangan');
     }
 
     public function kategoriSertifikasi()

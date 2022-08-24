@@ -20,8 +20,6 @@ class Registration extends Model
             'nama_dokumen_edited',
             'status',
             'keterangan',
-            'score',
-            'document_category_id'
         );
     }
 

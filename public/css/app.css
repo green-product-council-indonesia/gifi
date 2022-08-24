@@ -1071,12 +1071,6 @@ input:invalid, textarea:invalid, select:invalid {
 .w-9 {
   width: 2.25rem;
 }
-.w-2\/5 {
-  width: 40%;
-}
-.w-1\/5 {
-  width: 20%;
-}
 .min-w-full {
   min-width: 100%;
 }
@@ -2647,9 +2641,6 @@ input:invalid, textarea:invalid, select:invalid {
   }
   .md\:max-w-xl {
     max-width: 36rem;
-  }
-  .md\:table-fixed {
-    table-layout: fixed;
   }
   .md\:grid-cols-3 {
     grid-template-columns: repeat(3, minmax(0, 1fr));

@@ -24,10 +24,7 @@ class ChecklistDokumen extends Component
 
     public function render()
     {
-        $docs = DocumentCategory::with([
-            'dokumen' => fn ($q) => $q->where('category_id', $this->category),
-        ])->get();
-
+        $docs = DocumentCategory::get();
         $documents = Document::where('document_category_id', $this->document_category_id)->where('category_id', $this->category)->get();
         return view('livewire.import.checklist-dokumen', ['docs' => $docs, 'documents' => $documents])->extends('layouts.app');
     }
