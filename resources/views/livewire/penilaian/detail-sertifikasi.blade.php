@@ -192,7 +192,7 @@
                     @break
 
                     @case(1)
-                    <span class="font-semibold text-red-500">Reject</span>
+                    <span class="font-semibold text-red-500">Rejected</span>
                     @break
 
                     @case(2)
@@ -209,20 +209,20 @@
             </div>
             <div class="flex space-x-2">
                 @if ($data->status_dokumen == null)
-                <button class="flex items-center gap-2 px-3 py-2 text-xs text-white bg-green-500 rounded-md shadow-lg hover:bg-green-600">
+                <button wire:click="$emit('openModal', 'penilaian.modal.approve-dokumen', {{ json_encode(['registration_id' => $data->id]) }})" class="flex items-center gap-2 px-3 py-2 text-xs text-white bg-green-500 rounded-md shadow-lg hover:bg-green-600">
                     <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5" viewBox="0 0 20 20" fill="currentColor">
                         <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd" />
                     </svg>
                     Approve
                 </button>
-                <button wire:click="$emit('openModal', 'penilaian.modal.approve-with-note', {{ json_encode(['id' => $data->id]) }})" class="flex items-center gap-2 px-3 py-2 text-xs text-white bg-indigo-500 rounded-md shadow-lg hover:bg-indigo-600">
+                <button wire:click="$emit('openModal', 'penilaian.modal.approve-with-note', {{ json_encode(['registration_id' => $data->id]) }})" class="flex items-center gap-2 px-3 py-2 text-xs text-white bg-indigo-500 rounded-md shadow-lg hover:bg-indigo-600">
                     <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5" viewBox="0 0 20 20" fill="currentColor">
                         <path d="M9 2a1 1 0 000 2h2a1 1 0 100-2H9z" />
                         <path fill-rule="evenodd" d="M4 5a2 2 0 012-2 3 3 0 003 3h2a3 3 0 003-3 2 2 0 012 2v11a2 2 0 01-2 2H6a2 2 0 01-2-2V5zm9.707 5.707a1 1 0 00-1.414-1.414L9 12.586l-1.293-1.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd" />
                     </svg>
                     Approve with Note
                 </button>
-                <button class="flex items-center gap-2 px-3 py-2 text-xs text-white bg-yellow-500 rounded-md shadow-lg hover:bg-yellow-600">
+                <button wire:click="$emit('openModal', 'penilaian.modal.reject-with-note', {{ json_encode(['registration_id' => $data->id]) }})" class="flex items-center gap-2 px-3 py-2 text-xs text-white bg-yellow-500 rounded-md shadow-lg hover:bg-yellow-600">
                     <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5" viewBox="0 0 20 20" fill="currentColor">
                         <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zM8.707 7.293a1 1 0 00-1.414 1.414L8.586 10l-1.293 1.293a1 1 0 101.414 1.414L10 11.414l1.293 1.293a1 1 0 001.414-1.414L11.414 10l1.293-1.293a1 1 0 00-1.414-1.414L10 8.586 8.707 7.293z" clip-rule="evenodd" />
                     </svg>

@@ -22,18 +22,22 @@ class EditDokumen extends ModalComponent
         return 'lg';
     }
 
+    protected $rules = [
+        'dokumen_edit' => 'required|mimes:pdf|max:102400'
+    ];
+
+    protected $messages = [
+        'dokumen_edit.required' => 'Form ini Kosong, Harap Diisi',
+        'dokumen_edit.max' => 'Dokumen harus berukuran maksimal 50MB',
+        'dokumen_edit.mimes' => 'Dokumen harus berbentuk PDF',
+    ];
+
     public function edit()
     {
+        $this->validate();
         $doc = Document::with(['registration' => fn ($q) => $q->where('registrations.id', $this->registration_id)])->findOrFail($this->document_id);
         $bujt = $doc->registration[0];
 
-        $this->validate([
-            'dokumen_edit' => 'required|mimes:pdf|max:102400',
-        ], [
-            'dokumen_edit.required' => 'Form ini Kosong, Harap Diisi',
-            'dokumen_edit.max' => 'Dokumen harus berukuran maksimal 50MB',
-            'dokumen_edit.mimes' => 'Dokumen harus berbentuk PDF',
-        ]);
 
         $files = $this->dokumen_edit;
 

@@ -23,19 +23,23 @@ class UploadDokumen extends ModalComponent
         return 'lg';
     }
 
+    protected $rules = [
+        'nama_dokumen' => 'required',
+        'nama_dokumen.*' => 'mimes:pdf|max:102400',
+    ];
+
+    protected $messages = [
+        'nama_dokumen.required' => 'Form ini Kosong, Harap Diisi',
+        'nama_dokumen.*.max' => 'Dokumen harus berukuran maksimal 15MB',
+        'nama_dokumen.*.mimes' => 'Dokumen harus berbentuk PDF',
+    ];
+
     public function upload()
     {
+        $this->validate();
         $doc = Document::with(['registration' => fn ($q) => $q->where('registrations.id', $this->registration_id)])->findOrFail($this->doc_id);
         $bujt = $doc->registration[0];
 
-        $this->validate([
-            'nama_dokumen' => 'required',
-            'nama_dokumen.*' => 'mimes:pdf|max:102400',
-        ], [
-            'nama_dokumen.required' => 'Form ini Kosong, Harap diisi',
-            'nama_dokumen.*.max' => 'Dokumen harus berukuran maksimal 100MB',
-            'nama_dokumen.*.mimes' => 'Dokumen harus berbentuk PDF',
-        ]);
 
         $i = 1;
         foreach ($this->nama_dokumen as $data) {

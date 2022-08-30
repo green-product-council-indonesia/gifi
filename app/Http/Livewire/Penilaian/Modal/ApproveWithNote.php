@@ -9,11 +9,7 @@ use LivewireUI\Modal\ModalComponent;
 
 class ApproveWithNote extends ModalComponent
 {
-    public $catatan, $data_id;
-    public function mount($id)
-    {
-        $this->data_id = $id;
-    }
+    public $catatan, $registration_id;
     public function render()
     {
         return view('livewire.penilaian.modal.approve-with-note');
@@ -25,20 +21,14 @@ class ApproveWithNote extends ModalComponent
             'catatan' => 'required',
         ]);
 
-        $data = Registration::findOrFail($this->data_id);
+        $data = Registration::findOrFail($this->registration_id);
 
         $data->status_dokumen = 2;
         $data->note_dokumen = $this->catatan;
         $data->save();
 
         $this->closeModal();
-        $this->dispatchBrowserEvent(
-            'alert',
-            [
-                'type' => 'success',
-                'message' => 'Berhasil!'
-            ]
-        );
+        $this->dispatchBrowserEvent('alert', ['type' => 'success', 'message' => 'Berhasil!']);
         activity()->log('User ' . Auth::user()->name . ' Menambah Catatan di Dokumen Sertifikasi GTRI');
         $this->emit('penilaianSertifikasi');
     }

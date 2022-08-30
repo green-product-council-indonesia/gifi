@@ -18,8 +18,12 @@ class DeleteDokumen extends ModalComponent
         $doc = Document::with(['registration' => fn ($q) => $q->where('registrations.id', $this->registration_id)])->findOrFail($this->document_id);
         $bujt = $doc->registration[0];
 
-        $docs = json_decode($bujt->pivot->nama_dokumen);
+        $name = str_contains($this->nama_dokumen, 'edited');
 
+        if ($name == true) $data = $bujt->pivot->nama_dokumen_edited;
+        else $data = $bujt->pivot->nama_dokumen;
+
+        $docs = json_decode($data);
         $path = 'storage/checklist-dokumen/' . $bujt->nama_bujt . '/' . $bujt->nama_ruas;
         $filename = $path  . '/' . $this->nama_dokumen;
 
@@ -29,10 +33,15 @@ class DeleteDokumen extends ModalComponent
                 if ($doc == $this->nama_dokumen) unset($doc);
                 else $files[] = $doc;
             }
-            $bujt->pivot->nama_dokumen = json_encode($files, 128);
+            if ($name == true) $bujt->pivot->nama_dokumen_edited = json_encode($files, 128);
+            else $bujt->pivot->nama_dokumen = json_encode($files, 128);
         } else {
-            $bujt->pivot->nama_dokumen = null;
-            $bujt->pivot->status = 0;
+            if ($name == true) {
+                $bujt->pivot->nama_dokumen_edited = null;
+            } else {
+                $bujt->pivot->nama_dokumen = null;
+                $bujt->pivot->status = 0;
+            }
         }
 
         $bujt->pivot->save();
