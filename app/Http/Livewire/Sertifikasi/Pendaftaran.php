@@ -135,15 +135,15 @@ class Pendaftaran extends Component
             ]);
 
             // Kirim Email
-            // if (config('app.env') === 'production') {
-            // Mail Prod 
-            // Mail::to([$data->email_operasional, Auth::user()->email])->send(new SertifikasiMail($data->nama_bujt, $this->nama_ruas));
-            // Mail::to(['info@gpci.or.id','dahlan@gpci.or.id'])->send(new SertifikasiInternalMail($data->nama_bujt, $this->nama_ruas));
-            // } else {
-            // Mail Local 
-            // Mail::to("nasirudin.sabiq16@mhs.uinjkt.ac.id")->send(new SertifikasiMail($data->nama_bujt, $this->nama_ruas));
-            // Mail::to("nasirudin.sabiq16@mhs.uinjkt.ac.id")->send(new SertifikasiInternalMail($data->nama_bujt, $this->nama_ruas));
-            // }
+            if (config('app.env') === 'production') {
+                // Mail Prod 
+                Mail::to([$data->email_operasional, Auth::user()->email])->send(new SertifikasiMail($data->nama_bujt, $this->nama_ruas));
+                Mail::to(['info@gpci.or.id', 'dahlan@gpci.or.id'])->send(new SertifikasiInternalMail($data->nama_bujt, $this->nama_ruas));
+            } else {
+                // Mail Local 
+                Mail::to("nasirudin.sabiq16@mhs.uinjkt.ac.id")->send(new SertifikasiMail($data->nama_bujt, $this->nama_ruas));
+                Mail::to("nasirudin.sabiq16@mhs.uinjkt.ac.id")->send(new SertifikasiInternalMail($data->nama_bujt, $this->nama_ruas));
+            }
 
             DB::commit();
 

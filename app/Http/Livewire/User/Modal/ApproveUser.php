@@ -24,38 +24,32 @@ class ApproveUser extends ModalComponent
 
     public function approveUser($id)
     {
-        DB::beginTransaction();
-        try {
-            $user = User::findOrFail($id);
+        // DB::beginTransaction();
+        // try {
+        $user = User::findOrFail($id);
 
-            if (config('app.env') === 'production') {
-                Mail::to($user->email)->send(new UserApprovalMail($user->name));
-            } else {
-                Mail::to("nasirudin.sabiq16@mhs.uinjkt.ac.id")->send(new UserApprovalMail($user->name));
-            }
-
-            $user->status = 1;
-            $user->save();
-
-
-            DB::commit();
-
-            $this->closeModal();
-            $this->emit('approveUser');
-
-            activity()->log('User ' . Auth::user()->name . ' Menyetujui Pendaftaran User ' . $user->name);
-            session()->flash('message', 'Account Activated.');
-            return redirect()->route('approve-user');
-        } catch (\Throwable $th) {
-            DB::rollBack();
-            $this->closeModal();
-            $this->dispatchBrowserEvent(
-                'alert',
-                [
-                    'type' => 'error',
-                    'message' => 'Something went Wrong!'
-                ]
-            );
+        if (config('app.env') === 'production') {
+            Mail::to($user->email)->send(new UserApprovalMail($user->name));
+        } else {
+            Mail::to('anas@gpci.or.id')->send(new UserApprovalMail($user->name));
         }
+
+        $user->status = 1;
+        $user->save();
+
+
+        // DB::commit();
+
+        $this->closeModal();
+        $this->emit('approveUser');
+
+        activity()->log('User ' . Auth::user()->name . ' Menyetujui Pendaftaran User ' . $user->name);
+        session()->flash('message', 'Account Activated.');
+        return redirect()->route('approve-user');
+        // } catch (\Throwable $th) {
+        //     DB::rollBack();
+        //     $this->closeModal();
+        //     $this->dispatchBrowserEvent('alert', ['type' => 'error', 'message' => 'Something went Wrong!']);
+        // }
     }
 }

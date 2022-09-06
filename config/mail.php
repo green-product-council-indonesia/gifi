@@ -36,15 +36,14 @@ return [
     'mailers' => [
         'smtp' => [
             'transport' => 'smtp',
-            'host' => env('MAIL_HOST', 'gpci.or.id'),
-            'port' => env('MAIL_PORT', 25),
-            'encryption' => env('MAIL_ENCRYPTION', 'tls'),
+            'host' => env('MAIL_HOST', 'mail.smtp2go.com'),
+            'port' => env('MAIL_PORT', 465),
+            'encryption' => env('MAIL_ENCRYPTION', 'ssl'),
             'username' => env('MAIL_USERNAME', 'client@gpci.or.id'),
             'password' => env('MAIL_PASSWORD', 'Gpci2020@!'),
             'timeout' => null,
             'auth_mode' => null,
         ],
-
         'ses' => [
             'transport' => 'ses',
         ],

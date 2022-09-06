@@ -31,10 +31,6 @@ class UserApprovalMail extends Mailable
         return $this->from('notif@gtri.or.id')
             ->subject('Approval Registration Web Client GTRI')
             ->view('components.user-approval-mail')
-            ->with(
-                [
-                    'name' => $this->name,
-                ]
-            );
+            ->with(['name' => $this->name]);
     }
 }
